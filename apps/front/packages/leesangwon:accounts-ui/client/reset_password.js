@@ -28,7 +28,7 @@ Template.accountsResetPassword.events({
 
     // validation
     if (password !== passwordConfirm)
-      return Alerts.error('accounts.error_password_confirm_fail');
+      return Alerts.notify('error', 'accounts.error_password_confirm_fail');
 
     var response = Accounts.ui.customOptions.validators.resetPassword(password);
     if (response.errors().length > 0) {
@@ -48,7 +48,7 @@ Template.accountsResetPassword.events({
     }
 
     if (! Session.get(RESET_PASSWORD_TOKEN))
-      return Alerts.error('accounts.error_reset_password_token_expired');
+      return Alerts.notify('error', 'accounts.error_reset_password_token_expired');
 
     return Accounts.resetPassword(Session.get(RESET_PASSWORD_TOKEN), password, function(error) {
       if (error) {

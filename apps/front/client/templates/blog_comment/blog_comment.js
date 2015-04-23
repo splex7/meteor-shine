@@ -19,7 +19,7 @@ Template.blogCommentNew.events({
 
     Meteor.call('blogCommentInsert', object, function(error) {
       if (error)
-        Alerts.error(error.reason);
+        Alerts.notify('error', error.reason);
     })
   }
 });
