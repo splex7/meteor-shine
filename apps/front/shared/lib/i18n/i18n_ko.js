@@ -1,0 +1,51 @@
+I18n_data_ko = {
+  "brand": "METEOR SHINE",
+
+
+  "title_home":                         "홈",
+  "title_blogs":                        "블로그 목록",
+  "title_my_blogs":                     "내 블로그 목록",
+  "title_blog_new":                     "새 블로그 작성",
+  "title_blog_edit":                    "블로그 수정",
+  "title_comments":                     "댓글",
+  "title_notifications":                "알림",
+  "title_preference":                   "환경 설정",
+
+
+  "command_sign_in":                    "로그인",
+  "command_sign_out":                   "로그아웃",
+  "command_sign_up":                    "회원 가입",
+  "command_new":                        "등록",
+  "command_register":                   "등록",
+  "command_edit":                       "편집",
+  "command_update":                     "수정",
+  "command_remove":                     "삭제",
+  "command_save":                       "저장",
+  "command_ok":                         "확인",
+  "command_cancel":                     "취소",
+  "command_back":                       "뒤로",
+  "command_close":                      "닫기",
+
+
+  "label_title":                        "제목",
+  "label_content":                      "본문",
+  "label_theme":                        "테마",
+
+
+  "text_notification_new_comment":      "{0}님의 블로그에 새로운 댓글이 등록되었습니다.",
+  "text_no_blogs":                      "등록된 블로그 글이 없습니다.",
+
+
+  "error_access_denied":                "접근 권한이 없습니다.",
+  "error_invalid_type":                 "입력값이 유효한 자료형이 아닙니다.",
+  "error_input_required":               "값을 입력하여야 합니다.",
+  "error_input_out_of_range":           "입력값이 유효한 범위 밖에 있습니다.",
+
+
+  "theme": {
+    "classic":                          "클래식",
+    "modern":                           "모던"
+  }
+
+};
+

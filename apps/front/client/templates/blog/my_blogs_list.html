@@ -1,0 +1,39 @@
+<template name="myBlogsList">
+  <article class="page">
+    <header>
+      <h2>{{_ 'title_my_blogs'}}</h2>
+    </header>
+
+    <section class="ss-list-frame">
+      {{#if noBlogs}}
+        {{_ 'text_no_blogs'}}
+      {{else}}
+        <div class="btn-toolbar">
+          <p class="">{{getPublishedCount 'blogsCount'}}</p>
+          <a class="btn btn-primary" href="{{pathFor 'blogNew'}}">{{_ 'command_new'}}</a>
+        </div>
+
+        <div class="list">
+          {{#each blogs}}
+            {{> myBlogsListItem}}
+          {{/each}}
+
+          {{#if hasMore}}
+            <a class="load-more" href="#"></a>
+          {{else}}
+            {{#unless ready}}
+              {{> listLoading}}
+            {{/unless}}
+          {{/if}}
+        </div>
+      {{/if}}
+    </section>
+  </article>
+
+</template>
+
+<template name="myBlogsListItem">
+  <div class="item">
+    <p><a href="{{pathFor 'blogEdit'}}">{{title}}</a> <small>{{momentFromNow createdAt}}</small></p>
+  </div>
+</template>

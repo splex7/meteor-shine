@@ -1,0 +1,25 @@
+<template name="blogOne">
+  <article class="page">
+    <header>
+      <h2>{{blog.title}}</h2>
+    </header>
+
+    <section>
+      <div>{{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</div>
+      <div class="text-content">
+        {{{blog.content}}}
+      </div>
+    </section>
+  </article>
+
+  <article class="community">
+    <header>
+      <h4>{{_ 'title_comments'}}</h4>
+    </header>
+
+    {{> blogCommentNew}}
+
+    {{> blogCommentsList}}
+  </article>
+</template>
+

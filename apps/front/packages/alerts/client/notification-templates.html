@@ -1,0 +1,22 @@
+<template name="meteorAlerts">
+  <div class="meteor-alerts">
+    {{#each alerts}}
+      {{> meteorAlert}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="meteorModalAlerts">
+  <div class="meteor-modal-alerts">
+    {{#each alerts}}
+      {{> meteorAlert}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="meteorAlert">
+  <div class="alert {{alertClass}}" role="alert">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <p>{{message}}</p> <i class="fa fa-2x {{alertIcon}}"></i>
+  </div>
+</template>

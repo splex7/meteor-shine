@@ -1,0 +1,32 @@
+<template name="home">
+  <article class="page">
+    <section class="ss-list-frame">
+      {{#if noBlogs}}
+        {{_ 'text_no_blogs'}}
+      {{else}}
+        <div class="btn-toolbar">
+          <p class="">{{getPublishedCount 'blogsCount'}}</p>
+        </div>
+        <div class="list">
+          {{#each blogs}}
+            {{> homeListItem}}
+          {{/each}}
+
+          {{#if hasMore}}
+            <a class="load-more" href="#"></a>
+          {{else}}
+            {{#unless ready}}
+              {{> listLoading}}
+            {{/unless}}
+          {{/if}}
+        </div>
+      {{/if}}
+    </section>
+  </article>
+</template>
+
+<template name="homeListItem">
+  <div class="list-item">
+    <p><a href="{{pathFor 'blogOne'}}">{{title}}</a> <small>{{userDisplayName user}} {{momentFromNow createdAt}}</small></p>
+  </div>
+</template>

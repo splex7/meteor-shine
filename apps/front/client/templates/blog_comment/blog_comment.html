@@ -1,0 +1,36 @@
+
+<template name="blogCommentNew">
+  <form id="formBlogCommentNew" class="ss-form">
+    <section>
+      {{{editable}}}
+      <!-- textarea class="form-control" name="msg"></textarea -->
+    </section>
+
+    <footer>
+      <div class="pull-right">
+        <button type="button" class="btn btn-default">{{_ 'command_close'}}</button>
+        <button type="submit" class="btn btn-primary">{{_ 'command_register'}}</button>
+      </div>
+    </footer>
+  </form>
+</template>
+
+<template name="blogCommentsList">
+  <ul>
+    {{#each blogComments}}
+      {{> blogCommentsListItem}}
+    {{/each}}
+  </ul>
+
+  {{#if hasMore}}
+    <a class="load-more" href="#"></a>
+  {{else}}
+    {{#unless ready}}
+      {{> listLoading}}
+    {{/unless}}
+  {{/if}}
+</template>
+
+<template name="blogCommentsListItem">
+  <li>{{{msg}}} by {{user.username}}</li>
+</template>

@@ -1,0 +1,17 @@
+{
+  "public": {
+    "ga": {
+      "id": "Google Analytics ID",
+      "create": {
+        "cookieDomain": "none"
+      }
+    }
+  },
+
+  "account": {
+    "facebook": {
+      "appId": "facebook app ID",
+      "secret": "facebook app secret"
+    }
+  }
+}

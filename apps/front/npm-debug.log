@@ -1,0 +1,169 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'starrynight',
+1 verbose cli   '-g' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.36
+4 verbose cache add [ 'starrynight', null ]
+5 verbose cache add name=undefined spec="starrynight" args=["starrynight",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'starrynight',
+6 verbose parsed url   path: 'starrynight',
+6 verbose parsed url   href: 'starrynight' }
+7 silly lockFile a276cd35-starrynight starrynight
+8 verbose lock starrynight /Users/leesangwon/.npm/a276cd35-starrynight.lock
+9 silly lockFile a276cd35-starrynight starrynight
+10 silly lockFile a276cd35-starrynight starrynight
+11 verbose addNamed [ 'starrynight', '' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile e5376869-starrynight starrynight@
+14 verbose lock starrynight@ /Users/leesangwon/.npm/e5376869-starrynight.lock
+15 silly addNameRange { name: 'starrynight', range: '*', hasData: false }
+16 verbose request where is /starrynight
+17 verbose request registry https://registry.npmjs.org/
+18 verbose request id a6a0a5f402c56603
+19 verbose url raw /starrynight
+20 verbose url resolving [ 'https://registry.npmjs.org/', './starrynight' ]
+21 verbose url resolved https://registry.npmjs.org/starrynight
+22 verbose request where is https://registry.npmjs.org/starrynight
+23 info trying registry request attempt 1 at 08:23:40
+24 http GET https://registry.npmjs.org/starrynight
+25 http 200 https://registry.npmjs.org/starrynight
+26 silly registry.get cb [ 200,
+26 silly registry.get   { date: 'Thu, 09 Apr 2015 23:23:41 GMT',
+26 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+26 silly registry.get     etag: '"7B1R7410OS2XGARTZJ6XWJC4U"',
+26 silly registry.get     'content-type': 'application/json',
+26 silly registry.get     'cache-control': 'max-age=60',
+26 silly registry.get     'content-length': '19939',
+26 silly registry.get     'accept-ranges': 'bytes',
+26 silly registry.get     via: '1.1 varnish',
+26 silly registry.get     age: '0',
+26 silly registry.get     'x-served-by': 'cache-nrt6131-NRT',
+26 silly registry.get     'x-cache': 'MISS',
+26 silly registry.get     'x-cache-hits': '0',
+26 silly registry.get     'x-timer': 'S1428621820.888901,VS0,VE568',
+26 silly registry.get     vary: 'Accept',
+26 silly registry.get     'keep-alive': 'timeout=10, max=50',
+26 silly registry.get     connection: 'Keep-Alive' } ]
+27 silly addNameRange number 2 { name: 'starrynight', range: '*', hasData: true }
+28 silly addNameRange versions [ 'starrynight',
+28 silly addNameRange   [ '0.0.7',
+28 silly addNameRange     '0.0.8',
+28 silly addNameRange     '0.0.9',
+28 silly addNameRange     '0.1.0',
+28 silly addNameRange     '0.1.1',
+28 silly addNameRange     '0.1.2',
+28 silly addNameRange     '0.1.3',
+28 silly addNameRange     '0.1.4',
+28 silly addNameRange     '0.1.5',
+28 silly addNameRange     '0.1.6',
+28 silly addNameRange     '0.1.7',
+28 silly addNameRange     '0.1.8',
+28 silly addNameRange     '0.1.9' ] ]
+29 verbose addNamed [ 'starrynight', '0.1.9' ]
+30 verbose addNamed [ '0.1.9', '0.1.9' ]
+31 silly lockFile 04862041-starrynight-0-1-9 starrynight@0.1.9
+32 verbose lock starrynight@0.1.9 /Users/leesangwon/.npm/04862041-starrynight-0-1-9.lock
+33 silly lockFile a68288fc-tarrynight-starrynight-0-1-9-tgz https://registry.npmjs.org/starrynight/-/starrynight-0.1.9.tgz
+34 verbose lock https://registry.npmjs.org/starrynight/-/starrynight-0.1.9.tgz /Users/leesangwon/.npm/a68288fc-tarrynight-starrynight-0-1-9-tgz.lock
+35 verbose addRemoteTarball [ 'https://registry.npmjs.org/starrynight/-/starrynight-0.1.9.tgz',
+35 verbose addRemoteTarball   '8f4f3fa389c612dd341c8d9924d8f63adfa85413' ]
+36 info retry fetch attempt 1 at 08:23:41
+37 verbose fetch to= /var/folders/nk/b92hyjds373g3xkvx1cfp9h00000gn/T/npm-582--Pd7wnL3/registry.npmjs.org/starrynight/-/starrynight-0.1.9.tgz
+38 http GET https://registry.npmjs.org/starrynight/-/starrynight-0.1.9.tgz
+39 http 200 https://registry.npmjs.org/starrynight/-/starrynight-0.1.9.tgz
+40 silly lockFile a68288fc-tarrynight-starrynight-0-1-9-tgz https://registry.npmjs.org/starrynight/-/starrynight-0.1.9.tgz
+41 silly lockFile a68288fc-tarrynight-starrynight-0-1-9-tgz https://registry.npmjs.org/starrynight/-/starrynight-0.1.9.tgz
+42 silly lockFile 04862041-starrynight-0-1-9 starrynight@0.1.9
+43 silly lockFile 04862041-starrynight-0-1-9 starrynight@0.1.9
+44 silly lockFile e5376869-starrynight starrynight@
+45 silly lockFile e5376869-starrynight starrynight@
+46 silly resolved [ { name: 'starrynight',
+46 silly resolved     description: 'Meteor scaffolding and testing.',
+46 silly resolved     version: '0.1.9',
+46 silly resolved     author: { name: 'Abigail Watson', url: 'awatson1978@gmail.com' },
+46 silly resolved     dependencies:
+46 silly resolved      { nightwatch: '0.6.0',
+46 silly resolved        'fs-extra': '0.18.0',
+46 silly resolved        'file-exists': '0.1.1',
+46 silly resolved        'github-download': '0.3.0',
+46 silly resolved        'selenium-server-standalone-jar': '2.45.0',
+46 silly resolved        minimist: '1.1.1',
+46 silly resolved        'node-parse-url': '1.0.0',
+46 silly resolved        request: '2.54.0',
+46 silly resolved        fibers: '^1.0.2',
+46 silly resolved        'find-files': '^0.0.3',
+46 silly resolved        replace: '0.3.0' },
+46 silly resolved     engines: { node: '>= 0.4.0' },
+46 silly resolved     preferGlobal: 'true',
+46 silly resolved     bin: { starrynight: 'bin/starrynight.js' },
+46 silly resolved     repository:
+46 silly resolved      { type: 'git',
+46 silly resolved        url: 'git://github.com/awatson1978/starrynight.git' },
+46 silly resolved     bugs: { url: 'https://github.com/awatson1978/starrynight/issues' },
+46 silly resolved     homepage: 'https://starrynight.meteor.com',
+46 silly resolved     keywords: [ 'nightwatch', 'atmosphere', 'meteor' ],
+46 silly resolved     license: 'MIT',
+46 silly resolved     gitHead: 'e2bcb61b38326f4ec99e474cee73ce8cf6bb8392',
+46 silly resolved     _id: 'starrynight@0.1.9',
+46 silly resolved     scripts: {},
+46 silly resolved     _shasum: '8f4f3fa389c612dd341c8d9924d8f63adfa85413',
+46 silly resolved     _from: 'starrynight@',
+46 silly resolved     _npmVersion: '2.1.2',
+46 silly resolved     _nodeVersion: '0.10.32',
+46 silly resolved     _npmUser: { name: 'awatson1978', email: 'awatson1978@gmail.com' },
+46 silly resolved     maintainers: [ [Object] ],
+46 silly resolved     dist:
+46 silly resolved      { shasum: '8f4f3fa389c612dd341c8d9924d8f63adfa85413',
+46 silly resolved        tarball: 'http://registry.npmjs.org/starrynight/-/starrynight-0.1.9.tgz' },
+46 silly resolved     directories: {},
+46 silly resolved     _resolved: 'https://registry.npmjs.org/starrynight/-/starrynight-0.1.9.tgz' } ]
+47 info install starrynight@0.1.9 into /usr/local/lib
+48 info installOne starrynight@0.1.9
+49 verbose lib/node_modules/starrynight unbuild
+50 verbose tar unpack /Users/leesangwon/.npm/starrynight/0.1.9/package.tgz
+51 silly lockFile e6dd80a2-cal-lib-node-modules-starrynight tar:///usr/local/lib/node_modules/starrynight
+52 verbose lock tar:///usr/local/lib/node_modules/starrynight /Users/leesangwon/.npm/e6dd80a2-cal-lib-node-modules-starrynight.lock
+53 silly lockFile d68d005f-pm-starrynight-0-1-9-package-tgz tar:///Users/leesangwon/.npm/starrynight/0.1.9/package.tgz
+54 verbose lock tar:///Users/leesangwon/.npm/starrynight/0.1.9/package.tgz /Users/leesangwon/.npm/d68d005f-pm-starrynight-0-1-9-package-tgz.lock
+55 silly gunzTarPerm modes [ '755', '644' ]
+56 error Error: EACCES, mkdir '/usr/local/lib/node_modules/starrynight'
+56 error  { [Error: EACCES, mkdir '/usr/local/lib/node_modules/starrynight']
+56 error   errno: 3,
+56 error   code: 'EACCES',
+56 error   path: '/usr/local/lib/node_modules/starrynight',
+56 error   fstream_type: 'Directory',
+56 error   fstream_path: '/usr/local/lib/node_modules/starrynight',
+56 error   fstream_class: 'DirWriter',
+56 error   fstream_stack:
+56 error    [ '/usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23',
+56 error      '/usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53',
+56 error      'Object.oncomplete (fs.js:108:15)' ] }
+57 error Please try running this command again as root/Administrator.
+58 error System Darwin 14.1.0
+59 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install" "starrynight" "-g"
+60 error cwd /Users/leesangwon/Desktop/Projects/Shine/front
+61 error node -v v0.10.36
+62 error npm -v 1.4.28
+63 error path /usr/local/lib/node_modules/starrynight
+64 error fstream_path /usr/local/lib/node_modules/starrynight
+65 error fstream_type Directory
+66 error fstream_class DirWriter
+67 error code EACCES
+68 error errno 3
+69 error stack Error: EACCES, mkdir '/usr/local/lib/node_modules/starrynight'
+70 error fstream_stack /usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23
+70 error fstream_stack /usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53
+70 error fstream_stack Object.oncomplete (fs.js:108:15)
+71 verbose exit [ 3, true ]

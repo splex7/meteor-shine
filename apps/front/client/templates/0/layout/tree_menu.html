@@ -1,0 +1,31 @@
+<template name="treeMenu">
+  <div class="tree-menu-wrapper">
+    <ul id="mainMenu" class="tree-menu">
+      <li>
+        <a class="menu-item menu-item-main" href="{{pathFor 'home'}}"><i class="fa fa-lg fa-home"></i> <span>{{_ 'title_home'}}</span></a>
+      </li>
+      <li>
+        <a class="menu-item menu-item-main" href="#collapseOne"
+           data-toggle="collapse" data-parent="#navMain" aria-expanded="false"
+           aria-controls="collapseOne"><i class="fa fa-lg fa-pencil"></i> <span>Blog</span></a>
+        <ul id="collapseOne" class="collapse sub-menu">
+          <li class="menu-item" data-link="{{pathFor 'blogsList'}}">{{_ 'title_blogs'}}</li>
+          <li class="menu-item" data-link="{{pathFor 'myBlogsList'}}">{{_ 'title_my_blogs'}}</li>
+          <li class="menu-item" data-link="{{pathFor 'blogNew'}}">{{_ 'title_blog_new'}}</li>
+        </ul>
+      </li>
+      <!-- li>
+        <a class="menu-item menu-item-main" href="#collapse2" data-toggle="collapse" data-parent="#navMain" aria-expanded="false" aria-controls="collapse2">Menu 2</a>
+        <ul id="collapse2" class="collapse sub-menu">
+          <li class="menu-item">Submenu 1</li>
+          <li class="menu-item">Submenu 2</li>
+          <li class="menu-item">Submenu 3</li>
+        </ul>
+      </li -->
+      <li>
+        <a class="menu-item menu-item-main" href="{{pathFor 'preference'}}"><i class="fa fa-lg fa-gear"></i> <span>{{_ 'title_preference'}}</span></a>
+      </li>
+
+    </ul>
+  </div>
+</template>

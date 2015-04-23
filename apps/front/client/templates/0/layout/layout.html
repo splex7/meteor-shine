@@ -1,0 +1,29 @@
+<template name="layoutDefault">
+  <div id="container" class="container-fluid">
+    <header>
+      {{> headerDefault}}
+    </header>
+
+    <aside class="aside-left">
+      {{> navMain}}
+    </aside>
+
+    <aside class="aside-right">
+      {{> sidebar}}
+    </aside>
+
+    <aside class="notifications">
+      {{> notificationsList}}
+    </aside>
+
+    <main id="content" class="fixed-right">
+      {{> yield}}
+    </main>
+
+    <footer>
+      {{> footerDefault}}
+    </footer>
+  </div>
+
+  {{> meteorAlerts}}
+</template>
