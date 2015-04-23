@@ -1,1 +1,1 @@
-{"public": {"ga": {"id": "UA-56703952-2", "create": {"cookieDomain": "none"}}}}
+{"public": {"ga": {"id": "xxxxxxxxxxxx", "create": {"cookieDomain": "none"}}, "cloudinary": {"cloudName": "shine", "apiKey": "xxxxxxxxxxxxxxx", "presets": {"posts": "0000000"}}}, "cloudinary": {"apiSecret": "00000000000000000"}}

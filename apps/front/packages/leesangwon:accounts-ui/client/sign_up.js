@@ -87,7 +87,7 @@ Template._signUpDialogContent.events({
         error = result.error;
       }
 
-      return Alerts.error(getErrorMessage(error.reason), true);
+      return Alerts.notify('error', getErrorMessage(error.reason));
     });
 
   }

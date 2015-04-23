@@ -16,7 +16,7 @@ Router.route('accountsVerifyEmail', {
   onBeforeAction: function() {
     Accounts.verifyEmail(this.params.token, function(error) {
       if (error) {
-        Alerts.error(error.reason);
+        Alerts.notify('error', error.reason);
       } else {
         Accounts._enableAutoLogin();
       }

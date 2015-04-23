@@ -125,6 +125,7 @@ Meteor.methods({
 
       return { userId: userId };
     } catch (ex) {
+      console.log('mail error: ' + ex.message);
       return { error: ex };
     }
   },
