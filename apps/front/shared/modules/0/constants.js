@@ -17,7 +17,7 @@ System = {
 
   // URLs used in mail template
   url: {
-    mailLogo: Meteor.absoluteUrl("mail/logo-2x.png"),
+    mailLogo: Meteor.absoluteUrl("http://file.bookpal.co.kr/novel/images/head/logo4y_2.png"),
     facebook: "https://www.facebook.com/bookpal.co.kr",
     twitter: "https://twitter.com/bookpalkorea",
     termsOfUse: Meteor.absoluteUrl("terms-of-use"),
