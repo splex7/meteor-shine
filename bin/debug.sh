@@ -7,7 +7,7 @@ fi
 
 MODE="development"
 
-PROJECT_HOME="/Users/leesangwon/Desktop/Projects/Shine"
+PROJECT_HOME="/Users/mac/developers/dev-meteor/shine"
 OPTION_SETTINGS="--settings $PROJECT_HOME/conf/$MODE/settings-$1-minified.json"
 OPTION_MOBILE_SERVER="--mobile-server http://localhost:3000"
 APP_PATH="$PROJECT_HOME/apps/$1"
