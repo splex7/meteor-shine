@@ -18,6 +18,8 @@ I18n_data_en_accounts = {
 
   "label_email"                        : "Email Address",
   "label_password"                     : "Password",
+  "label_new_password": "New Password",
+  "label_password_confirm": "Password Confirm",
   "label_username"                     : "Username",
   "label_terms_of_use"                 : "Terms of Use",
   "label_privacy_policy"               : "Privacy Policy",
@@ -29,7 +31,7 @@ I18n_data_en_accounts = {
   "text_input_username_or_email"       : "Input username or email address",
   "text_input_password"                : "Input password",
   "text_forgot_password"               : "Forgot password?",
-  "text_reset_password"                : "Reset password contents",
+  "text_reset_password"                : "We sent email to your email address just typed for password reset",
   "text_stay_signed_in"                : "Stay signed in",
   "text_agreement"                     : "I agree with the {0} and {1}",
   "text_verify_email"                  : "You just signed up. Click this link to validate your email address : ",

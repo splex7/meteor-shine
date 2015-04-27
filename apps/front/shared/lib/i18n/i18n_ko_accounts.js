@@ -18,6 +18,8 @@ I18n_data_ko_accounts = {
 
   "label_email"                        : "이메일주소",
   "label_password"                     : "비밀번호",
+  "label_new_password": "새로운 비밀번호",
+  "label_password_confirm": "비밀번호 재확인",
   "label_username"                     : "사용자 이름",
   "label_terms_of_use"                 : "이용약관",
   "label_privacy_policy"               : "개인정보 보호방침",
@@ -29,7 +31,7 @@ I18n_data_ko_accounts = {
   "text_input_username_or_email"       : "아이디 또는 이메일주소를 입력하십시오.",
   "text_input_password"                : "비밀번호를 입력하십시오.",
   "text_forgot_password"               : "비밀번호를 잊으셨습니까?",
-  "text_reset_password"                : "비밀번호 초기화",
+  "text_reset_password"                : "비밀번호 초기화를 위한 링크가 입력하신 Email 주소로 전송되었습니다.",
   "text_stay_signed_in"                : "로그인 상태 유지",
   "text_agreement"                     : "{0}과 {1}에 동의합니다.",
   "text_verify_email"                  : "에 회원가입하신 것을 환영합니다. 입력하신 메일주소가 유효한지 확인하기 위해 이 링크를 클릭해 주세요 : ",
