@@ -38,6 +38,8 @@ I18n_data_en_accounts = {
   "text_signup_verify_email"           : "We sent mail your email address for authentication",
   "text_email_verified"                : "Your email is verified. Please click Home button.",
 
+  "placeholder_email_address"          : "Input email address",
+
   "error_sign_in"                      : "User not found or incorrect password",
   "error_reset_password_token_expired" : "Token expired",
   "error_username_already_exist"       : "Username already exists.",
