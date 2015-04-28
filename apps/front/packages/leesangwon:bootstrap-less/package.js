@@ -12,19 +12,31 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0.3.1');
-  
+
   api.use('jquery', 'client');
   api.imply(['less']);
- 
-  api.addFiles('bootstrap-less.js');
-  
-  api.addFiles('3.3.2/js/bootstrap.js', 'client');
 
-  api.addFiles('3.3.2/fonts/glyphicons-halflings-regular.eot', 'client', { isAsset: true });
-  api.addFiles('3.3.2/fonts/glyphicons-halflings-regular.svg', 'client', { isAsset: true });
-  api.addFiles('3.3.2/fonts/glyphicons-halflings-regular.ttf', 'client', { isAsset: true });
-  api.addFiles('3.3.2/fonts/glyphicons-halflings-regular.woff', 'client', { isAsset: true });
-  api.addFiles('3.3.2/fonts/glyphicons-halflings-regular.woff2', 'client', { isAsset: true });
+  api.addFiles('bootstrap-less.js');
+
+  api.addFiles('3.3.4/js/transition.js', 'client');
+  api.addFiles('3.3.4/js/alert.js', 'client');
+  api.addFiles('3.3.4/js/button.js', 'client');
+  api.addFiles('3.3.4/js/carousel.js', 'client');
+  api.addFiles('3.3.4/js/collapse.js', 'client');
+  api.addFiles('3.3.4/js/dropdown.js', 'client');
+  api.addFiles('3.3.4/js/modal.js', 'client');
+  api.addFiles('3.3.4/js/tooltip.js', 'client');
+  api.addFiles('3.3.4/js/popover.js', 'client');
+  api.addFiles('3.3.4/js/scrollspy.js', 'client');
+  api.addFiles('3.3.4/js/tab.js', 'client');
+  api.addFiles('3.3.4/js/affix.js', 'client');
+
+
+  api.addFiles('3.3.4/fonts/glyphicons-halflings-regular.eot', 'client', { isAsset: true });
+  api.addFiles('3.3.4/fonts/glyphicons-halflings-regular.svg', 'client', { isAsset: true });
+  api.addFiles('3.3.4/fonts/glyphicons-halflings-regular.ttf', 'client', { isAsset: true });
+  api.addFiles('3.3.4/fonts/glyphicons-halflings-regular.woff', 'client', { isAsset: true });
+  api.addFiles('3.3.4/fonts/glyphicons-halflings-regular.woff2', 'client', { isAsset: true });
 
   api.addFiles('bookpal.png', 'client', { isAsset: true });
 

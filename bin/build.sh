@@ -5,7 +5,6 @@ if [ "$1" != "front" ] && [ "$1" != "admin" ]; then
   exit 1
 fi
 
-
 MODE="production"
 
 PROJECT_HOME="/Users/mac/developers/dev-meteor/shine"
