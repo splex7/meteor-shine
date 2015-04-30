@@ -1,8 +1,8 @@
-Template.blogNew.created = function() {
+Template.blogOne.created = function() {
   TempImages.remove({});
 };
 
-Template.blogNew.destroyed = function() {
+Template.blogOne.destroyed = function() {
   TempImages.remove({});
 
   $('.cloudinary-uploader input').off('click');
@@ -84,9 +84,6 @@ function isSelected() {
     if (childNodes && $(focusNode).hasClass('editor-empty')) {
       $(childNodes).removeClass('is-selected');
       $(focusNode).addClass('is-selected');
-    } else {
-     $(childNodes).removeClass('is-selected');
-     $(focusNode.parentNode).addClass('is-selected');
     }
   }
 }
@@ -146,186 +143,132 @@ function activeButton(focusNode) {
   }
 }
 
-//--------------------------------------------------------
-//
-//  TEMPLATE CALL BACKS FROM HERE
-//
-//--------------------------------------------------------
 
-Template.blogNew.helpers({
-  editable: function() {
-    // +Added id="editor"
-    return '<div class="editable" contenteditable="false" name="content" id="editor" data-default="true"><p class="editor-p editor-empty">본문</p></div>';
-  },
-  title: function() {
-    return '<h2 class="newTitle" id="newTitle" name="title" contenteditable="false" data-default="true">제목</h2>';
-  }
+
+Template.blogOne.helpers({
+	editable: function() {
+	var content = this.blog.content;
+	return '<div class="editable" contenteditable="false" name="content" id="editor" data-default="false">'+ content +'</div>';
+	},
+	title: function() {
+	var title = this.blog.title;
+	return '<h2 class="newTitle" id="newTitle" name="title" contenteditable="false" data-default="false">' + title + '</h2>';
+	},
+	ownPost: function() {
+	return this.blog.user._id === Meteor.userId();
+	}
 });
 
-Template.blogNew.events({
-  'submit #formBlogNew': function(e) {
+Template.blogOne.events({
+	'submit #formBlogEdit': function(e) {
     e.preventDefault();
 
     // get inputs
+    var blogId = this.blog._id;
     var object = {
       title: $(e.target).find('[name=title]').html(),
       content: $(e.target).find('[name=content]').html()
     };
 
     // validate inputs
-    /*
-    var validation = BlogValidator.validateInsert(object);
+    var validation = BlogValidator.validateUpdate(object);
     if (! _.isEmpty(validation.errors())) {
       showValidationErrors(e, validation.errors());
       return;
     }
-    */
 
-    // method call 'blogInsert'
-    Meteor.call('blogInsert', object, function(error, result) {
+    // method call 'blogUpdate'
+    Meteor.call('blogUpdate', blogId, object, function(error, result) {
       if (error) {
-        alert(error.reason);
+        Alerts.notify('error', error.reason);
       } else {
-        alert('insert success');
-        Router.go('myBlogsList');
+        if (result !== 1) {
+          alert('update fails');
+        } else {
+          Alerts.notify('success', 'Blog updated successfully.');
+          //Router.go('myBlogsList');
+          /*
+          Alerts.dialog('alert', 'Blog update succeeded', function() {
+            Router.go('myBlogsList');
+          });
+          */
+        }
       }
     });
+
   },
 
-  'blur #newTitle': function(){
-    //var titleInput = document.getElementById('#newTitle');
-    var titleLength = $.trim($('#newTitle').text()).length; 
-    
-    if( titleLength == 0 ){
-      $('#newTitle').append('제목');
-      $('#newTitle').data('default', true);
-    } else {
-      $('#newTitle').data('default', false);
-    }
+	'blur #newTitle': function(){
+		if(this.blog.user._id === Meteor.userId()){
+			var titleLength = $.trim($('#newTitle').text()).length; 
 
-    $('#newTitle').attr('contenteditable', false);
-  },
-  'click #newTitle': function(){
-    $('#newTitle').attr('contenteditable', 'true');
-    $('#newTitle').focus();
+			if( titleLength == 0 ){
+				$('#newTitle').append('제목');
+				$('#newTitle').data('default', true);
+			} else {
+				$('#newTitle').data('default', false);
+			}
 
-    if( $('#newTitle').data('default') === true ){
-      console.log('data-default is TRUE');
-      $('#newTitle').empty();
-      $('#newTitle').data('default', false);
-    } 
-    if( $('#newTitle').data('default') === false){
-      console.log('data-default is FALSE');
-    }
-  },
+			$('#newTitle').attr('contenteditable', false);
+		}
+	},
+	'click #newTitle': function(){
+		if(this.blog.user._id === Meteor.userId()){
+			$('#newTitle').attr('contenteditable', 'true');
+			$('#newTitle').focus();
 
-  'blur #editor': function(){
-    var contentLength = $.trim($('#editor p').text()).length;
-    $('.editor-toolbar').css('display', 'none');
+			if( $('#newTitle').data('default') === true ){
+				console.log('data-default is TRUE');
+				$('#newTitle').empty();
+				$('#newTitle').data('default', false);
+			} 
+			if( $('#newTitle').data('default') === false){
+				console.log('data-default is FALSE');
+			}
+		}
+	},
 
-    if( contentLength == 0 ){
-      $('#editor p').empty();
-      $('#editor p').append('본문');
-      $('#editor').data('default', true);
-    } else {
-      $('#editor').data('default', false);
-    }
-    $('#editor').attr('contenteditable', 'false');
-  },
+	'blur #editor': function(){
+		if(this.blog.user._id === Meteor.userId()){	
+			var contentLength = $.trim($('#editor p').text()).length;
+			$('.editor-toolbar').css('display', 'none');
 
-  'click #editor': function(e){
-    $('#editor').attr('contenteditable', 'true');
-    $('.editor-toolbar').css('display', 'block');
+			if( contentLength == 0 ){
+				$('#editor p').empty();
+				$('#editor p').append('본문');
+				$('#editor').data('default', true);
+			} else {
+				$('#editor').data('default', false);
+			}
+			$('#editor').attr('contenteditable', 'false');
+		}
+	},
 
-    if( $('#editor').data('default') === true ){
-      // If editor has data-default true, empty editor and focus
-      $('#editor p').empty();
-      $('#editor').data('default', false);
-      // Dirty workaround. Needs focus on editor then editor p for cursor to show
-      $('#editor').focus();
-      $('#editor p.editor-empty').focus();
-    } 
-    if( $('#editor').data('default') === false){
-      // If editor has data-default false (edited content)
-      // Dirty workaround. Needs focus on editor then editor p for cursor to show
-      $('#editor').focus();
-      $('#editor p').focus();
-    }
-  },
+	'click #editor': function(e){
+		if(this.blog.user._id === Meteor.userId()){
+			$('#editor').attr('contenteditable', 'true');
+			$('.editor-toolbar').css('display', 'block');
 
+			if( $('#editor').data('default') === true ){
+				// If editor has data-default true, empty editor and focus
+				$('#editor p').empty();
+				$('#editor').data('default', false);
+				// Dirty workaround. Needs focus on editor then editor p for cursor to show
+				$('#editor').focus();
+				$('#editor p.editor-empty').focus();
+			} 
+			if( $('#editor').data('default') === false){
+				// If editor has data-default false (edited content)
+				// Dirty workaround. Needs focus on editor then editor p for cursor to show
+				$('#editor').focus();
+				$('#editor p').focus();
+			}
+		}
+	},
+})
 
-
-  /*
-  * Editor buttons from here
-  */
-  'click button#editor-bold': function(e){
-    e.preventDefault();
-    $('#editor').focus();
-    $('#editor').attr('contenteditable', true);
-    document.execCommand( 'bold', false );
-    $('#editor-bold').toggleClass('editor-button-active');
-  },
-  'click button#editor-italic': function(e){
-    e.preventDefault();
-    $('#editor').focus();
-    $('#editor').attr('contenteditable', true);
-    document.execCommand( 'italic', false );
-    $('#editor-italic').toggleClass('editor-button-active');
-  },
-  'click #editor-header': function(e){
-    e.preventDefault();
-    
-    $('#editor').attr('contenteditable', true);
-    var focusNode = window.getSelection().focusNode;
-
-    if(focusNode.parentNode.nodeName == 'H3') {
-      $('#editor-header').removeClass('editor-button-active');
-      document.execCommand( 'formatBlock', false, 'p' );
-      var focusNode = window.getSelection().focusNode; // Needs re-declaring for beneath to work. Figure out why..?
-      $(focusNode.parentNode).addClass('editor-p');
-      $(focusNode.parentNode).removeClass('editor-h3');
-      //console.log('change to p fN:' + focusNode);
-      //console.log('change to p fN:' + focusNode.parentNode);
-    } else {
-      document.execCommand( 'formatBlock', false, 'h3' );
-      $('#editor-header').addClass('editor-button-active');
-      var focusNode = window.getSelection().focusNode; // Needs re-declaring for beneath to work. Figure out why..?
-      $(focusNode.parentNode).addClass('editor-h3');
-      $(focusNode.parentNode).removeClass('editor-p');
-      //console.log('change to h3 fN:' + focusNode);
-      //console.log('change to h3 fN:' + focusNode.parentNode);
-    }
-  },
-  'click #editor-center': function(e){
-    e.preventDefault();
-
-    $('#editor').attr('contenteditable', true);
-    var selection = window.getSelection();
-    var range = selection.getRangeAt(0);
-    var focusNode = window.getSelection().focusNode;
-    if(getSelectedNodes(range).length > 1 /*&& is 'node'*/){
-      if($(getSelectedNodes(range)).hasClass('editor-align-center')){
-        $(getSelectedNodes(range)).removeClass('editor-align-center');
-      } else {
-        $(getSelectedNodes(range)).addClass('editor-align-center');  
-      }
-    } else {
-      if( focusNode.textContent.length == 0 ){
-        $(focusNode).toggleClass('editor-align-center');
-      } 
-      if( focusNode.textContent.length > 1){
-        $(focusNode.parentNode).toggleClass('editor-align-center');
-      }  
-    }        
-    activeButton(focusNode);
-  },
-  // 'click figure.image': function(e){
-  //   $(e.target.parentNode).addClass('is-mediaFocused');
-  // }
-});
-
-Template.blogNew.onRendered(function(){
-  var editor = $('#editor');
+Template.blogOne.onRendered(function(){
+	var editor = $('#editor');
   //$(editor).focus();
   
   // Mouse Up Events
@@ -395,5 +338,4 @@ Template.blogNew.onRendered(function(){
       });
     }
   );
-
 });

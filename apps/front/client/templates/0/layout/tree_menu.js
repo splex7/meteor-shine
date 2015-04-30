@@ -11,8 +11,12 @@ Template.treeMenu.events({
     if ($(e.target).attr('data-toggle') === 'collapse') {
       template.$('.collapse.in').collapse('hide');
     } else {
-      template.$('.active').removeClass('active');
-      $(e.target).addClass('active');
+      /*
+      * Commented out because this does not work properly 
+      * when Router.something is called to change route
+      */
+      //template.$('.active').removeClass('active');
+      //$(e.target).addClass('active');
 
       var url;
       if ($(e.target).hasClass('menu-item-main')) {
@@ -26,5 +30,5 @@ Template.treeMenu.events({
       if (url)
         Router.go(url);
     }
-  }
+  },
 });

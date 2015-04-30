@@ -1,25 +1,69 @@
 <template name="blogOne">
-  <article class="page">
-    <header>
-      <h2>{{blog.title}}</h2>
-    </header>
+	<article class="page">
+		<form id="formBlogEdit" class="ss-form">
+			<header>
+				<h2>{{{title}}}</h2>
+			</header>
 
-    <section>
-      <div>{{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</div>
-      <div class="text-content">
-        {{{blog.content}}}
-      </div>
-    </section>
-  </article>
+			<section>
+				<div>{{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</div>
+				<div class="text-content">
+					<div class="editor-toolbar">
+						<ul>
+							<li>
+								<button id="editor-image" class="cloudinary-uploader">
+									<i class="fa fa-file-image-o"></i>
+									<input type="file" name="file" class="uploadImage cloudinary-fileupload"/>
+								</button>
+							</li>
 
-  <article class="community">
-    <header>
-      <h4>{{_ 'title_comments'}}</h4>
-    </header>
+						</ul>
+					</div>
+					{{{editable}}}
+				</div>
+				{{#if ownPost}}
+					<button type="submit" class ="btn btn-primary">Save Changes</button>
+				{{/if}}
+			</section>
+		</form>
+	</article>
 
-    {{> blogCommentNew}}
+	<article class="community">
+		<header>
+			<h4>{{_ 'title_comments'}}</h4>
+		</header>
 
-    {{> blogCommentsList}}
-  </article>
+		{{> blogCommentNew}}
+
+		{{> blogCommentsList}}
+	</article>
 </template>
 
+
+
+<!-- <template name="blogOne">
+	<article class="page">
+		<header>
+			<h2>{{blog.title}}</h2>
+		</header>
+
+		<section>
+			<div>{{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</div>
+			<div class="text-content">
+				{{{blog.content}}}
+			</div>
+		</section>
+	</article>
+
+	<article class="community">
+		<header>
+			<h4>{{_ 'title_comments'}}</h4>
+		</header>
+
+		{{> blogCommentNew}}
+
+		{{> blogCommentsList}}
+	</article>
+</template>
+
+ -->

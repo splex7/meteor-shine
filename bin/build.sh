@@ -8,7 +8,7 @@ fi
 
 MODE="production"
 
-PROJECT_HOME="/Users/leesangwon/Desktop/Projects/Shine"
+PROJECT_HOME="/Users/jackass91/Desktop/meteor-shine"
 OPTION_MOBILE_SETTINGS="--mobile-settings $PROJECT_HOME/conf/$MODE/settings-$1-minified.json"
 OPTION_SERVER="--server https://shine.meteor.com"
 APP_PATH="$PROJECT_HOME/apps/$1"
