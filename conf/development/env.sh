@@ -11,5 +11,5 @@ export MAIL_URL="smtp://dev%40bookp.al:tkddka9898!@smtp.gmail.com:465/"
 
 # log
 # $1 read from the calling shell script
-export LOG_DIR="/Users/mac/developers/dev-meteor/shine/logs/$1"
+export LOG_DIR="/Users/leesangwon/Desktop/Projects/Shine/logs/$1"
 
