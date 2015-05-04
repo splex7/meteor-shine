@@ -28,34 +28,35 @@ Template.accountsResetPassword.events({
 
     // validation
     if (password !== passwordConfirm)
-      return Alerts.error('accounts.error_password_confirm_fail');
+      return Alerts.notify('error', 'accounts.error_password_confirm_fail');
 
-    var response = Accounts.ui.customOptions.validators.resetPassword(password);
-    if (response.errors().length > 0) {
-      $('input').parent().removeClass('status-error');
+    // var response = Accounts.ui.customOptions.validators.resetPassword(password);
 
-      _.each(response.errors(), function(error) {
-        var translated = "";
-        _.each(error.messages, function(message) {
-          translated += I18n.get(message);
-        });
-        var element = $(e.target).find('[name=password]').parent();
-        element.addClass('state-error');
-        element.next().html(translated);
-      });
+    // if (response.errors().length > 0) {
+    //   $('input').parent().removeClass('status-error');
 
-      return;
-    }
+    //   _.each(response.errors(), function(error) {
+    //     var translated = "";
+    //     _.each(error.messages, function(message) {
+    //       translated += I18n.get(message);
+    //     });
+    //     var element = $(e.target).find('[name=password]').parent();
+    //     element.addClass('state-error');
+    //     element.next().html(translated);
+    //   });
+
+    //   return;
+    // }
 
     if (! Session.get(RESET_PASSWORD_TOKEN))
-      return Alerts.error('accounts.error_reset_password_token_expired');
+      return Alerts.notify('error', 'accounts:error_reset_password_token_expired');
 
     return Accounts.resetPassword(Session.get(RESET_PASSWORD_TOKEN), password, function(error) {
       if (error) {
-        Alerts.error(getErrorMessage(error.reason));
+        Alerts.notify("error", getErrorMessage(error.reason));
       } else {
         Session.set(RESET_PASSWORD_TOKEN, null);
-        Alerts.success('accounts.text_reset_password_success');
+        Alerts.notify("success" ,'accounts:text_reset_password_success');
       }
     });
   }

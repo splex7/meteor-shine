@@ -1,6 +1,6 @@
 
 Router.configure({
-  layoutTemplate: 'layoutDefault',
+  layoutTemplate: 'layout',
   loadingTemplate: 'loading',
   waitOn: function() {
     return (Meteor.userId()) ? [ Meteor.subscribe('notificationsList') ] : [];

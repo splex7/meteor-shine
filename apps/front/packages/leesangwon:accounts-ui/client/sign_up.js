@@ -50,12 +50,12 @@ Template._signUpDialogContent.events({
     };
 
     // validation
-    if (Accounts.ui.customOptions && 
+    if (Accounts.ui.customOptions &&
         Accounts.ui.customOptions.validators) {
       var response = Accounts.ui.customOptions.validators.signUp(attributes);
       if (response.errors().length > 0) {
         $('input').parent().removeClass('status-error');
-  
+
         _.each(response.errors(), function(error) {
           var translated = "";
           _.each(error.messages, function(message) {
@@ -65,7 +65,7 @@ Template._signUpDialogContent.events({
           element.addClass('state-error');
           element.next().html(translated);
         });
-  
+
         return;
       }
     }
@@ -77,9 +77,9 @@ Template._signUpDialogContent.events({
 
       if (! error) {
         if (! result.error) {
-          var messageHTML = "<h4>" + I18n.get('accounts.title_signup_done') + "</h4>";
-          messageHTML += "<p>" + I18n.get('accounts.message.signUpInformVerifyEmailAddress') + "</p>";
-          Session.set('ACCOUNTS_RESULT_TITLE', I18n.get('accounts.title_welcome'));
+          var messageHTML = "<h4>" + I18n.get('accounts:title_signup_done') + "</h4>";
+          messageHTML += "<p>" + I18n.get('accounts:text_signup_verify_email') + "</p>";
+          Session.set('ACCOUNTS_RESULT_TITLE', I18n.get('accounts:title_welcome'));
           Session.set('ACCOUNTS_RESULT_MESSAGE', messageHTML);
           return Accounts.ui.dialog('_accountsResultDialogContent');
         }
@@ -87,7 +87,7 @@ Template._signUpDialogContent.events({
         error = result.error;
       }
 
-      return Alerts.error(getErrorMessage(error.reason), true);
+      return Alerts.notify('error', getErrorMessage(error.reason));
     });
 
   }

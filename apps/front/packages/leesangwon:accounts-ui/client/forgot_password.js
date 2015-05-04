@@ -15,7 +15,7 @@ Template._forgotPasswordDialogContent.events({
 
     var validator = new Validator();
     if (! validator.api.isEmail(attributes.email))
-      return Alerts.error('error_invalid_email', true);
+      return Alerts.notify('error', 'error_invalid_email');
 
     Accounts._setLoggingIn(true);
 
@@ -24,10 +24,10 @@ Template._forgotPasswordDialogContent.events({
       Accounts._setLoggingIn(false);
 
       if (error)
-        return Alerts.error(getErrorMessage(error.reason), true);
+        return Alerts.notify('error', getErrorMessage(error.reason));
 
-      var messageHTML = "<p>" + I18n.get('accounts.message.mailedResetPassword') + "</p>";
-      Session.set('ACCOUNTS_RESULT_TITLE', I18n.get('accounts.title_reset_password'));
+      var messageHTML = "<p>" + I18n.get('accounts:text_reset_password') + "</p>";
+      Session.set('ACCOUNTS_RESULT_TITLE', I18n.get('accounts:title_reset_password'));
       Session.set('ACCOUNTS_RESULT_MESSAGE', messageHTML);
       return Accounts.ui.dialog('_accountsResultDialogContent');
     });
