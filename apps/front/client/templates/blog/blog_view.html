@@ -1,28 +1,39 @@
 <template name="blogOne">
 	<article class="page">
+		{{#if editMode}}
+			<p style="color: red;">You are in edit mode</p>
+		{{/if}}
 		<form id="formBlogEdit" class="ss-form">
 			<header>
 				<h2>{{{title}}}</h2>
 			</header>
-
+			
 			<section>
 				<div>{{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</div>
 				<div class="text-content">
+				{{#if editMode}}
 					<div class="editor-toolbar">
 						<ul>
 							<li>
 								<button id="editor-image" class="cloudinary-uploader">
 									<i class="fa fa-file-image-o"></i>
-									<input type="file" name="file" class="uploadImage cloudinary-fileupload"/>
+								  <input type="file" name="file" class="uploadImage cloudinary-fileupload"/>
 								</button>
 							</li>
-
 						</ul>
 					</div>
-					{{{editable}}}
+				{{/if}}
+				
+				{{{editable}}}
+				
 				</div>
 				{{#if ownPost}}
-					<button type="submit" class ="btn btn-primary">Save Changes</button>
+					{{#if editMode}}
+						<button type="submit" class="btn btn-primary">Save Changes</button>
+						<button type="button" class="btn btn-default" id="cancelEdit">Cancel</button>
+					{{else}}
+						<button type="button" class ="btn btn-primary" id="edit">Edit </button>
+					{{/if}}
 				{{/if}}
 			</section>
 		</form>

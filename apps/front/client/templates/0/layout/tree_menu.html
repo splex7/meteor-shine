@@ -10,8 +10,10 @@
            aria-controls="collapseOne"><i class="fa fa-lg fa-pencil"></i> <span>Blog</span></a>
         <ul id="collapseOne" class="collapse sub-menu">
           <li class="menu-item {{activeRoute 'blogsList'}}" data-link="{{pathFor 'blogsList'}}">{{_ 'title_blogs'}}</li>
-          <li class="menu-item {{activeRoute 'myBlogsList'}}" data-link="{{pathFor 'myBlogsList'}}">{{_ 'title_my_blogs'}}</li>
-          <li class="menu-item {{activeRoute 'blogNew'}}" data-link="{{pathFor 'blogNew'}}">{{_ 'title_blog_new'}}</li>
+          {{#if currentUser}}
+            <li class="menu-item {{activeRoute 'myBlogsList'}}" data-link="{{pathFor 'myBlogsList'}}">{{_ 'title_my_blogs'}}</li>
+            <li class="menu-item {{activeRoute 'blogNew'}}" data-link="{{pathFor 'blogNew'}}">{{_ 'title_blog_new'}}</li>
+          {{/if}}
         </ul>
       </li>
       <!-- li>

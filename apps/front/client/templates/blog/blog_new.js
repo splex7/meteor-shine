@@ -8,144 +8,6 @@ Template.blogNew.destroyed = function() {
   $('.cloudinary-uploader input').off('click');
 };
 
-function toggleToolbar() {
-  if($('#editor').focus()){
-    $('.editor-toolbar').css('display', 'block');
-  } else {
-    $('.editor-toolbar').css('display', 'none');
-  }
-}
-
-function nextNode(node) {
-    if (node.hasChildNodes()) {
-        return node.firstChild;
-    } else {
-        while (node && !node.nextSibling) {
-            node = node.parentNode;
-        }
-        if (!node) {
-            return null;
-        }
-        return node.nextSibling;
-    }
-}
-
-function getRangeSelectedNodes(range) {
-    var node = range.startContainer;
-    var endNode = range.endContainer;
-
-    // Special case for a range that is contained within a single node
-    if (node == endNode) {
-        return [node];
-    }
-
-    // Iterate nodes until we hit the end container
-    var rangeNodes = [];
-    while (node && node != endNode) {
-        rangeNodes.push( node = nextNode(node) );
-    }
-
-    // Add partially selected nodes at the start of the range
-    node = range.startContainer;
-    while (node && node != range.commonAncestorContainer) {
-        rangeNodes.unshift(node);
-        node = node.parentNode;
-    }
-
-    return rangeNodes;
-}
-
-function getSelectedNodes() {
-    if (window.getSelection) {
-        var sel = window.getSelection();
-        if (!sel.isCollapsed) {
-            return getRangeSelectedNodes(sel.getRangeAt(0));
-        }
-    }
-    return [];
-}
-
-function mediaSelect() {
-  var editor = document.getElementById('editor');
-  var childNodes = editor.childNodes;
-  if(window.getSelection().focusNode.nodeName == 'FIGURE') {
-    $(window.getSelection().focusNode).addClass('is-mediaFocused');
-  } else {
-    $(childNodes).removeClass('is-mediaFocused');
-  }
-}
-
-function isSelected() {
-  var editor = document.getElementById('editor');
-  var focusNode = window.getSelection().focusNode;
-
-  if(editor.hasChildNodes()) {
-  var childNodes = editor.childNodes; // This return Array
-    if (childNodes && $(focusNode).hasClass('editor-empty')) {
-      $(childNodes).removeClass('is-selected');
-      $(focusNode).addClass('is-selected');
-    } else {
-     $(childNodes).removeClass('is-selected');
-     $(focusNode.parentNode).addClass('is-selected');
-    }
-  }
-}
-
-function preventBackspace(e) {
-  //BackSpace
-  var pCount = document.querySelectorAll('#editor p').length || document.querySelectorAll('#editor h3').length || document.querySelectorAll('#editor blockquote').length; 
-  // console.log('=======================');
-  // console.log('pCount:' + pCount);
-  // console.log('textContent:' + document.getElementById('editor').textContent);
-  // console.log('textContent.length:' + document.getElementById('editor').textContent.length);
-  // console.log('keycode:' + e.keyCode);
-  
-  if((e.keyCode == 8) && (pCount == 1) && (! document.getElementById('editor').textContent.length)){
-    console.log('Prevent Backspace Conditions met');
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
-  }
-}
-
-function editorKeyUp(e) {
-  // Do something to/when wrap lines of string in editor
-  var keyCode = e.keyCode || e.which;
-  var focusNode = window.getSelection().focusNode;
-  var selectedNode = $.trim($(focusNode).text()).length;
-
-  // Enter
-  if(keyCode == 13) {
-    // e.preventDefault(); // Does not work in meteor??
-    // Set default wrapping to p tag
-    document.execCommand('formatBlock', false, 'p'); 
-    // pTag = focusedNode. Add .p--p and .p--empty
-    var focusNode = window.getSelection().focusNode;
-    $(focusNode).addClass('editor-p');
-    $(focusNode).addClass('editor-empty');
-    $('#editor-header').removeClass('editor-button-active');
-  }
-
-  // Removing and Adding of p.class
-  if(focusNode && (selectedNode > 0)) {
-    //remove .p--empty if p tag has content.
-    $(focusNode.parentNode).removeClass('editor-empty');
-  } else {
-    //add .p--empty if p tag has no content.
-    $(focusNode).addClass('editor-empty');
-  }
-
-  mediaSelect();
-}
-
-function activeButton(focusNode) {
-  if($(focusNode).hasClass('editor-align-center') || $(focusNode.parentNode).hasClass('editor-align-center')){
-    $('#editor-center').addClass('editor-button-active');
-  } else {
-    $('#editor-center').removeClass('editor-button-active');
-  }
-}
-
 //--------------------------------------------------------
 //
 //  TEMPLATE CALL BACKS FROM HERE
@@ -155,7 +17,7 @@ function activeButton(focusNode) {
 Template.blogNew.helpers({
   editable: function() {
     // +Added id="editor"
-    return '<div class="editable" contenteditable="false" name="content" id="editor" data-default="true"><p class="editor-p editor-empty">본문</p></div>';
+    return '<div class="editable" contenteditable="true" name="content" id="editor" data-default="true"><p class="editor-p editor-empty is-selected">본문</p></div>';
   },
   title: function() {
     return '<h2 class="newTitle" id="newTitle" name="title" contenteditable="false" data-default="true">제목</h2>';
@@ -219,39 +81,41 @@ Template.blogNew.events({
     }
   },
 
-  'blur #editor': function(){
-    var contentLength = $.trim($('#editor p').text()).length;
-    $('.editor-toolbar').css('display', 'none');
+  // 'blur #editor': function(e){
+    // var contentLength = $.trim($('#editor p').text()).length;
+    // //$('.editor-toolbar').css('display', 'none');
 
-    if( contentLength == 0 ){
-      $('#editor p').empty();
-      $('#editor p').append('본문');
-      $('#editor').data('default', true);
-    } else {
-      $('#editor').data('default', false);
-    }
-    $('#editor').attr('contenteditable', 'false');
-  },
+    // if( contentLength == 0 || ! $('#editor').children().hasClass('image') ){
+    //   $('#editor p').empty();
+    //   $('#editor p').append('본문');
+    //   $('#editor').data('default', true);
+    // } else {
+    //   $('#editor').data('default', false);
+    // }
 
-  'click #editor': function(e){
-    $('#editor').attr('contenteditable', 'true');
-    $('.editor-toolbar').css('display', 'block');
+    // $('#editor').attr('contenteditable', 'false');
 
-    if( $('#editor').data('default') === true ){
-      // If editor has data-default true, empty editor and focus
-      $('#editor p').empty();
-      $('#editor').data('default', false);
-      // Dirty workaround. Needs focus on editor then editor p for cursor to show
-      $('#editor').focus();
-      $('#editor p.editor-empty').focus();
-    } 
-    if( $('#editor').data('default') === false){
-      // If editor has data-default false (edited content)
-      // Dirty workaround. Needs focus on editor then editor p for cursor to show
-      $('#editor').focus();
-      $('#editor p').focus();
-    }
-  },
+  // },
+
+  // 'click #editor': function(e){
+    // $('#editor').attr('contenteditable', 'true');
+    //$('.editor-toolbar').css('display', 'block');
+
+    // if( $('#editor').data('default') === true ){
+    //   // If editor has data-default true, empty editor and focus
+    //   $('#editor p').empty();
+    //   $('#editor').data('default', false);
+    //   // Dirty workaround. Needs focus on editor then editor p for cursor to show
+    //   $('#editor').focus();
+    //   $('#editor p.editor-empty').focus();
+    // } 
+    // if( $('#editor').data('default') === false){
+    //   // If editor has data-default false (edited content)
+    //   // Dirty workaround. Needs focus on editor then editor p for cursor to show
+    //   $('#editor').focus();
+    //   $('#editor p').focus();
+    // }
+  // },
 
 
 
