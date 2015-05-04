@@ -7,7 +7,11 @@ fi
 
 MODE="production"
 
+<<<<<<< HEAD
+PROJECT_HOME="/Users/jackass91/Desktop/meteor-shine"
+=======
 PROJECT_HOME="/Users/mac/developers/dev-meteor/shine"
+>>>>>>> master
 OPTION_MOBILE_SETTINGS="--mobile-settings $PROJECT_HOME/conf/$MODE/settings-$1-minified.json"
 OPTION_SERVER="--server https://shine.meteor.com"
 APP_PATH="$PROJECT_HOME/apps/$1"

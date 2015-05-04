@@ -1,25 +1,80 @@
 <template name="blogOne">
-  <article class="page">
-    <header>
-      <h2>{{blog.title}}</h2>
-    </header>
+	<article class="page">
+		{{#if editMode}}
+			<p style="color: red;">You are in edit mode</p>
+		{{/if}}
+		<form id="formBlogEdit" class="ss-form">
+			<header>
+				<h2>{{{title}}}</h2>
+			</header>
+			
+			<section>
+				<div>{{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</div>
+				<div class="text-content">
+				{{#if editMode}}
+					<div class="editor-toolbar">
+						<ul>
+							<li>
+								<button id="editor-image" class="cloudinary-uploader">
+									<i class="fa fa-file-image-o"></i>
+								  <input type="file" name="file" class="uploadImage cloudinary-fileupload"/>
+								</button>
+							</li>
+						</ul>
+					</div>
+				{{/if}}
+				
+				{{{editable}}}
+				
+				</div>
+				{{#if ownPost}}
+					{{#if editMode}}
+						<button type="submit" class="btn btn-primary">Save Changes</button>
+						<button type="button" class="btn btn-default" id="cancelEdit">Cancel</button>
+					{{else}}
+						<button type="button" class ="btn btn-primary" id="edit">Edit </button>
+					{{/if}}
+				{{/if}}
+			</section>
+		</form>
+	</article>
 
-    <section>
-      <div>{{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</div>
-      <div class="text-content">
-        {{{blog.content}}}
-      </div>
-    </section>
-  </article>
+	<article class="community">
+		<header>
+			<h4>{{_ 'title_comments'}}</h4>
+		</header>
 
-  <article class="community">
-    <header>
-      <h4>{{_ 'title_comments'}}</h4>
-    </header>
+		{{> blogCommentNew}}
 
-    {{> blogCommentNew}}
-
-    {{> blogCommentsList}}
-  </article>
+		{{> blogCommentsList}}
+	</article>
 </template>
 
+
+
+<!-- <template name="blogOne">
+	<article class="page">
+		<header>
+			<h2>{{blog.title}}</h2>
+		</header>
+
+		<section>
+			<div>{{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</div>
+			<div class="text-content">
+				{{{blog.content}}}
+			</div>
+		</section>
+	</article>
+
+	<article class="community">
+		<header>
+			<h4>{{_ 'title_comments'}}</h4>
+		</header>
+
+		{{> blogCommentNew}}
+
+		{{> blogCommentsList}}
+	</article>
+</template>
+
+ -->

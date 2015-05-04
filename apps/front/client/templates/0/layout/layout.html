@@ -1,5 +1,6 @@
 <template name="layout">
   <div id="container" class="container-fluid">
+  
     <header>
       {{> headerDefault}}
     </header>
@@ -17,7 +18,8 @@
     </aside>
 
     <main id="content" class="fixed-right">
-      {{> yield}}
+      <div id = "main-overlay"></div>
+        {{> yield}}
     </main>
 
     <footer>

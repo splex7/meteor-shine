@@ -1,4 +1,3 @@
-
 //
 //  Layout: container, header & footer, aside, content
 //--------------------------------------------------------------
@@ -69,6 +68,14 @@
   }
 }
 
+#main-overlay {
+  opacity: 0;
+  display: hidden;
+  -webkit-transition: opacity @slide-transition-time ease-in-out;
+       -o-transition: opacity @slide-transition-time ease-in-out;
+          transition: opacity @slide-transition-time ease-in-out;
+}
+
 @media screen and (max-width: @container-sm) {
   #container {
     .aside-left {
@@ -80,10 +87,19 @@
   }
   #container.aside-left-set {
     .aside-left {
+      position: absolute;
       left: 0;
     }
     #content {
-      left: @aside-left-width;
+      #main-overlay{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0, 0.3);
+        opacity: 1;
+        display: block;
+      }
+      // left: @aside-left-width;
     }
   }
 }
@@ -93,7 +109,7 @@
 //  Notifications
 //--------------------------------------------------------------
 
-#container > aside.notifications {
+#container aside.notifications {
   bottom: auto;
   top: -@notifications-height;
   right: 10px;
@@ -101,7 +117,7 @@
   height: @notifications-height;
 }
 
-#container.notifications-set > aside.notifications {
+#container.notifications-set aside.notifications {
   top: @header-height;
 }
 
@@ -137,7 +153,8 @@
 
 #container > header {
   background: #fff;
-  box-shadow: 0 1px 1px #666;
+  //box-shadow: 0 1px 1px #666;
+  border-bottom: 1px solid @gray-outline;
 }
 
 #container > footer {
@@ -145,7 +162,7 @@
   box-shadow: 0 -1px 1px #666;
 }
 
-#container > aside {
+#container aside {
   background: @nav-main-bg;
   -webkit-transition: all @slide-transition-time ease-out;
        -o-transition: all @slide-transition-time ease-out;
@@ -153,7 +170,8 @@
 }
 
 aside.aside-left {
-  box-shadow: 1px 1px 1px 0 #888;
+  //box-shadow: 1px 1px 1px 0 #888;
+  border-right: 1px solid @gray-outline;
 }
 aside.aside-right {
   box-shadow: -1px 1px 1px 0 #888;

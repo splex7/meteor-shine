@@ -7,7 +7,7 @@
 #export MONGO_URL="mongodb://username:password@test-mongodb.domain.com:port_number/shine"
 
 # mail
-export MAIL_URL="smtp://dev%40bookp.al:tkddka9898!@smtp.gmail.com:465/"
+#export MAIL_URL="smtp://email-address:password@smtp.mail.com:port_number/"
 
 # log
 # $1 read from the calling shell script
