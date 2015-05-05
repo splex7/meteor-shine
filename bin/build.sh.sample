@@ -57,10 +57,3 @@ cd $PROJECT_HOME/release/$1/android
 jarsigner -digestalg SHA1 -storepass <password> unaligned.apk <app_name>
 ~/.meteor/android_bundle/android-sdk/build-tools/20.0.0/zipalign 4 unaligned.apk <app_name>.apk
 echo "APK file created"
-
-
-# upload to the dropbox, the distribution destination
-echo "Uploading..."
-rm -rf ~/Dropbox/BookpalFree/*
-cp bookpalfree.apk ~/Dropbox/Shine
-echo "APK uploaded to the Dropbox"
