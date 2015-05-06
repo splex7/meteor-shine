@@ -3,4 +3,5 @@
 /release
 
 *.sh
-conf/*.json
+conf/development/*.json
+conf/production/*.json
