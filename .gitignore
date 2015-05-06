@@ -1,5 +1,7 @@
 /.idea
 /logs
 /release
-/bin
-/conf
+
+*.sh
+conf/development/*.json
+conf/production/*.json
