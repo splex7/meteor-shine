@@ -24,10 +24,17 @@
           <li class="menu-item">Submenu 3</li>
         </ul>
       </li -->
+      {{#if currentUser}}
+        <li>
+          <a href="#" class="menu-item" data-toggle="modal" data-target="#userListModal">
+            <i class="fa fa-lg fa-user"></i>
+            <span>{{_ 'title_user_list'}}</span>
+          </a>
+        </li>
+      {{/if}}
       <li>
         <a class="menu-item menu-item-main" href="{{pathFor 'preference'}}"><i class="fa fa-lg fa-gear"></i> <span>{{_ 'title_preference'}}</span></a>
       </li>
-
     </ul>
   </div>
 </template>

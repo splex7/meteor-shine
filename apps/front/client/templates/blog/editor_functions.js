@@ -27,19 +27,19 @@ inlineEditor = {
       var endNode = range.endContainer;
 
       // Special case for a range that is contained within a single node
-      if (node == endNode) {
+      if (node === endNode) {
         return [node];
       }
 
       // Iterate nodes until we hit the end container
       var rangeNodes = [];
-      while (node && node != endNode) {
-        rangeNodes.push( node = nextNode(node) );
+      while (node && node !== endNode) {
+        rangeNodes.push( node = this.nextNode(node) );
       }
 
       // Add partially selected nodes at the start of the range
       node = range.startContainer;
-      while (node && node != range.commonAncestorContainer) {
+      while (node && node !== range.commonAncestorContainer) {
         rangeNodes.unshift(node);
         node = node.parentNode;
       }
@@ -50,19 +50,21 @@ inlineEditor = {
       if (window.getSelection) {
         var sel = window.getSelection();
         if (!sel.isCollapsed) {
-            return getRangeSelectedNodes(sel.getRangeAt(0));
+            return this.getRangeSelectedNodes(sel.getRangeAt(0));
         }
       }
       return [];
   },
 
   preventBackspace : function (e, editor) {
+    var editor = document.getElementById('editor');
+
     //BackSpace
     var pCount = document.querySelectorAll('#editor p').length  ||
                  document.querySelectorAll('#editor h3').length ||
                  document.querySelectorAll('#editor blockquote').length;
 
-    if( (e.keyCode === 8) && (pCount == 1) &&
+    if( (e.keyCode === 8) && (pCount === 1) &&
         (! editor.textContent.length) ){
       console.log('Prevent Backspace Conditions met');
       e.preventDefault();
@@ -83,11 +85,10 @@ inlineEditor = {
       document.execCommand('formatBlock', false, 'p');
       // pTag = focusedNode.
       // Add .p--p and .p--empty
-      var focusNode = window.getSelection().focusNode;
       $(focusNode).addClass('editor-p');
       $(focusNode).addClass('editor-empty');
       $('#editor-header').removeClass('editor-button-active');
-    },
+    }
 
     // Removing and Adding of p.class
     if (focusNode && (selectedNode > 0) ) {
@@ -98,6 +99,22 @@ inlineEditor = {
       $(focusNode).addClass('editor-empty');
     }
   },
+
+  isSelected : function () {
+    var focusNode = window.getSelection().focusNode;
+    var editor = document.getElementById('editor');
+
+    if( $(editor).is(':focus') && editor.hasChildNodes() ) {
+      var childNodes = editor.childNodes; // This return Array
+      if ( childNodes && $(focusNode).hasClass('editor-empty') ) {
+        $(childNodes).removeClass('is-selected');
+        $(focusNode).addClass('is-selected');
+      } else {
+        $(childNodes).removeClass('is-selected');
+        $(focusNode.parentNode).addClass('is-selected');
+      }
+    }
+  }
 
   // activeButton : function(focusNode) {
   //   if( $(focusNode).hasClass('editor-align-center') ||

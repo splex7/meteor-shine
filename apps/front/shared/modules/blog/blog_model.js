@@ -42,7 +42,7 @@ Meteor.methods({
 
     return data._id;
   },
-  
+
   blogUpdate: function(blogId, object) {
     check(blogId, String);
     check(object, Match.Where(matchBlogEdit));
@@ -63,7 +63,7 @@ Meteor.methods({
     var updated = Blogs.update({ _id: blogId, 'user._id': this.userId }, { $set: data });
     return updated;
   },
-  
+
   blogRemove: function(blogId) {
 
     // check permission

@@ -58,7 +58,7 @@ Template.blogNew.events({
     //var titleInput = document.getElementById('#newTitle');
     var titleLength = $.trim($('#newTitle').text()).length;
 
-    if( titleLength == 0 ){
+    if( titleLength === 0 ){
       $('#newTitle').append('제목');
       $('#newTitle').data('default', true);
     } else {
@@ -142,81 +142,78 @@ Template.blogNew.events({
     $('#editor').attr('contenteditable', true);
     var focusNode = window.getSelection().focusNode;
 
-    if(focusNode.parentNode.nodeName == 'H3') {
+    if(focusNode.parentNode.nodeName === 'H3') {
       $('#editor-header').removeClass('editor-button-active');
       document.execCommand( 'formatBlock', false, 'p' );
-      var focusNode = window.getSelection().focusNode; // Needs re-declaring for beneath to work. Figure out why..?
+      // var focusNode = window.getSelection().focusNode; // Needs re-declaring for beneath to work. Figure out why..?
       $(focusNode.parentNode).addClass('editor-p');
       $(focusNode.parentNode).removeClass('editor-h3');
-      //console.log('change to p fN:' + focusNode);
-      //console.log('change to p fN:' + focusNode.parentNode);
+      // console.log('change to p fN:' + focusNode);
+      // console.log('change to p fN:' + focusNode.parentNode);
     } else {
       document.execCommand( 'formatBlock', false, 'h3' );
       $('#editor-header').addClass('editor-button-active');
-      var focusNode = window.getSelection().focusNode; // Needs re-declaring for beneath to work. Figure out why..?
+      //var focusNode = window.getSelection().focusNode; // Needs re-declaring for beneath to work. Figure out why..?
       $(focusNode.parentNode).addClass('editor-h3');
       $(focusNode.parentNode).removeClass('editor-p');
-      //console.log('change to h3 fN:' + focusNode);
-      //console.log('change to h3 fN:' + focusNode.parentNode);
+      // console.log('change to h3 fN:' + focusNode);
+      // console.log('change to h3 fN:' + focusNode.parentNode);
     }
   },
-  'click #editor-center': function(e){
-    e.preventDefault();
+  // 'click #editor-center': function(e){
+  //   e.preventDefault();
 
-    $('#editor').attr('contenteditable', true);
-    var selection = window.getSelection();
-    var range = selection.getRangeAt(0);
-    var focusNode = window.getSelection().focusNode;
-    if(getSelectedNodes(range).length > 1 /*&& is 'node'*/){
-      if($(getSelectedNodes(range)).hasClass('editor-align-center')){
-        $(getSelectedNodes(range)).removeClass('editor-align-center');
-      } else {
-        $(getSelectedNodes(range)).addClass('editor-align-center');
-      }
-    } else {
-      if( focusNode.textContent.length == 0 ){
-        $(focusNode).toggleClass('editor-align-center');
-      }
-      if( focusNode.textContent.length > 1){
-        $(focusNode.parentNode).toggleClass('editor-align-center');
-      }
-    }
-    activeButton(focusNode);
-  },
+  //   $('#editor').attr('contenteditable', true);
+  //   var selection = window.getSelection();
+  //   var range = selection.getRangeAt(0);
+  //   var focusNode = window.getSelection().focusNode;
+  //   if( getSelectedNodes(range).length > 1 /*&& is 'node'*/){
+  //     if($(getSelectedNodes(range)).hasClass('editor-align-center')){
+  //       $(getSelectedNodes(range)).removeClass('editor-align-center');
+  //     } else {
+  //       $(getSelectedNodes(range)).addClass('editor-align-center');
+  //     }
+  //   } else {
+  //     if( focusNode.textContent.length == 0 ){
+  //       $(focusNode).toggleClass('editor-align-center');
+  //     }
+  //     if( focusNode.textContent.length > 1){
+  //       $(focusNode.parentNode).toggleClass('editor-align-center');
+  //     }
+  //   }
+  //   activeButton(focusNode);
+  // },
   // 'click figure.image': function(e){
   //   $(e.target.parentNode).addClass('is-mediaFocused');
   // }
 });
 
-Template.blogNew.onRendered(function(){
+Template.blogNew.onRendered( function (){
   var editor = $('#editor');
   //$(editor).focus();
 
   // Mouse Up Events
-  $(document).mouseup( function(e){
+  $(document).mouseup( function () {
     setTimeout( function() {
-      isSelected();
-    }, 1)
+      inlineEditor.isSelected();
+    }, 1);
   });
 
   // Mouse Down Events
-  $(document).mousedown( function(e) {
-    isSelected();
-
+  $(document).mousedown( function () {
+    inlineEditor.isSelected();
   });
 
-  $(editor).on('keydown', function(e){
-    preventBackspace(e, editor);
-  })
+  $(editor).on('keydown', function (e) {
+    inlineEditor.preventBackspace(e);
+  });
 
   // Key Up
-  $(editor).on('keyup', function(e){
-    editorKeyUp(e);
-    preventBackspace(e, editor);
-    isSelected();
+  $(editor).on('keyup', function (e) {
+    inlineEditor.editorKeyUp(e);
+    inlineEditor.preventBackspace(e);
+    inlineEditor.isSelected(editor);
   });
-
-  $('#editor').inlineEditor();
 
   // Cloudinary Upload Image
   cloudinaryDirectUpload(
@@ -226,7 +223,7 @@ Template.blogNew.onRendered(function(){
       progress_bar_selecter: '.progress-wrapper'
     },
     { multiple: true },
-    function(e, data) {
+    function (e, data) {
       var attributes = {
         // genreId: instance.data.chapter.genreId,
         // bookId: instance.data.chapter.bookId,
