@@ -81,6 +81,14 @@ Template.blogNew.events({
     }
   },
 
+  'focus #editor': function () {
+    $('#editor').addClass('editor-on');
+  },
+
+  'blur #editor': function () {
+    $('#editor').removeClass('editor-on');
+  },
+
   // 'blur #editor': function(e){
     // var contentLength = $.trim($('#editor p').text()).length;
     // //$('.editor-toolbar').css('display', 'none');

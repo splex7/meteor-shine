@@ -162,33 +162,32 @@ Template.blogOne.events({
 
 Template.blogOne.onRendered(function(){
 
-
-	var editor = $('#editor');
-
   Session.set('editMode', false);
 
+	var editor = $('#editor');
+  //$(editor).focus();
+
   // Mouse Up Events
-  $(document).mouseup( function(e){
+  $(document).mouseup( function () {
     setTimeout( function() {
-      isSelected();
-    }, 1)
+      inlineEditor.isSelected();
+    }, 1);
   });
 
   // Mouse Down Events
-  $(document).mousedown( function(e) {
-    isSelected();
-
+  $(document).mousedown( function () {
+    inlineEditor.isSelected();
   });
 
-  $(editor).on('keydown', function(e){
-    preventBackspace(e);
-  })
+  $(editor).on('keydown', function (e) {
+    inlineEditor.preventBackspace(e);
+  });
 
   // Key Up
-  $(editor).on('keyup', function(e){
-    editorKeyUp(e);
-    preventBackspace(e);
-    isSelected();
+  $(editor).on('keyup', function (e) {
+    inlineEditor.editorKeyUp(e);
+    inlineEditor.preventBackspace(e);
+    inlineEditor.isSelected(editor);
   });
 
   // Cloudinary Upload Image
