@@ -33,5 +33,6 @@
 <template name="blogsListItem">
   <div class="list-item">
     <p><a href="{{pathFor 'blogOne'}}">{{title}}</a> <small>{{userDisplayName user}} {{momentFromNow createdAt}}</small></p>
+    <p class="line-clamp-2">{{blog_content}}</p>
   </div>
 </template>
