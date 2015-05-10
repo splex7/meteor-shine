@@ -32,7 +32,7 @@ Template.treeMenu.events({
     }
   },
 
-  'click .menu-blog': function () {
+  'click .close-menu': function () {
     // When Click blog-items on 'aside-left'
     // Hides aside in Mobile view ( < 750px )
     if( $('#container').hasClass('mobile') ) {

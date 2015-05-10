@@ -11,7 +11,7 @@
       <div class="btn-toolbar">
         <p class="">{{getPublishedCount 'blogsCount'}}</p>
       </div>
-      <div class="list">
+      <ul class="list">
         {{#each blogs}}
           {{> blogsListItem}}
         {{/each}}
@@ -23,7 +23,7 @@
             {{> listLoading}}
           {{/unless}}
         {{/if}}
-      </div>
+      </ul>
       {{/if}}
     </section>
   </article>
@@ -31,8 +31,8 @@
 </template>
 
 <template name="blogsListItem">
-  <div class="list-item">
-    <p><a href="{{pathFor 'blogOne'}}">{{title}}</a> <small>{{userDisplayName user}} {{momentFromNow createdAt}}</small></p>
+  <li class="list-item">
+    <h4 class = "blog-title"><a href="{{pathFor 'blogOne'}}">{{title}}</a> <small>{{userDisplayName user}} {{momentFromNow createdAt}}</small></h4>
     <p class="line-clamp-2">{{blog_content}}</p>
-  </div>
+  </li>
 </template>

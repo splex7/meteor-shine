@@ -15,6 +15,7 @@ I18n_data_en = {
   "title_mail_verify_email"       : "Welcome to Brandname",
   "title_verify_email"            : "Email Title here",
   "title_user_list"               : "User List",
+  "title_new_message"             : "New Message",
 
 
   "command_sign_in"               : "Sign in",
