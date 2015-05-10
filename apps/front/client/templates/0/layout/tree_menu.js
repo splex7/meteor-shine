@@ -12,7 +12,7 @@ Template.treeMenu.events({
       template.$('.collapse.in').collapse('hide');
     } else {
       /*
-      * Commented out because this does not work properly 
+      * Commented out because this does not work properly
       * when Router.something is called to change route
       */
       //template.$('.active').removeClass('active');
@@ -31,4 +31,12 @@ Template.treeMenu.events({
         Router.go(url);
     }
   },
+
+  'click .menu-blog': function () {
+    // When Click blog-items on 'aside-left'
+    // Hides aside in Mobile view ( < 750px )
+    if( $('#container').hasClass('mobile') ) {
+      $('#container').removeClass('aside-left-set');
+    }
+  }
 });
