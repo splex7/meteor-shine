@@ -114,6 +114,16 @@ inlineEditor = {
         $(focusNode.parentNode).addClass('is-selected');
       }
     }
+  },
+
+  handlePaste : function ( el, evt) {
+    var editorContent = el.innerHTML;
+    if ( e && e.clipboardData && e.clipboardData.getData ) {
+      if (/text\/html/.test(e.clipboardData.types)) {
+        el.innerHTML = e.clipboardData.getData('text/html');
+        $('p is-seleceted').append(el.innerHTML);
+      }
+    }
   }
 
   // activeButton : function(focusNode) {
