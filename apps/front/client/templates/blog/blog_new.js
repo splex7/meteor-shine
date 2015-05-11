@@ -56,8 +56,8 @@ Template.blogNew.events({
 
   'blur #newTitle': function(){
     //var titleInput = document.getElementById('#newTitle');
-    var titleLength = $.trim($('#newTitle').text()).length; 
-    
+    var titleLength = $.trim($('#newTitle').text()).length;
+
     if( titleLength == 0 ){
       $('#newTitle').append('제목');
       $('#newTitle').data('default', true);
@@ -75,7 +75,7 @@ Template.blogNew.events({
       console.log('data-default is TRUE');
       $('#newTitle').empty();
       $('#newTitle').data('default', false);
-    } 
+    }
     if( $('#newTitle').data('default') === false){
       console.log('data-default is FALSE');
     }
@@ -108,7 +108,7 @@ Template.blogNew.events({
     //   // Dirty workaround. Needs focus on editor then editor p for cursor to show
     //   $('#editor').focus();
     //   $('#editor p.editor-empty').focus();
-    // } 
+    // }
     // if( $('#editor').data('default') === false){
     //   // If editor has data-default false (edited content)
     //   // Dirty workaround. Needs focus on editor then editor p for cursor to show
@@ -138,7 +138,7 @@ Template.blogNew.events({
   },
   'click #editor-header': function(e){
     e.preventDefault();
-    
+
     $('#editor').attr('contenteditable', true);
     var focusNode = window.getSelection().focusNode;
 
@@ -171,16 +171,16 @@ Template.blogNew.events({
       if($(getSelectedNodes(range)).hasClass('editor-align-center')){
         $(getSelectedNodes(range)).removeClass('editor-align-center');
       } else {
-        $(getSelectedNodes(range)).addClass('editor-align-center');  
+        $(getSelectedNodes(range)).addClass('editor-align-center');
       }
     } else {
       if( focusNode.textContent.length == 0 ){
         $(focusNode).toggleClass('editor-align-center');
-      } 
+      }
       if( focusNode.textContent.length > 1){
         $(focusNode.parentNode).toggleClass('editor-align-center');
-      }  
-    }        
+      }
+    }
     activeButton(focusNode);
   },
   // 'click figure.image': function(e){
@@ -191,7 +191,7 @@ Template.blogNew.events({
 Template.blogNew.onRendered(function(){
   var editor = $('#editor');
   //$(editor).focus();
-  
+
   // Mouse Up Events
   $(document).mouseup( function(e){
     setTimeout( function() {
@@ -202,7 +202,7 @@ Template.blogNew.onRendered(function(){
   // Mouse Down Events
   $(document).mousedown( function(e) {
     isSelected();
-  
+
   });
 
   $(editor).on('keydown', function(e){
@@ -252,7 +252,7 @@ Template.blogNew.onRendered(function(){
         attributes._id = id;
 
         var source = '<p class="image"><img class="img-responsive" src="' + imageUrlFit(attributes) + '" data-id="' + id + '" /></p>';
-        
+
         $('#editor p.is-selected').after(source);
 
         console.log('upload done');

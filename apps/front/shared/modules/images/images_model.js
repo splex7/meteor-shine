@@ -1,8 +1,10 @@
 Images = new Mongo.Collection('images');
 
+AccountsImages = new Mongo.Collection('accounts_images');
+
 var prepareData = function(attributes) {
   var user = Meteor.user();
- 
+
   return _.extend(_.pick(attributes, 'url', 'surl', 'size', 'width', 'height',
     'urlFit', 'surlFit', 'widthFit', 'heightFit',
     'ext', 'mime', 'original', 'repoId'), {
@@ -17,13 +19,22 @@ var prepareData = function(attributes) {
 
 Meteor.methods({
 	"cImageUploadSave" :function(attributes){
-		check(attributes, Match.Any)
-		
+		check(attributes, Match.Any);
+
 		var image = prepareData(attributes);
 
 		image._id = Images.insert(image);
-	
 
 		return image._id;
-	}
+	},
+
+  "cImageUploadSaveForAccounts": function(attributes) {
+    check(attributes, Match.Any);
+
+    var image = prepareData(attributes);
+
+    image._id = AccountsImages.insert(image);
+
+    return image._id;
+  }
 })

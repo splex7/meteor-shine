@@ -53,7 +53,7 @@ Template.blogOne.events({
         } else {
           Alerts.notify('success', 'Blog updated successfully.');
           Session.set('editMode', false);
-          
+
           $('#newTitle').attr('contenteditable', 'false');
           $('#editor').attr('contenteditable', 'false');
           //Router.go('myBlogsList');
@@ -70,7 +70,7 @@ Template.blogOne.events({
 
   'click #cancelEdit': function(){
     Session.set('editMode', false);
-  
+
     var content = this.blog.content;
     var title = this.blog.title;
 
@@ -83,7 +83,7 @@ Template.blogOne.events({
 
 	'blur #newTitle': function(){
 		if(this.blog.user._id === Meteor.userId()){
-			var titleLength = $.trim($('#newTitle').text()).length; 
+			var titleLength = $.trim($('#newTitle').text()).length;
       //Session.set('editMode', false);
 
 			if( titleLength == 0 ){
@@ -107,7 +107,7 @@ Template.blogOne.events({
 				console.log('data-default is TRUE');
 				$('#newTitle').empty();
 				$('#newTitle').data('default', false);
-			} 
+			}
 			if( $('#newTitle').data('default') === false){
 				console.log('data-default is FALSE');
 			}
@@ -115,7 +115,7 @@ Template.blogOne.events({
 	},
 
 	// 'blur #editor': function(){
-	// 	if(this.blog.user._id === Meteor.userId()){	
+	// 	if(this.blog.user._id === Meteor.userId()){
 	// 		var contentLength = $.trim($('#editor p').text()).length;
 	// 		$('.editor-toolbar').css('display', 'none');
  //      Session.set('editMode', false);
@@ -144,7 +144,7 @@ Template.blogOne.events({
 	// 			// Dirty workaround. Needs focus on editor then editor p for cursor to show
 	// 			$('#editor').focus();
 	// 			$('#editor p.editor-empty').focus();
-	// 		} 
+	// 		}
 	// 		if( $('#editor').data('default') === false){
 	// 			// If editor has data-default false (edited content)
 	// 			// Dirty workaround. Needs focus on editor then editor p for cursor to show
@@ -164,9 +164,9 @@ Template.blogOne.onRendered(function(){
 
 
 	var editor = $('#editor');
-  
+
   Session.set('editMode', false);
-  
+
   // Mouse Up Events
   $(document).mouseup( function(e){
     setTimeout( function() {
@@ -177,7 +177,7 @@ Template.blogOne.onRendered(function(){
   // Mouse Down Events
   $(document).mousedown( function(e) {
     isSelected();
-  
+
   });
 
   $(editor).on('keydown', function(e){
@@ -194,9 +194,13 @@ Template.blogOne.onRendered(function(){
   // Cloudinary Upload Image
   cloudinaryDirectUpload(
     {
+
       cloud_name: Meteor.settings.public.cloudinary.cloudName,
-      preset: Meteor.settings.public.cloudinary.presets.test,
+
+      preset: Meteor.settings.public.cloudinary.presets.blogs,
+
       progress_bar_selecter: '.progress-wrapper'
+
     },
     { multiple: true },
     function(e, data) {
@@ -218,7 +222,15 @@ Template.blogOne.onRendered(function(){
         original: data.originalFiles[0].name,
         repoId: data.result.public_id
       };
-    Meteor.call('cImageUploadSave', attributes, function(error, id) {
+
+      console.log("e : ", e);
+      console.log("data : ", data);
+      console.log("attributes : ", attributes);
+
+      Meteor.call('cImageUploadSave', attributes, function(error, id) {
+
+        // console.log("Meteor.call('cImageUploadSave') : ", attributes, id, error);
+
         if (error) {
           //Alerts.error(error.reason);
           console.log(error.reason)
@@ -227,7 +239,7 @@ Template.blogOne.onRendered(function(){
         attributes._id = id;
 
         var source = '<p class="image"><img class="img-responsive" src="' + imageUrlFit(attributes) + '" data-id="' + id + '" /></p>';
-        
+
         $('#editor p.is-selected').after(source);
 
         console.log('upload done');

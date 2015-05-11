@@ -1,32 +1,30 @@
 /*
   The files with name 'settings-<app>.json' are for your read convenience.
   The files with name 'settings-<app>-minified.json' are used at real.
-  
+
   You should set 'settings-front-minified.json' or
   'settings-admin-minified.json' for build your apps.
 */
 
 // unminified version
 {
-  "public": {
-    "ga": {
-      "id": "Google Analytics ID",
-      "create": {
-        "cookieDomain": "none"
-      }
-    }
-  },
+  "public": {
+    "cloudinary": {
+      "cloudName": "meteor-shine",
+      "apiKey": "993774671589961",
+      "presets": {
+        "accounts": "ps_accounts",
+        "blogs": "ps_blogs"
+      }
+    }
+  },
 
-  "account": {
-    "facebook": {
-      "appId": "facebook app ID",
-      "secret": "facebook app secret"
-    }
-  }
+  "cloudinary": {
+    "apiSecret": "Pgcqdh_iKjCrbgvi_xnltvrdBcs"
+  }
+
 }
 
 // minified version
-{"public": {"ga": {"id": "Google Analytics ID","create": { "cookieDomain": 
-"none"}}},"account": {"facebook": {"appId": "facebook app ID","secret": 
-"facebook app secret"}}}
+{"public": {"cloudinary": {"cloudName": "meteor-shine", "apiKey": "993774671589961", "presets": {"accounts": "ps_accounts", "blogs": "ps_blogs"}}}, "cloudinary": {"apiSecret": "Pgcqdh_iKjCrbgvi_xnltvrdBcs"}}
 

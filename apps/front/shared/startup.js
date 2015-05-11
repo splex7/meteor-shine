@@ -9,4 +9,3 @@ Meteor.startup(function() {
   I18n.setLanguage("ko");
 
 });
-
