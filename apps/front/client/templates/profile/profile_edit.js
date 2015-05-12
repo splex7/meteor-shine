@@ -8,39 +8,60 @@ Template.profileEdit.helpers({
 // http://fengyuanchen.github.io/cropper/
 // https://github.com/jonblum/meteor-cropper/
 Template.profileEdit.events({
-  'click .profile-pic-modal' : function(e) {
+  'click .avatar-wrapper-custom' : function(e) {
 
     e.preventDefault();
 
-    $('#profileModal').modal('show');
+    $('#inputAvatar').trigger('click');
 
-  },
+    console.log(this); // Object {}
 
-  /*'click #avatarInput' : function() {
-    $('#avatarInput').trigger('click');
-
-    console.log(this);
+    console.log($('#inputAvatar').file);
 
     return false;
-  },*/
+  },
+
+  'change .myFileInput': function(event, template) {
+
+        FS.Utility.eachFile(event, function(file) {
+          ProfileImages.insert(file, function (err, fileObj) {
+            if (err){
+               // handle error
+               alert(err);
+            } else {
+               // handle success depending what you need to do
+              var userId = Meteor.userId();
+              var imagesURL = {
+                'profile.image': '/cfs/files/images/' + fileObj._id
+              };
+              Meteor.users.update(userId, {$set: imagesURL});
+            }
+
+            $('#profileModal').modal('show');
+          });
+       });
+     },
+
+
+
 
 });
 
 Template.profileEdit.onRendered(function() {
 
-  $('#PhotoPicker').on('change', function(e) {
+  /*$('#inputAvatar').on('change', function(e) {
     e.preventDefault();
     if(this.files.length === 0) return;
     var imageFile = this.files[0];
-    console.log(imageFile);
+    console.log("imageFile: ", imageFile);
+    console.log("name: ", imageFile.name);
+    console.log("type: ", imageFile.type);
+    console.log("size: ", imageFile.size);
+  });*/
 
-  });
-
-
-
-  var myImg = $('#cropper-example-2 > img').attr('src');
+  /*var myImg = $('#cropper-example-2 > img').attr('src');
   console.log("myImg:", myImg);
-  Session.set('myImg', myImg);
+  Session.set('myImg', myImg);*/
 
 
 

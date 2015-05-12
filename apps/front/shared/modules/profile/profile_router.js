@@ -19,6 +19,9 @@ Router.route('/profile/view', {
 
 Router.route('/profile/edit', {
   name: 'profileEdit',
+  waitOn: function () {
+    return Meteor.subscribe('profileImage');
+    }
   // controller: 'ProfileController'
 });
 
@@ -26,4 +29,3 @@ Router.route('/profile/pic', {
   name: 'profilePicDialogs',
   // controller: 'ProfileController'
 });
-

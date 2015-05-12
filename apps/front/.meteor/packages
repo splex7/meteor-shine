@@ -23,3 +23,6 @@ leesangwon:cloudinary
 msavin:mongol
 jonblum:jquery-cropper
 msavin:jetsetter
+coffeescript
+cfs:standard-packages
+cfs:gridfs

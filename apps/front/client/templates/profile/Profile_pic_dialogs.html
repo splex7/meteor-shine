@@ -11,9 +11,18 @@
             <!-- Cropped image view -->
             <div class="row">
               <div class="col-md-9">
-                <div class="profile-wrapper" style="width:550px;height:250px;">
-                  <img src="http://res.cloudinary.com/dwxtsjyic/image/upload/c_scale,w_990/v1431077789/test/oyeeclbzmb0kb9bvf1am.jpg" class="avatar img-circle img-thumbnail" width="100" alt="avatar">
+                <div class="avatar-wrapper">
+
+                {{#each images}}
+                  <img src="{{this.url}}">
+                {{/each}}
+
                 </div>
+              </div>
+              <div class="col-md-3">
+                <div class="avatar-preview preview-lg"></div>
+                <div class="avatar-preview preview-md"></div>
+                <div class="avatar-preview preview-sm"></div>
               </div>
             </div>
             <!-- Buttons for profile image editing -->
@@ -27,6 +36,13 @@
                 </div>
                 <div class="btn-group">
                   <button id="resetBtn" class="btn btn-primary" data-method="reset" type="button" title="Reset">초기화</button>
+                </div>
+              </div>
+            </div>
+            <div class="row avatar-btns">
+              <div class="col-md-9">
+                <div class="btn-group">
+                  <button id="brightBtn" class="btn btn-primary" data-method="" data-option="" type="button" title="Bright">밝게</button>
                 </div>
               </div>
             </div>

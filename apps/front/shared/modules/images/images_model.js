@@ -1,7 +1,5 @@
 Images = new Mongo.Collection('images');
 
-AccountsImages = new Mongo.Collection('accounts_images');
-
 var prepareData = function(attributes) {
   var user = Meteor.user();
 

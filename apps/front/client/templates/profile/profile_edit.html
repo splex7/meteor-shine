@@ -25,11 +25,17 @@
         <div class="row">
           <!-- User Profile Picture column -->
           <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="container" id="crop-profile">
+            <div class="text-center" id="crop-profile">
               <!-- Current avatar -->
-              <a href="#" class="profile-pic-modal">
+              <!-- <a href="#" class="profile-pic-modal">
                 <img src="http://res.cloudinary.com/dwxtsjyic/image/upload/c_scale,w_990/v1431077789/test/oyeeclbzmb0kb9bvf1am.jpg" class="avatar img-circle img-thumbnail" width="100" alt="avatar">
-              </a>
+              </a> -->
+              <div class="avatar-wrapper-custom">
+                <img src="http://res.cloudinary.com/dwxtsjyic/image/upload/c_scale,w_990/v1431077789/test/oyeeclbzmb0kb9bvf1am.jpg">
+              </div>
+            </div>
+            <div id="wrapperAvatar" class="" style="width:0;height:0;overflow:hidden;">
+              <input id="inputAvatar" class="myFileInput" name="" type="file" style="" accept="image/jpeg,image/png">
             </div>
           </div>
           <!-- edit form column -->
