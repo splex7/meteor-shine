@@ -84,10 +84,9 @@ inlineEditor = {
       // Set default wrapping to p tag
       document.execCommand('formatBlock', false, 'p');
       // pTag = focusedNode.
-      // Add .p--p and .p--empty
-      $(focusNode).addClass('editor-p');
-      $(focusNode).addClass('editor-empty');
-      $('#editor-header').removeClass('editor-button-active');
+      //$(focusNode).addClass('editor-p');
+      //$(focusNode).addClass('editor-empty');
+      //$('#editor-header').removeClass('editor-button-active');
     }
 
     // Removing and Adding of p.class
@@ -116,13 +115,14 @@ inlineEditor = {
     }
   },
 
-  handlePaste : function ( el, evt) {
-    var editorContent = el.innerHTML;
-    if ( e && e.clipboardData && e.clipboardData.getData ) {
-      if (/text\/html/.test(e.clipboardData.types)) {
-        el.innerHTML = e.clipboardData.getData('text/html');
-        $('p is-seleceted').append(el.innerHTML);
-      }
+  handlePaste : function ( e ) {
+    var paste = e.clipboardData && e.clipboardData.getData ?
+        e.clipboardData.getData('text/plain') :                // Standard
+        window.clipboardData && window.clipboardData.getData ?
+        window.clipboardData.getData('Text') :                 // MS
+        false;
+    if (paste) {
+      console.log(paste);
     }
   }
 

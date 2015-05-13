@@ -1,3 +1,67 @@
+function handlepaste (elem, e) {
+    var savedcontent = elem.innerHTML;
+    if (e && e.clipboardData && e.clipboardData.getData) {// Webkit - get data from clipboard, put into editdiv, cleanup, then cancel event
+        if (/text\/html/.test(e.clipboardData.types)) {
+            elem.innerHTML = e.clipboardData.getData('text/html');
+        }
+        else if (/text\/plain/.test(e.clipboardData.types)) {
+            elem.innerHTML = e.clipboardData.getData('text/plain');
+        }
+        else {
+            elem.innerHTML = "";
+        }
+        waitforpastedata(elem, savedcontent);
+        if (e.preventDefault) {
+                e.stopPropagation();
+                e.preventDefault();
+        }
+        return false;
+    }
+    else {// Everything else - empty editdiv and allow browser to paste content into it, then cleanup
+        elem.innerHTML = "";
+        waitforpastedata(elem, savedcontent);
+        return true;
+    }
+}
+
+function waitforpastedata (elem, savedcontent) {
+    if (elem.childNodes && elem.childNodes.length > 0) {
+        processpaste(elem, savedcontent);
+    }
+    else {
+        that = {
+            e: elem,
+            s: savedcontent
+        }
+        that.callself = function () {
+            waitforpastedata(that.e, that.s)
+        }
+        setTimeout(that.callself,20);
+    }
+}
+
+function processpaste (elem, savedcontent) {
+    pasteddata = elem.innerHTML;
+    //^^Alternatively loop through dom (elem.childNodes or elem.getElementsByTagName) here
+
+    elem.innerHTML = savedcontent;
+    finalPaste = pasteddata.replace(/(<([^>]+)>)/ig, "");
+
+    //alert(finalPaste);
+
+    sel = window.getSelection();
+
+    if (sel.getRangeAt && sel.rangeCount) {
+        range = sel.getRangeAt(0);
+        range.deleteContents();
+        range.insertNode( document.createTextNode(finalPaste) );
+    }
+
+    //$('.is-selected').append(finalPaste);
+
+}
+
+
 Template.blogNew.created = function() {
   TempImages.remove({});
 };
@@ -17,7 +81,7 @@ Template.blogNew.destroyed = function() {
 Template.blogNew.helpers({
   editable: function() {
     // +Added id="editor"
-    return '<div class="editable" contenteditable="true" name="content" id="editor" data-default="true"><p class="editor-p editor-empty is-selected">본문</p></div>';
+    return '<div class="editable" contenteditable="true" name="content" id="editor" data-default="true"><p class="is-selected">본문</p></div>';
   },
   title: function() {
     return '<h2 class="newTitle" id="newTitle" name="title" contenteditable="false" data-default="true">제목</h2>';
@@ -27,6 +91,9 @@ Template.blogNew.helpers({
 Template.blogNew.events({
   'submit #formBlogNew': function(e) {
     e.preventDefault();
+
+    var finalContent = $('[name=content]').html;
+
 
     // get inputs
     var object = {
@@ -213,7 +280,15 @@ Template.blogNew.onRendered( function (){
   });
 
   $(editor).on('keydown', function (e) {
+    e.preventDefault;
     inlineEditor.preventBackspace(e);
+  });
+
+  $(document).bind('paste' , function() {
+    console.log('pasting!');
+    console.log(this);
+    console.log(event);
+    handlepaste(this, event);
   });
 
   // Key Up

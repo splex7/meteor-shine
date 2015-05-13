@@ -24,3 +24,7 @@ msavin:mongol
 
 # User-Status
 mizzao:user-status
+
+# Sanitize HTML
+# https://github.com/punkave/sanitize-html
+djedi:sanitize-html
