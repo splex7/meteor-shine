@@ -195,7 +195,7 @@ Template.blogNew.onRendered( function (){
 
   $(document).on('paste' , function() {
     console.log('pasting!');
-    console.log(this);
+    //console.log(this);
     console.log(event);
     inlineEditor.handlepaste(this, event);
   });
