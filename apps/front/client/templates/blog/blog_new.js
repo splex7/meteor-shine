@@ -1,65 +1,80 @@
-function handlepaste (elem, e) {
-    var savedcontent = elem.innerHTML;
-    if (e && e.clipboardData && e.clipboardData.getData) {// Webkit - get data from clipboard, put into editdiv, cleanup, then cancel event
-        if (/text\/html/.test(e.clipboardData.types)) {
-            elem.innerHTML = e.clipboardData.getData('text/html');
-        }
-        else if (/text\/plain/.test(e.clipboardData.types)) {
-            elem.innerHTML = e.clipboardData.getData('text/plain');
-        }
-        else {
-            elem.innerHTML = "";
-        }
-        waitforpastedata(elem, savedcontent);
-        if (e.preventDefault) {
-                e.stopPropagation();
-                e.preventDefault();
-        }
-        return false;
-    }
-    else {// Everything else - empty editdiv and allow browser to paste content into it, then cleanup
-        elem.innerHTML = "";
-        waitforpastedata(elem, savedcontent);
-        return true;
-    }
-}
+// function urlify(text) {
+//     var urlRegex = /(https?:\/\/[^\s]+)/g;
+//     // return text.replace(urlRegex, function(url) {
+//     //     return '<a href="' + url + '">' + url + '</a>';
+//     // })
+//     // or alternatively
+//     return text.replace(urlRegex, '<a href="$1">$1</a>')
+// };
 
-function waitforpastedata (elem, savedcontent) {
-    if (elem.childNodes && elem.childNodes.length > 0) {
-        processpaste(elem, savedcontent);
-    }
-    else {
-        that = {
-            e: elem,
-            s: savedcontent
-        }
-        that.callself = function () {
-            waitforpastedata(that.e, that.s)
-        }
-        setTimeout(that.callself,20);
-    }
-}
+// function handlepaste (elem, e) {
+//     var savedcontent = elem.innerHTML;
+//     if (e && e.clipboardData && e.clipboardData.getData) {// Webkit - get data from clipboard, put into editdiv, cleanup, then cancel event
+//         if (/text\/html/.test(e.clipboardData.types)) {
+//             elem.innerHTML = e.clipboardData.getData('text/html');
+//         }
+//         else if (/text\/plain/.test(e.clipboardData.types)) {
+//             elem.innerHTML = e.clipboardData.getData('text/plain');
+//         }
+//         else {
+//             elem.innerHTML = "";
+//         }
+//         waitforpastedata(elem, savedcontent);
+//         if (e.preventDefault) {
+//                 e.stopPropagation();
+//                 e.preventDefault();
+//         }
+//         return false;
+//     }
+//     else {// Everything else - empty editdiv and allow browser to paste content into it, then cleanup
+//         elem.innerHTML = "";
+//         waitforpastedata(elem, savedcontent);
+//         return true;
+//     }
+// };
 
-function processpaste (elem, savedcontent) {
-    pasteddata = elem.innerHTML;
-    //^^Alternatively loop through dom (elem.childNodes or elem.getElementsByTagName) here
+// function waitforpastedata (elem, savedcontent) {
+//     if (elem.childNodes && elem.childNodes.length > 0) {
+//         processpaste(elem, savedcontent);
+//     }
+//     else {
+//         that = {
+//             e: elem,
+//             s: savedcontent
+//         }
+//         that.callself = function () {
+//             waitforpastedata(that.e, that.s)
+//         }
+//         setTimeout(that.callself,20);
+//     }
+// };
 
-    elem.innerHTML = savedcontent;
-    finalPaste = pasteddata.replace(/(<([^>]+)>)/ig, "");
+// function processpaste (elem, savedcontent) {
+//     pasteddata = elem.innerHTML;
+//     //^^Alternatively loop through dom (elem.childNodes or elem.getElementsByTagName) here
 
-    //alert(finalPaste);
+//     elem.innerHTML = savedcontent;
+//     //var finalPaste = pasteddata.replace(/(<([^>]+)>)/ig, "");
 
-    sel = window.getSelection();
+//     UniHTML.setNewAllowedAttributes(['href'], 'all_elements');
 
-    if (sel.getRangeAt && sel.rangeCount) {
-        range = sel.getRangeAt(0);
-        range.deleteContents();
-        range.insertNode( document.createTextNode(finalPaste) );
-    }
+//     var finalPaste = UniHTML.purify(pasteddata, {
+//       withoutTags: ['table', 'span', 'pre', 'p', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'br', 'a'],
+//       noHeaders:   true,
+//       catchErrors: true,
+//     });
 
-    //$('.is-selected').append(finalPaste);
+//     //alert(finalPaste);
 
-}
+//     sel = window.getSelection();
+
+//     if (sel.getRangeAt && sel.rangeCount) {
+//         range = sel.getRangeAt(0);
+//         range.deleteContents();
+//         range.insertNode( document.createTextNode(finalPaste) );
+//     }
+
+// };
 
 
 Template.blogNew.created = function() {
@@ -154,113 +169,7 @@ Template.blogNew.events({
 
   'blur #editor': function () {
     $('#editor').removeClass('editor-on');
-  },
-
-  // 'blur #editor': function(e){
-    // var contentLength = $.trim($('#editor p').text()).length;
-    // //$('.editor-toolbar').css('display', 'none');
-
-    // if( contentLength == 0 || ! $('#editor').children().hasClass('image') ){
-    //   $('#editor p').empty();
-    //   $('#editor p').append('본문');
-    //   $('#editor').data('default', true);
-    // } else {
-    //   $('#editor').data('default', false);
-    // }
-
-    // $('#editor').attr('contenteditable', 'false');
-
-  // },
-
-  // 'click #editor': function(e){
-    // $('#editor').attr('contenteditable', 'true');
-    //$('.editor-toolbar').css('display', 'block');
-
-    // if( $('#editor').data('default') === true ){
-    //   // If editor has data-default true, empty editor and focus
-    //   $('#editor p').empty();
-    //   $('#editor').data('default', false);
-    //   // Dirty workaround. Needs focus on editor then editor p for cursor to show
-    //   $('#editor').focus();
-    //   $('#editor p.editor-empty').focus();
-    // }
-    // if( $('#editor').data('default') === false){
-    //   // If editor has data-default false (edited content)
-    //   // Dirty workaround. Needs focus on editor then editor p for cursor to show
-    //   $('#editor').focus();
-    //   $('#editor p').focus();
-    // }
-  // },
-
-
-
-  /*
-  * Editor buttons from here
-  */
-  'click button#editor-bold': function(e){
-    e.preventDefault();
-    $('#editor').focus();
-    $('#editor').attr('contenteditable', true);
-    document.execCommand( 'bold', false );
-    $('#editor-bold').toggleClass('editor-button-active');
-  },
-  'click button#editor-italic': function(e){
-    e.preventDefault();
-    $('#editor').focus();
-    $('#editor').attr('contenteditable', true);
-    document.execCommand( 'italic', false );
-    $('#editor-italic').toggleClass('editor-button-active');
-  },
-  'click #editor-header': function(e){
-    e.preventDefault();
-
-    $('#editor').attr('contenteditable', true);
-    var focusNode = window.getSelection().focusNode;
-
-    if(focusNode.parentNode.nodeName === 'H3') {
-      $('#editor-header').removeClass('editor-button-active');
-      document.execCommand( 'formatBlock', false, 'p' );
-      // var focusNode = window.getSelection().focusNode; // Needs re-declaring for beneath to work. Figure out why..?
-      $(focusNode.parentNode).addClass('editor-p');
-      $(focusNode.parentNode).removeClass('editor-h3');
-      // console.log('change to p fN:' + focusNode);
-      // console.log('change to p fN:' + focusNode.parentNode);
-    } else {
-      document.execCommand( 'formatBlock', false, 'h3' );
-      $('#editor-header').addClass('editor-button-active');
-      //var focusNode = window.getSelection().focusNode; // Needs re-declaring for beneath to work. Figure out why..?
-      $(focusNode.parentNode).addClass('editor-h3');
-      $(focusNode.parentNode).removeClass('editor-p');
-      // console.log('change to h3 fN:' + focusNode);
-      // console.log('change to h3 fN:' + focusNode.parentNode);
-    }
-  },
-  // 'click #editor-center': function(e){
-  //   e.preventDefault();
-
-  //   $('#editor').attr('contenteditable', true);
-  //   var selection = window.getSelection();
-  //   var range = selection.getRangeAt(0);
-  //   var focusNode = window.getSelection().focusNode;
-  //   if( getSelectedNodes(range).length > 1 /*&& is 'node'*/){
-  //     if($(getSelectedNodes(range)).hasClass('editor-align-center')){
-  //       $(getSelectedNodes(range)).removeClass('editor-align-center');
-  //     } else {
-  //       $(getSelectedNodes(range)).addClass('editor-align-center');
-  //     }
-  //   } else {
-  //     if( focusNode.textContent.length == 0 ){
-  //       $(focusNode).toggleClass('editor-align-center');
-  //     }
-  //     if( focusNode.textContent.length > 1){
-  //       $(focusNode.parentNode).toggleClass('editor-align-center');
-  //     }
-  //   }
-  //   activeButton(focusNode);
-  // },
-  // 'click figure.image': function(e){
-  //   $(e.target.parentNode).addClass('is-mediaFocused');
-  // }
+  }
 });
 
 Template.blogNew.onRendered( function (){
@@ -284,11 +193,11 @@ Template.blogNew.onRendered( function (){
     inlineEditor.preventBackspace(e);
   });
 
-  $(document).bind('paste' , function() {
+  $(document).on('paste' , function() {
     console.log('pasting!');
     console.log(this);
     console.log(event);
-    handlepaste(this, event);
+    inlineEditor.handlepaste(this, event);
   });
 
   // Key Up
