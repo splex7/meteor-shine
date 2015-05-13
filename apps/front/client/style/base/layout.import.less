@@ -164,9 +164,12 @@
 
 #container aside {
   background: @nav-main-bg;
-  -webkit-transition: all @slide-transition-time ease-out;
-       -o-transition: all @slide-transition-time ease-out;
-          transition: all @slide-transition-time ease-out;
+  // -webkit-transform: translateZ(0);
+  // This forces GPU usage when animated.
+  -webkit-transform: translateZ(0);
+  -webkit-transition: all @slide-transition-time ease-in-out;
+       -o-transition: all @slide-transition-time ease-in-out;
+          transition: all @slide-transition-time ease-in-out;
 }
 
 aside.aside-left {

@@ -53,7 +53,7 @@ Template.blogOne.events({
         } else {
           Alerts.notify('success', 'Blog updated successfully.');
           Session.set('editMode', false);
-          
+
           $('#newTitle').attr('contenteditable', 'false');
           $('#editor').attr('contenteditable', 'false');
           //Router.go('myBlogsList');
@@ -70,7 +70,7 @@ Template.blogOne.events({
 
   'click #cancelEdit': function(){
     Session.set('editMode', false);
-  
+
     var content = this.blog.content;
     var title = this.blog.title;
 
@@ -83,7 +83,7 @@ Template.blogOne.events({
 
 	'blur #newTitle': function(){
 		if(this.blog.user._id === Meteor.userId()){
-			var titleLength = $.trim($('#newTitle').text()).length; 
+			var titleLength = $.trim($('#newTitle').text()).length;
       //Session.set('editMode', false);
 
 			if( titleLength == 0 ){
@@ -107,7 +107,7 @@ Template.blogOne.events({
 				console.log('data-default is TRUE');
 				$('#newTitle').empty();
 				$('#newTitle').data('default', false);
-			} 
+			}
 			if( $('#newTitle').data('default') === false){
 				console.log('data-default is FALSE');
 			}
@@ -115,7 +115,7 @@ Template.blogOne.events({
 	},
 
 	// 'blur #editor': function(){
-	// 	if(this.blog.user._id === Meteor.userId()){	
+	// 	if(this.blog.user._id === Meteor.userId()){
 	// 		var contentLength = $.trim($('#editor p').text()).length;
 	// 		$('.editor-toolbar').css('display', 'none');
  //      Session.set('editMode', false);
@@ -144,7 +144,7 @@ Template.blogOne.events({
 	// 			// Dirty workaround. Needs focus on editor then editor p for cursor to show
 	// 			$('#editor').focus();
 	// 			$('#editor p.editor-empty').focus();
-	// 		} 
+	// 		}
 	// 		if( $('#editor').data('default') === false){
 	// 			// If editor has data-default false (edited content)
 	// 			// Dirty workaround. Needs focus on editor then editor p for cursor to show
@@ -162,33 +162,32 @@ Template.blogOne.events({
 
 Template.blogOne.onRendered(function(){
 
+  Session.set('editMode', false);
 
 	var editor = $('#editor');
-  
-  Session.set('editMode', false);
-  
+  //$(editor).focus();
+
   // Mouse Up Events
-  $(document).mouseup( function(e){
+  $(document).mouseup( function () {
     setTimeout( function() {
-      isSelected();
-    }, 1)
+      inlineEditor.isSelected();
+    }, 1);
   });
 
   // Mouse Down Events
-  $(document).mousedown( function(e) {
-    isSelected();
-  
+  $(document).mousedown( function () {
+    inlineEditor.isSelected();
   });
 
-  $(editor).on('keydown', function(e){
-    preventBackspace(e);
-  })
+  $(editor).on('keydown', function (e) {
+    inlineEditor.preventBackspace(e);
+  });
 
   // Key Up
-  $(editor).on('keyup', function(e){
-    editorKeyUp(e);
-    preventBackspace(e);
-    isSelected();
+  $(editor).on('keyup', function (e) {
+    inlineEditor.editorKeyUp(e);
+    inlineEditor.preventBackspace(e);
+    inlineEditor.isSelected(editor);
   });
 
   // Cloudinary Upload Image
@@ -227,7 +226,7 @@ Template.blogOne.onRendered(function(){
         attributes._id = id;
 
         var source = '<p class="image"><img class="img-responsive" src="' + imageUrlFit(attributes) + '" data-id="' + id + '" /></p>';
-        
+
         $('#editor p.is-selected').after(source);
 
         console.log('upload done');

@@ -17,3 +17,10 @@ Template.blogsList.helpers({
     return Counts.get('blogsCount') === 0;
   }
 });
+
+Template.blogsListItem.helpers({
+  blog_content: function() {
+    var content = this.content;
+    return content.replace(/<(?:.|\n)*?>/gm, '');
+  }
+});

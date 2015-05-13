@@ -2,17 +2,17 @@
   <div class="tree-menu-wrapper">
     <ul id="mainMenu" class="tree-menu">
       <li>
-        <a class="menu-item menu-item-main" href="{{pathFor 'home'}}"><i class="fa fa-lg fa-home"></i> <span>{{_ 'title_home'}}</span></a>
+        <a class="menu-item menu-item-main close-menu" href="{{pathFor 'home'}}"><i class="fa fa-lg fa-home"></i> <span>{{_ 'title_home'}}</span></a>
       </li>
       <li>
         <a class="menu-item menu-item-main" href="#collapseOne"
            data-toggle="collapse" data-parent="#navMain" aria-expanded="false"
            aria-controls="collapseOne"><i class="fa fa-lg fa-pencil"></i> <span>Blog</span></a>
         <ul id="collapseOne" class="collapse sub-menu">
-          <li class="menu-item {{activeRoute 'blogsList'}}" data-link="{{pathFor 'blogsList'}}">{{_ 'title_blogs'}}</li>
+          <li class="menu-item {{activeRoute 'blogsList'}}  close-menu" data-link="{{pathFor 'blogsList'}}">{{_ 'title_blogs'}}</li>
           {{#if currentUser}}
-            <li class="menu-item {{activeRoute 'myBlogsList'}}" data-link="{{pathFor 'myBlogsList'}}">{{_ 'title_my_blogs'}}</li>
-            <li class="menu-item {{activeRoute 'blogNew'}}" data-link="{{pathFor 'blogNew'}}">{{_ 'title_blog_new'}}</li>
+            <li class="menu-item {{activeRoute 'myBlogsList'}}  close-menu" data-link="{{pathFor 'myBlogsList'}}">{{_ 'title_my_blogs'}}</li>
+            <li class="menu-item {{activeRoute 'blogNew'}}  close-menu" data-link="{{pathFor 'blogNew'}}">{{_ 'title_blog_new'}}</li>
           {{/if}}
         </ul>
       </li>
@@ -24,10 +24,17 @@
           <li class="menu-item">Submenu 3</li>
         </ul>
       </li -->
+      {{#if currentUser}}
+        <li>
+          <a href="#" class="menu-item" data-toggle="modal" data-target="#userListModal" id="btn-userListModal">
+            <i class="fa fa-lg fa-user"></i>
+            <span>{{_ 'title_user_list'}}</span>
+          </a>
+        </li>
+      {{/if}}
       <li>
-        <a class="menu-item menu-item-main" href="{{pathFor 'preference'}}"><i class="fa fa-lg fa-gear"></i> <span>{{_ 'title_preference'}}</span></a>
+        <a class="menu-item menu-item-main close-menu" href="{{pathFor 'preference'}}"><i class="fa fa-lg fa-gear"></i> <span>{{_ 'title_preference'}}</span></a>
       </li>
-
     </ul>
   </div>
 </template>

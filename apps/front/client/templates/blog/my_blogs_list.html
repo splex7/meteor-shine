@@ -13,7 +13,7 @@
           <a class="btn btn-primary" href="{{pathFor 'blogNew'}}">{{_ 'command_new'}}</a>
         </div>
 
-        <div class="list">
+        <ul class="list">
           {{#each blogs}}
             {{> myBlogsListItem}}
           {{/each}}
@@ -25,7 +25,7 @@
               {{> listLoading}}
             {{/unless}}
           {{/if}}
-        </div>
+        </ul>
       {{/if}}
     </section>
   </article>
@@ -33,7 +33,8 @@
 </template>
 
 <template name="myBlogsListItem">
-  <div class="item">
-    <p><a href="{{pathFor 'blogOne'}}">{{title}}</a> <small>{{momentFromNow createdAt}}</small></p>
-  </div>
+  <li class="list-item">
+    <h4 class = "blog-title"><a href="{{pathFor 'blogOne'}}">{{title}}</a> <small>{{userDisplayName user}} {{momentFromNow createdAt}}</small></h4>
+    <p class="line-clamp-2">{{blog_content}}</p>
+  </li>
 </template>
