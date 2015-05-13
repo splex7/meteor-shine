@@ -8,7 +8,7 @@ Template.notificationsList.events({
   'click #close': function(e) {
     e.preventDefault();
 
-    $('#container').removeClass('notifications-set');
+    $('#container').removeClass('notificationsSet');
   }
 });
 
