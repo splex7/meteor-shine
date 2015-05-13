@@ -1,7 +1,20 @@
-var imageStore = new FS.Store.GridFS("profile_temp");
+var imageStore = new FS.Store.GridFS("profile_temp",{path: "~/uploads"});
 
-ProfileImages = new FS.Collection("profile_temp", {
- stores: [imageStore]
+ProfileImages = new FS.Collection("profile_temp", {stores: [imageStore]});
+
+ProfileImages.allow({
+ insert: function(){
+   return true;
+ },
+ update: function(){
+   return true;
+ },
+ remove: function(){
+   return true;
+ },
+ download: function(){
+   return true;
+ }
 });
 
 ProfileImages.deny({
@@ -19,17 +32,11 @@ ProfileImages.deny({
  }
 });
 
-ProfileImages.allow({
- insert: function(){
-   return true;
- },
- update: function(){
-   return true;
- },
- remove: function(){
-   return true;
- },
- download: function(){
-   return true;
- }
+Meteor.methods({
+  profileInsert: function(userId, profileRef){
+    Meteor.users.update(userId, { $set: profileRef });
+  },
+  profileRemove: function(photoId){
+    ProfileImages.remove(photoId);
+  }
 });

@@ -26,3 +26,4 @@ msavin:jetsetter
 coffeescript
 cfs:standard-packages
 cfs:gridfs
+cfs:ejson-file

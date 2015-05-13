@@ -1,14 +1,11 @@
 
 Template.profilePicDialogs.helpers({
-  tempProfile : function () {
+  profileImage: function () {
+    // current user object return
     var user = Meteor.user();
-
     if(user && user.profile) {
-      return Meteor.user().profile.image;
+      return ProfileImages.findOne(user.profile.reference._id, {});
     }
-  },
-  images: function () {
-    return ProfileImages.find({});
   }
 });
 
@@ -28,7 +25,11 @@ Template.profilePicDialogs.events({
 
   "click #saveBtn": function() {
 
-    var cropBoxData, canvasData;
+
+
+
+
+    /*var cropBoxData, canvasData;
 
     $('.avatar-wrapper > img').cropper('setCropBoxData', cropBoxData);
     $('.avatar-wrapper > img').cropper('setCanvasData', canvasData);
@@ -38,18 +39,23 @@ Template.profilePicDialogs.events({
 
     setTimeout(function(){
       $('.avatar-wrapper > img').cropper('reset');
-    }, 1000);
+    }, 1000);*/
 
     $('#profileModal').modal('hide');
-
-    // test
-    // console.log("cropBoxData", cropBoxData);
-    // console.log("canvasData", canvasData);
-
   },
 
-  "click #brightBtn": function() {
+  "click #cancelBtn": function() {
+    var user = Meteor.user();
+    var photoId = user.profile.reference._id;
 
+    Meteor.call("profileRemove", photoId, function(error, result){
+      if(error){
+        console.log("error: ", error);
+      }
+      if(result){
+        console.log("result: ", result);
+      }
+    });
   },
 
 });
@@ -57,38 +63,5 @@ Template.profilePicDialogs.events({
 
 Template.profilePicDialogs.onRendered(function() {
 
-  $('.avatar-wrapper > img').cropper({
-    aspectRatio: 1 / 1,
-    preview: ".avatar-preview",
-    autoCropArea: 1,
-    strict: false,
-    guides: false,
-    highlight: false,
-    dragCrop: false,
-    movable: false,
-    resizable: false,
-    crop: function(data) {
-    // Output the result data for cropping image.
-    $("#dataX").val(Math.round(data.x));
-    $("#dataY").val(Math.round(data.y));
-    $("#dataHeight").val(Math.round(data.height));
-    $("#dataWidth").val(Math.round(data.width));
-    $("#dataRotate").val(Math.round(data.rotate));
-    }
-  });
-
-
-    // convert the image to a texture
-    /*var image = document.getElementsByClassName('texture');
-    console.log(image);*/
-    /*var texture = canvas.texture(image);
-    console.log(texture);
-
-    // apply the ink filter
-    canvas.draw(texture).ink(0.7).update();
-
-    // replace the image with the canvas
-    image.parentNode.insertBefore(canvas, image);
-    image.parentNode.removeChild(image);*/
 
 });

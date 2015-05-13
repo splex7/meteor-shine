@@ -1,70 +1,108 @@
 Template.profileEdit.helpers({
+  profileImage: function () {
+    // current user object return
+    var user = Meteor.user();
 
-
-
-
+    if (user.profile) {
+      return ProfileImages.findOne(user.profile.reference._id, {});
+    } else{
+      return false;
+    }
+  }
 });
 
 // http://fengyuanchen.github.io/cropper/
 // https://github.com/jonblum/meteor-cropper/
 Template.profileEdit.events({
-  'click .avatar-wrapper-custom' : function(e) {
-
-    e.preventDefault();
-
-    $('#inputAvatar').trigger('click');
-
-    console.log(this); // Object {}
-
-    console.log($('#inputAvatar').file);
-
-    return false;
+  'click .avatar-wrapper-custom > img' : function() {
+    $('.myFileInput').trigger('click');
   },
 
   'change .myFileInput': function(event, template) {
+    FS.Utility.eachFile(event, function(file) {
+      ProfileImages.insert(file, function (err, fileObj) {
+        //Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP
+        if (err){
+          // handle error
+          console.log("File upload error: ", err);
+        } else {
+          // handle success
 
-        FS.Utility.eachFile(event, function(file) {
-          ProfileImages.insert(file, function (err, fileObj) {
-            if (err){
+          // get current user's _id
+          var userId = Meteor.userId();
+
+          // align object for file obj reference in users collection
+          var profileRef = { 'profile.reference': fileObj };
+
+          Meteor.call('profileInsert', userId, profileRef);
+
+          $('#profileModal').modal('show');
+        }
+      });
+    });
+  }
+
+
+  //'change .myFileInput': function(event, template) {
+
+  //      FS.Utility.eachFile(event, function(file) {
+
+  //        ProfileImages.insert(file, function (err, fileObj) {
+  //          if (err){
                // handle error
-               alert(err);
-            } else {
+  //             alert(err);
+  //          } else {
+
                // handle success depending what you need to do
-              var userId = Meteor.userId();
-              var imagesURL = {
-                'profile.image': '/cfs/files/images/' + fileObj._id
-              };
-              Meteor.users.update(userId, {$set: imagesURL});
-            }
-
-            $('#profileModal').modal('show');
-          });
-       });
-     },
-
-
+  //               var userId = Meteor.userId();
+  //            var imagesURL = {
+  //              'profile.image': '/cfs/files/images/' + fileObj._id
+  //            };
+  //            Meteor.users.update(userId, {$set: imagesURL});
+  //          }
+  //
+  //          $('#profileModal').modal('show');
+  //        });
+  //     });
+  //   },
 
 
 });
 
 Template.profileEdit.onRendered(function() {
 
-  /*$('#inputAvatar').on('change', function(e) {
-    e.preventDefault();
-    if(this.files.length === 0) return;
-    var imageFile = this.files[0];
-    console.log("imageFile: ", imageFile);
-    console.log("name: ", imageFile.name);
-    console.log("type: ", imageFile.type);
-    console.log("size: ", imageFile.size);
-  });*/
+  var $image = $('.avatar-wrapper > img'),
+    cropBoxData,
+    canvasData;
 
-  /*var myImg = $('#cropper-example-2 > img').attr('src');
-  console.log("myImg:", myImg);
-  Session.set('myImg', myImg);*/
+  $('#profileModal').on('shown.bs.modal', function () {
+    $image.cropper({
+      aspectRatio: 1 / 1,
+      autoCropArea: 1.2,
+      strict: false,
+      guides: false,
+      highlight: false,
+      dragCrop: false,
+      movable: false,
+      resizable: false,
+      preview: '.avatar-preview',
+      built: function () {
+        // Strict mode: set crop box data first
+        $image.cropper('setCropBoxData', cropBoxData);
+        $image.cropper('setCanvasData', canvasData);
+      }
+    });
+  }).on('hidden.bs.modal', function () {
+    cropBoxData = $image.cropper('getCropBoxData');
+    canvasData = $image.cropper('getCanvasData');
 
-
-
+    // Object {left: 86.15, top: 59.150000000000006, width: 245.7, height: 245.7}
+    // Later, This values will be used by server or canvas to 
+    // crop the image.
+    console.log("cropBoxData: ", cropBoxData);
+    console.log("canvasData: ", canvasData);
+    $image.cropper('destroy');
+  });
 
 
 
