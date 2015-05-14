@@ -200,7 +200,7 @@ Template.blogOne.onRendered(function(){
         window: '.cloudinary-progress',
         bar: '.cloudinary-progress .progress-bar'
       },
-      buttonHtml: '<i class="fa fa-upload">',
+      buttonHTML: '<i class="fa fa-upload">',
       options: {
         multiple: true
       }
