@@ -14,6 +14,8 @@ I18n_data_ko = {
   "title_reset_password"          : "비밀번호 초기화",
   "title_mail_verify_email"       : "환영합니다. 브랜드명입니다.",
   "title_verify_email"            : "Email 제목입니다.",
+  "title_user_list"               : "유저목록",
+  "title_new_message"             : "새 메시지",
 
 
   "command_sign_in"               : "로그인",

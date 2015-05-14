@@ -5,3 +5,6 @@
 *.sh
 conf/development/*.json
 conf/production/*.json
+
+*.jshintrc
+*.editorconfig
