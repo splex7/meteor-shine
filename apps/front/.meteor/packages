@@ -17,7 +17,7 @@ tmeasday:publish-counts
 sacha:spin
 
 # Cloudinary
-leesangwon:cloudinary
 
 # ToolKits
 msavin:mongol
+leesangwon:cloudinary-direct

@@ -8,6 +8,7 @@
  * @type {Mongo.Collection}
  */
 BlogComments = new Mongo.Collection('blog_comments');
+GroundBlogComments = new Ground.Collection(BlogComments);
 
 Meteor.methods({
 

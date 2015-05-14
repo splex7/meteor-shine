@@ -11,18 +11,15 @@
 			<section>
 				<div>{{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</div>
 				<div class="text-content">
-				{{#if editMode}}
+				{{!-- #if editMode --}}
 					<div class="editor-toolbar">
 						<ul>
 							<li>
-								<button id="editor-image" class="cloudinary-uploader">
-									<i class="fa fa-file-image-o"></i>
-								  <input type="file" name="file" class="uploadImage cloudinary-fileupload"/>
-								</button>
+							  {{> cloudinaryUploader}}
 							</li>
 						</ul>
 					</div>
-				{{/if}}
+				{{!-- /if --}}
 				
 				{{{editable}}}
 				

@@ -217,10 +217,10 @@ Template.blogNew.onRendered(function(){
   });
 
   // Cloudinary Upload Image
-  cloudinaryDirectUpload(
+  Cloudinary.uploadImagePreset(
     {
       cloud_name: Meteor.settings.public.cloudinary.cloudName,
-      preset: Meteor.settings.public.cloudinary.presets.test,
+      preset: Meteor.settings.public.cloudinary.presets.blogs,
       progress_bar_selecter: '.progress-wrapper'
     },
     { multiple: true },

@@ -1,4 +1,5 @@
 Images = new Mongo.Collection('images');
+GroundImages = new Ground.Collection(Images);
 
 var prepareData = function(attributes) {
   var user = Meteor.user();

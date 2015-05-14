@@ -1,12 +1,12 @@
-Template.blogOne.created = function() {
+Template.blogOne.onCreated(function() {
   TempImages.remove({});
-};
+});
 
-Template.blogOne.destroyed = function() {
+Template.blogOne.onDestroyed(function() {
   TempImages.remove({});
 
   $('.cloudinary-uploader input').off('click');
-};
+});
 
 Template.blogOne.helpers({
 	editable: function() {
@@ -158,10 +158,9 @@ Template.blogOne.events({
     $('#editor').attr('contenteditable', 'true');
     $('#newTitle').attr('contenteditable', 'true');
   }
-})
+});
 
 Template.blogOne.onRendered(function(){
-
 
 	var editor = $('#editor');
   
@@ -192,13 +191,20 @@ Template.blogOne.onRendered(function(){
   });
 
   // Cloudinary Upload Image
-  cloudinaryDirectUpload(
+  Cloudinary.uploadImagePreset(
     {
-      cloud_name: Meteor.settings.public.cloudinary.cloudName,
-      preset: Meteor.settings.public.cloudinary.presets.test,
-      progress_bar_selecter: '.progress-wrapper'
+      cloudName: Meteor.settings.public.cloudinary.cloudName,
+      preset: Meteor.settings.public.cloudinary.presets.blogs,
+      progress: {
+        enable: true,
+        window: '.cloudinary-progress',
+        bar: '.cloudinary-progress .progress-bar'
+      },
+      buttonHtml: '<i class="fa fa-upload">',
+      options: {
+        multiple: true
+      }
     },
-    { multiple: true },
     function(e, data) {
       var attributes = {
         // genreId: instance.data.chapter.genreId,
@@ -228,7 +234,7 @@ Template.blogOne.onRendered(function(){
 
         var source = '<p class="image"><img class="img-responsive" src="' + imageUrlFit(attributes) + '" data-id="' + id + '" /></p>';
         
-        $('#editor p.is-selected').after(source);
+        $('#editor .is-selected').after(source);
 
         console.log('upload done');
       });
