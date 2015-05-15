@@ -1,82 +1,3 @@
-// function urlify(text) {
-//     var urlRegex = /(https?:\/\/[^\s]+)/g;
-//     // return text.replace(urlRegex, function(url) {
-//     //     return '<a href="' + url + '">' + url + '</a>';
-//     // })
-//     // or alternatively
-//     return text.replace(urlRegex, '<a href="$1">$1</a>')
-// };
-
-// function handlepaste (elem, e) {
-//     var savedcontent = elem.innerHTML;
-//     if (e && e.clipboardData && e.clipboardData.getData) {// Webkit - get data from clipboard, put into editdiv, cleanup, then cancel event
-//         if (/text\/html/.test(e.clipboardData.types)) {
-//             elem.innerHTML = e.clipboardData.getData('text/html');
-//         }
-//         else if (/text\/plain/.test(e.clipboardData.types)) {
-//             elem.innerHTML = e.clipboardData.getData('text/plain');
-//         }
-//         else {
-//             elem.innerHTML = "";
-//         }
-//         waitforpastedata(elem, savedcontent);
-//         if (e.preventDefault) {
-//                 e.stopPropagation();
-//                 e.preventDefault();
-//         }
-//         return false;
-//     }
-//     else {// Everything else - empty editdiv and allow browser to paste content into it, then cleanup
-//         elem.innerHTML = "";
-//         waitforpastedata(elem, savedcontent);
-//         return true;
-//     }
-// };
-
-// function waitforpastedata (elem, savedcontent) {
-//     if (elem.childNodes && elem.childNodes.length > 0) {
-//         processpaste(elem, savedcontent);
-//     }
-//     else {
-//         that = {
-//             e: elem,
-//             s: savedcontent
-//         }
-//         that.callself = function () {
-//             waitforpastedata(that.e, that.s)
-//         }
-//         setTimeout(that.callself,20);
-//     }
-// };
-
-// function processpaste (elem, savedcontent) {
-//     pasteddata = elem.innerHTML;
-//     //^^Alternatively loop through dom (elem.childNodes or elem.getElementsByTagName) here
-
-//     elem.innerHTML = savedcontent;
-//     //var finalPaste = pasteddata.replace(/(<([^>]+)>)/ig, "");
-
-//     UniHTML.setNewAllowedAttributes(['href'], 'all_elements');
-
-//     var finalPaste = UniHTML.purify(pasteddata, {
-//       withoutTags: ['table', 'span', 'pre', 'p', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'br', 'a'],
-//       noHeaders:   true,
-//       catchErrors: true,
-//     });
-
-//     //alert(finalPaste);
-
-//     sel = window.getSelection();
-
-//     if (sel.getRangeAt && sel.rangeCount) {
-//         range = sel.getRangeAt(0);
-//         range.deleteContents();
-//         range.insertNode( document.createTextNode(finalPaste) );
-//     }
-
-// };
-
-
 Template.blogNew.created = function() {
   TempImages.remove({});
 };
@@ -173,39 +94,12 @@ Template.blogNew.events({
 });
 
 Template.blogNew.onRendered( function (){
-  var editor = $('#editor');
-  //$(editor).focus();
 
-  // Mouse Up Events
-  $(document).mouseup( function () {
-    setTimeout( function() {
-      inlineEditor.isSelected();
-    }, 1);
-  });
+  //$('#wysiwyg').wysiwyg();
 
-  // Mouse Down Events
-  $(document).mousedown( function () {
-    inlineEditor.isSelected();
-  });
-
-  $(editor).on('keydown', function (e) {
-    e.preventDefault;
-    inlineEditor.preventBackspace(e);
-  });
-
-  $(document).on('paste' , function() {
-    console.log('pasting!');
-    //console.log(this);
-    console.log(event);
-    inlineEditor.handlepaste(this, event);
-  });
-
-  // Key Up
-  $(editor).on('keyup', function (e) {
-    inlineEditor.editorKeyUp(e);
-    inlineEditor.preventBackspace(e);
-    inlineEditor.isSelected(editor);
-  });
+  var editor = '#editor';
+  var editorTitle = '#newTitle';
+  inlineEditor.init(editor, editorTitle);
 
   // Cloudinary Upload Image
   cloudinaryDirectUpload(

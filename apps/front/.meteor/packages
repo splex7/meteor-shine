@@ -31,3 +31,6 @@ mizzao:user-status
 
 # Sanitize HTML (HTML Purifier)
 vazco:universe-html-purifier
+
+# Editor
+mcrider:bootstrap-wysiwyg

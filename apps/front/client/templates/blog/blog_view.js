@@ -114,45 +114,6 @@ Template.blogOne.events({
 		}
 	},
 
-	// 'blur #editor': function(){
-	// 	if(this.blog.user._id === Meteor.userId()){
-	// 		var contentLength = $.trim($('#editor p').text()).length;
-	// 		$('.editor-toolbar').css('display', 'none');
- //      Session.set('editMode', false);
-
-	// 		if( contentLength == 0 ){
-	// 			$('#editor p').empty();
-	// 			$('#editor p').append('본문');
-	// 			$('#editor').data('default', true);
-	// 		} else {
-	// 			$('#editor').data('default', false);
-	// 		}
-	// 		$('#editor').attr('contenteditable', 'false');
-	// 	}
-	// },
-
-	// 'click #editor': function(e){
-	// 	if(this.blog.user._id === Meteor.userId()){
-	// 		$('#editor').attr('contenteditable', 'true');
-	// 		$('.editor-toolbar').css('display', 'block');
- //      Session.set('editMode', true);
-
-	// 		if( $('#editor').data('default') === true ){
-	// 			// If editor has data-default true, empty editor and focus
-	// 			$('#editor p').empty();
-	// 			$('#editor').data('default', false);
-	// 			// Dirty workaround. Needs focus on editor then editor p for cursor to show
-	// 			$('#editor').focus();
-	// 			$('#editor p.editor-empty').focus();
-	// 		}
-	// 		if( $('#editor').data('default') === false){
-	// 			// If editor has data-default false (edited content)
-	// 			// Dirty workaround. Needs focus on editor then editor p for cursor to show
-	// 			$('#editor').focus();
-	// 			$('#editor p').focus();
-	// 		}
-	// 	}
-	// },
   'click #edit': function(){
     Session.set('editMode', true);
     $('#editor').attr('contenteditable', 'true');
@@ -164,38 +125,10 @@ Template.blogOne.onRendered(function(){
 
   Session.set('editMode', false);
 
-	var editor = $('#editor');
-  //$(editor).focus();
+	var editor = '#editor';
+  var editorTitle = '#newTitle';
 
-  // Mouse Up Events
-  $(document).mouseup( function () {
-    setTimeout( function() {
-      inlineEditor.isSelected();
-    }, 1);
-  });
-
-  // Mouse Down Events
-  $(document).mousedown( function () {
-    inlineEditor.isSelected();
-  });
-
-  $(document).on('paste' , function() {
-    console.log('pasting!');
-    //console.log(this);
-    console.log(event);
-    inlineEditor.handlepaste(this, event);
-  });
-
-  $(editor).on('keydown', function (e) {
-    inlineEditor.preventBackspace(e);
-  });
-
-  // Key Up
-  $(editor).on('keyup', function (e) {
-    inlineEditor.editorKeyUp(e);
-    inlineEditor.preventBackspace(e);
-    inlineEditor.isSelected(editor);
-  });
+  inlineEditor.init(editor, editorTitle);
 
   // Cloudinary Upload Image
   cloudinaryDirectUpload(
