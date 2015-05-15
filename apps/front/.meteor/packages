@@ -27,3 +27,5 @@ coffeescript
 cfs:standard-packages
 cfs:gridfs
 cfs:ejson-file
+cfs:graphicsmagick
+cfs:filesystem

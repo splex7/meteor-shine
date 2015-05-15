@@ -1,84 +1,97 @@
 Template.profileEdit.helpers({
-  profileImage: function () {
-    // current user object return
-    var user = Meteor.user();
 
-    if (user.profile) {
-      return ProfileImages.findOne(user.profile.reference._id, {});
-    } else{
-      return false;
-    }
-  }
 });
 
-// http://fengyuanchen.github.io/cropper/
-// https://github.com/jonblum/meteor-cropper/
 Template.profileEdit.events({
-  'click .avatar-wrapper-custom > img' : function() {
-    $('.myFileInput').trigger('click');
-  },
-
-  'change .myFileInput': function(event, template) {
-    FS.Utility.eachFile(event, function(file) {
-      ProfileImages.insert(file, function (err, fileObj) {
-        //Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP
-        if (err){
-          // handle error
-          console.log("File upload error: ", err);
-        } else {
-          // handle success
-
-          // get current user's _id
-          var userId = Meteor.userId();
-
-          // align object for file obj reference in users collection
-          var profileRef = { 'profile.reference': fileObj };
-
-          Meteor.call('profileInsert', userId, profileRef);
-
-          $('#profileModal').modal('show');
-        }
-      });
-    });
-  }
-
-
-  //'change .myFileInput': function(event, template) {
-
-  //      FS.Utility.eachFile(event, function(file) {
-
-  //        ProfileImages.insert(file, function (err, fileObj) {
-  //          if (err){
-               // handle error
-  //             alert(err);
-  //          } else {
-
-               // handle success depending what you need to do
-  //               var userId = Meteor.userId();
-  //            var imagesURL = {
-  //              'profile.image': '/cfs/files/images/' + fileObj._id
-  //            };
-  //            Meteor.users.update(userId, {$set: imagesURL});
-  //          }
-  //
-  //          $('#profileModal').modal('show');
-  //        });
-  //     });
-  //   },
-
 
 });
+
+
 
 Template.profileEdit.onRendered(function() {
+  $('.avatar-wrapper-custom > img').on('click', function() {
+    $('#photoPicker').trigger('click');
+    return false;
+  });
 
-  var $image = $('.avatar-wrapper > img'),
+  // When an image file is selected (or photo taken),
+  // access the image file.
+  $('#photoPicker').on('change', function(e) {
+
+    e.preventDefault();
+
+    if(this.files.length === 0) return;
+
+    var imageFile = this.files[0];
+
+    console.log('imageFile: ', imageFile);
+
+    $('#profileModal').modal('show');
+
+    var img = $('#avatarPreview')[0];
+
+    // File API to read the image data
+    // Create a file reader
+    var reader = new FileReader();
+
+    console.log('reader: ', reader);
+
+    reader.onload = function(e)
+    {
+        img.src = e.target.result;
+
+        /*console.log(img.src);*/
+
+        // Configure a Canvas for the selected image dimensions
+        var canvas = $("#photoEdit")[0];
+
+        // Decide what size to scale the image to (if needed).
+        var MAX_WIDTH = 1024;
+        var MAX_HEIGHT = 768;
+        var width = img.width;
+        var height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+
+        //  Export the image on the Canvas as an image file
+        var dataurl = canvas.toDataURL("image/png");
+
+        img.src = dataurl;
+    };
+
+    // Load files into file reader
+    reader.readAsDataURL(imageFile);
+
+  });
+
+  // set Cropperjs
+  var $image = $('#avatarPreview'),
     cropBoxData,
     canvasData;
-
+  // Listen modal's `show` and `hide` events
   $('#profileModal').on('shown.bs.modal', function () {
+
+    // set Cropperjs's options
     $image.cropper({
       aspectRatio: 1 / 1,
-      autoCropArea: 1.2,
+      autoCropArea: 0.85,
       strict: false,
       guides: false,
       highlight: false,
@@ -93,70 +106,23 @@ Template.profileEdit.onRendered(function() {
       }
     });
   }).on('hidden.bs.modal', function () {
-    cropBoxData = $image.cropper('getCropBoxData');
-    canvasData = $image.cropper('getCanvasData');
-
-    // Object {left: 86.15, top: 59.150000000000006, width: 245.7, height: 245.7}
-    // Later, This values will be used by server or canvas to 
-    // crop the image.
-    console.log("cropBoxData: ", cropBoxData);
-    console.log("canvasData: ", canvasData);
     $image.cropper('destroy');
   });
 
+  // upload profile photo to cloudinary server
+  $('#saveBtn').on('click', function() {
+
+  canvasData = $image.cropper('getData');
+  var dataUrl = $('#avatarPreview')[0].src;
+
+  console.log("canvasData: ", canvasData );
+  console.log("dataUrl: ", dataUrl);
 
 
-  // Cloudinary Upload Image
-  cloudinaryDirectUpload(
-    {
+  $('#profileModal').modal('hide');
 
-      cloud_name: Meteor.settings.public.cloudinary.cloudName,
+  Router.go('profileEdit');
+  });
 
-      preset: Meteor.settings.public.cloudinary.presets.test,
-
-      progress_bar_selecter: '.progress-wrapper'
-
-    },
-    {
-      multiple: true
-    },
-    function(e, data) {
-      console.log("e", e);
-      console.log("data", data);
-      var attributes = {
-        // genreId: instance.data.chapter.genreId,
-        // bookId: instance.data.chapter.bookId,
-        // chapterId: instance.data.chapter._id,
-        url: data.result.url,
-        surl: data.result.secure_url,
-        size: data.result.bytes,
-        width: data.result.width,
-        height: data.result.height,
-        urlFit: data.result.eager[0].url,
-        surlFit: data.result.eager[0].secure_url,
-        widthFit: data.result.eager[0].width,
-        heightFit: data.result.eager[0].height,
-        ext: data.result.format,
-        mime: data.originalFiles[0].type,
-        original: data.originalFiles[0].name,
-        repoId: data.result.public_id
-      };
-    Meteor.call('cImageUploadSaveForAccounts', attributes, function(error, id) {
-        if (error) {
-          //Alerts.error(error.reason);
-          console.log(error.reason)
-        }
-
-        attributes._id = id;
-
-        var source = '<p class="image"><img class="img-responsive" src="' + imageUrlFit(attributes) + '" data-id="' + id + '" /></p>';
-
-        $('.avatar').replaceWith(source);
-
-        console.log(source);
-        console.log('upload done');
-      });
-    }
-  );// end Cloudinary Upload Image
 
 });

@@ -12,9 +12,7 @@
             <div class="row">
               <div class="col-md-9">
                 <div class="avatar-wrapper">
-                  {{#with profileImage}}
-                  <img src="{{this.url}}">
-                  {{/with}}
+                  <img id="avatarPreview" src="" alt="Preview upload images" />
                 </div>
               </div>
               <div class="col-md-3">
@@ -38,18 +36,15 @@
               </div>
             </div>
             <div class="row avatar-btns">
-              <div class="col-md-9">
-                <div class="btn-group">
-                  <button id="brightBtn" class="btn btn-primary" data-method="" data-option="" type="button" title="Bright">밝게</button>
-                </div>
-              </div>
+
             </div>
           </div><!-- /.modal-body -->
           <div class="modal-footer">
-            <button id="cancelBtn" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button id="saveBtn" type="button" class="btn btn-primary">Save changes</button>
+            <button id="cancelBtn" type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button id="saveBtn" type="button" class="btn btn-primary">저장</button>
           </div><!-- /.modal-footer -->
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    <canvas id="photoEdit" width="300" height="300" style="display:none;"></canvas>
 </template>

@@ -31,17 +31,17 @@
                 <img src="http://res.cloudinary.com/dwxtsjyic/image/upload/c_scale,w_990/v1431077789/test/oyeeclbzmb0kb9bvf1am.jpg" class="avatar img-circle img-thumbnail" width="100" alt="avatar">
               </a> -->
               <div class="avatar-wrapper-custom">
-              {{#if profileImage}}
-                {{#with profileImage}}
+              {{#if isProfileImage}}
+                {{#with isProfileImage}}
                 <img src="{{this.url}}">
                 {{/with}}
               {{else}}
-                <img src="../images/default_profile.png">
+                <img src="{{defaultImgUrl}}">
               {{/if}}
               </div>
             </div>
-            <div id="wrapperAvatar" class="" style="width:0;height:0;overflow:hidden;">
-              <input id="inputAvatar" class="myFileInput" name="" type="file" style="" accept="image/jpeg,image/png">
+            <div id="wrapperAvatar" style="width:0;height:0;overflow:hidden;">
+              <input id="photoPicker" name="" type="file" accept="image/*">
             </div>
           </div>
           <!-- edit form column -->

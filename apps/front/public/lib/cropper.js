@@ -1190,7 +1190,7 @@
           x: cropBox.left - canvas.left,
           y: cropBox.top - canvas.top,
           width: cropBox.width,
-          height: cropBox.height
+          height: cropBox.height,
         };
 
         ratio = image.width / image.naturalWidth;
@@ -1205,7 +1205,7 @@
           x: 0,
           y: 0,
           width: 0,
-          height: 0
+          height: 0,
         };
       }
 
