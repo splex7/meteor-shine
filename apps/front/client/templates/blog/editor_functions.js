@@ -1,18 +1,22 @@
 inlineEditor =  {
   init : function (editor, editorTitle) {
 
+    var editor = $(editor);
+    var editorTitle = $(editorTitle);
+
     editorEvents.toggleToolbar(editor);
 
-    // Mouse Up Events
-    $(editor).mouseup( function () {
-      setTimeout( function() {
-        editorEvents.isSelected(this);
-      }, 1);
+    $(editor).on('click', function (event, editor) {
+      console.log('clicked!');
+      editorEvents.isSelected(this);
     });
 
-    // Mouse Down Events
-    $(editor).mousedown( function () {
-      editorEvents.isSelected(this);
+    $(editorTitle).on('blur', function (editorTitle) {
+      editorEvents.titleBlur(editorTitle);
+    });
+
+    $(editorTitle).on('focus', function (editorTitle) {
+      editorEvents.titleFocus(editorTitle);
     });
 
     $(editor).on('paste', function () {
@@ -23,10 +27,14 @@ inlineEditor =  {
       editorEvents.handlepaste(document, event);
     });
 
+    $(editor).on('keydown', function (event, editor) {
+      editorEvents.preventBackspace(event, this);
+    });
+
     $(editor).on('keyup', function (event, editor) {
       editorEvents.editorKeyUp(event);
       editorEvents.isSelected(this);
-      //editorEvents.preventBackspace(event, editor)
+      editorEvents.preventBackspace(event, this)
     });
   }
 };
@@ -40,14 +48,20 @@ editorEvents = {
     }
   },
 
-  // preventBackspace : function (e, editor) {
-  //   if( (e.keyCode === 8) && (! this.textContent.length) ){
-  //     console.log('Prevent Backspace Conditions met');
-  //     e.preventDefault();
-  //     e.stopPropagation();
-  //     return false;
-  //   }
-  // },
+  preventBackspace : function (event, editor) {
+    var dNode = 'P' || 'H3';
+
+    if( (event.keyCode === 8)                  &&
+        (editor.childNodes.length === 1)       &&
+        (!editor.textContent.length)           &&
+        (editor.firstChild.nodeName === dNode)
+      ) {
+      console.log('Prevent Backspace Conditions met');
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    }
+  },
 
   editorKeyUp : function (e) {
     // Do something to/when wrap lines of string in editor
@@ -96,4 +110,21 @@ editorEvents = {
     e.preventDefault();
   },
 
+  titleBlur : function (title) {
+    var titleLength = $.trim($(event.target).text()).length;
+
+    if (titleLength === 0) {
+      $(event.target).append('제목');
+      $(event.target).data('default', true);
+    } else {
+      $(event.target).data('default', false);
+    }
+  },
+
+  titleFocus : function (title) {
+    if( $(event.target).data('default') === true ) {
+      $(event.target).empty();
+      $(event.target).data('default', false);
+    }
+  }
 };

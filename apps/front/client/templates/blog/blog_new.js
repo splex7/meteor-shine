@@ -20,7 +20,7 @@ Template.blogNew.helpers({
     return '<div class="editable" contenteditable="true" name="content" id="editor" data-default="true"><p class="is-selected">본문</p></div>';
   },
   title: function() {
-    return '<h2 class="newTitle" id="newTitle" name="title" contenteditable="false" data-default="true">제목</h2>';
+    return '<h2 class="newTitle" id="newTitle" name="title" contenteditable="true" data-default="true">제목</h2>';
   }
 });
 
@@ -55,50 +55,19 @@ Template.blogNew.events({
         Router.go('myBlogsList');
       }
     });
-  },
-
-  'blur #newTitle': function(){
-    //var titleInput = document.getElementById('#newTitle');
-    var titleLength = $.trim($('#newTitle').text()).length;
-
-    if( titleLength === 0 ){
-      $('#newTitle').append('제목');
-      $('#newTitle').data('default', true);
-    } else {
-      $('#newTitle').data('default', false);
-    }
-
-    $('#newTitle').attr('contenteditable', false);
-  },
-  'click #newTitle': function(){
-    $('#newTitle').attr('contenteditable', 'true');
-    $('#newTitle').focus();
-
-    if( $('#newTitle').data('default') === true ){
-      console.log('data-default is TRUE');
-      $('#newTitle').empty();
-      $('#newTitle').data('default', false);
-    }
-    if( $('#newTitle').data('default') === false){
-      console.log('data-default is FALSE');
-    }
-  },
-
-  'focus #editor': function () {
-    $('#editor').addClass('editor-on');
-  },
-
-  'blur #editor': function () {
-    $('#editor').removeClass('editor-on');
   }
+
 });
 
 Template.blogNew.onRendered( function (){
 
-  //$('#wysiwyg').wysiwyg();
-
+  // Define Editor Element
   var editor = '#editor';
+
+  // Define Title Element
   var editorTitle = '#newTitle';
+
+  // Initiate Editor
   inlineEditor.init(editor, editorTitle);
 
   // Cloudinary Upload Image

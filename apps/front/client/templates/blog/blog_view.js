@@ -52,8 +52,8 @@ Template.blogOne.events({
           alert('update fails');
         } else {
           Alerts.notify('success', 'Blog updated successfully.');
-          Session.set('editMode', false);
 
+          Session.set('editMode', false);
           $('#newTitle').attr('contenteditable', 'false');
           $('#editor').attr('contenteditable', 'false');
           //Router.go('myBlogsList');
@@ -81,39 +81,6 @@ Template.blogOne.events({
     $('#editor').attr('contenteditable', 'false');
   },
 
-	'blur #newTitle': function(){
-		if(this.blog.user._id === Meteor.userId()){
-			var titleLength = $.trim($('#newTitle').text()).length;
-      //Session.set('editMode', false);
-
-			if( titleLength == 0 ){
-				$('#newTitle').append('제목');
-				$('#newTitle').data('default', true);
-			} else {
-				$('#newTitle').data('default', false);
-			}
-
-			//$('#newTitle').attr('contenteditable', false);
-		}
-	},
-
-	'click #newTitle': function(){
-		if(this.blog.user._id === Meteor.userId()){
-			//$('#newTitle').attr('contenteditable', 'true');
-			$('#newTitle').focus();
-      //Session.set('editMode', true);
-
-			if( $('#newTitle').data('default') === true ){
-				console.log('data-default is TRUE');
-				$('#newTitle').empty();
-				$('#newTitle').data('default', false);
-			}
-			if( $('#newTitle').data('default') === false){
-				console.log('data-default is FALSE');
-			}
-		}
-	},
-
   'click #edit': function(){
     Session.set('editMode', true);
     $('#editor').attr('contenteditable', 'true');
@@ -125,9 +92,13 @@ Template.blogOne.onRendered(function(){
 
   Session.set('editMode', false);
 
-	var editor = '#editor';
+	// Define Editor Element
+  var editor = '#editor';
+
+  // Define Title Element
   var editorTitle = '#newTitle';
 
+  // Initiate Editor
   inlineEditor.init(editor, editorTitle);
 
   // Cloudinary Upload Image
