@@ -253,7 +253,7 @@ Template.blogNew.onRendered(function(){
 
         var source = '<p class="image"><img class="img-responsive" src="' + imageUrlFit(attributes) + '" data-id="' + id + '" /></p>';
 
-        $('#editor p.is-selected').after(source);
+        $('#editor .is-selected').after(source);
 
         console.log('upload done');
       });

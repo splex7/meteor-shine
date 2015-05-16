@@ -13,6 +13,7 @@
               <div class="col-md-9">
                 <div class="avatar-wrapper">
                   <img id="avatarPreview" src="" alt="Preview upload images" />
+                  <canvas id="photoEdit" style="display:none"></canvas>
                 </div>
               </div>
               <div class="col-md-3">
@@ -41,10 +42,9 @@
           </div><!-- /.modal-body -->
           <div class="modal-footer">
             <button id="cancelBtn" type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-            <button id="saveBtn" type="button" class="btn btn-primary">저장</button>
+            <button id="saveBtn" type="button" class="btn btn-primary cloudinary-fileupload">저장</button>
           </div><!-- /.modal-footer -->
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <canvas id="photoEdit" width="300" height="300" style="display:none;"></canvas>
 </template>

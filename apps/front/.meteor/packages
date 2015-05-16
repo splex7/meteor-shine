@@ -24,8 +24,3 @@ msavin:mongol
 jonblum:jquery-cropper
 msavin:jetsetter
 coffeescript
-cfs:standard-packages
-cfs:gridfs
-cfs:ejson-file
-cfs:graphicsmagick
-cfs:filesystem

@@ -7,16 +7,6 @@
     <header>
       <h2><span>프로필 수정 페이지</span></h2>
     </header>
-
-     <!-- User Pic -->
-     <!--      <img src="" width="48" height="48" alt="admin" class="uk-border-circle" id="profile_avatar">
-          <div class="uk-overlay-area uk-border-circle" id="profile_set_avatar_dnd">
-            <button class="uk-overlay-area-content uk-button uk-button-link" id="profile_set_avatar" style="position: relative; z-index: 1;"><i class="uk-icon uk-icon-search"></i></button>
-            <div id="" class="" style="">
-              <input id="" type="file" style="" accept="image/jpeg,image/png">
-            </div>
-          </div>
- -->
     <section>
       <!-- bootstrap 3.2.0 & fontawosome 4.1.0 -->
       <!-- http://snipplicious.com/snippet/19/edit-profile-page -->
@@ -31,38 +21,13 @@
                 <img src="http://res.cloudinary.com/dwxtsjyic/image/upload/c_scale,w_990/v1431077789/test/oyeeclbzmb0kb9bvf1am.jpg" class="avatar img-circle img-thumbnail" width="100" alt="avatar">
               </a> -->
               <div class="avatar-wrapper-custom">
-              {{#if isProfileImage}}
-                {{#with isProfileImage}}
-                <img src="{{this.url}}">
-                {{/with}}
-              {{else}}
-                <img src="{{defaultImgUrl}}">
-              {{/if}}
+                <img src="../images/default_profile.png">
               </div>
             </div>
             <div id="wrapperAvatar" style="width:0;height:0;overflow:hidden;">
-              <input id="photoPicker" name="" type="file" accept="image/*">
+              <input id="photoPicker" class="image_upload" name="" type="file" accept="image/*">
             </div>
           </div>
-          <!-- edit form column -->
-
-            <!-- <div class="text-center">
-              <div style="width: 0; height: 0; overflow: hidden;">
-                capture="camera"attribute, Android goes directly to the camera without giving the option to use a saved photo (though the iOS behavior is the same):
-                <input id="PhotoPicker" type="file" accept="image/*">
-              </div>
-              <button class="lovely" id="PhotoButton">
-                Select Photo
-              </button>
-              <button id="editor-image" class="cloudinary-uploader">
-                <i class="fa fa-camera"></i>
-                <input type="file" name="file" class="uploadImage cloudinary-fileupload"/>
-              </button>
-              <a href="#" class="profile-pic-modal">
-                <img src="http://res.cloudinary.com/dwxtsjyic/image/upload/c_scale,w_990/v1431077789/test/oyeeclbzmb0kb9bvf1am.jpg" class="avatar img-circle img-thumbnail" width="100" alt="avatar">
-              </a>
-            </div> -->
-
           <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
             <div class="alert alert-info alert-dismissable">
               <a class="panel-close close" data-dismiss="alert">×</a>

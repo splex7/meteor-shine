@@ -4,7 +4,6 @@ Template.profilePicDialogs.helpers({
 });
 
 Template.profilePicDialogs.events({
-
   "click #rotateLeft": function(event, template){
     $('.avatar-wrapper > img').cropper('rotate', -90);
   },
@@ -15,15 +14,5 @@ Template.profilePicDialogs.events({
 
   "click #resetBtn": function() {
     $('.avatar-wrapper > img').cropper('reset');
-  },
-
-  "click #cancelBtn": function() {
-
-  },
-
-});
-
-
-Template.profilePicDialogs.onRendered(function() {
-
+  }
 });
