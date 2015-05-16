@@ -13,3 +13,4 @@ Open Source Meteor CMS Project
 * I18n ready
 * Notification
 * Mobile push
+* Separated Admin app
