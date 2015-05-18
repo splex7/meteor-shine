@@ -66,6 +66,12 @@ Cloudinary = {
       });
   },
 
+  uploadImageDataURL: function(data) {
+    $(this.uploadSelector).fileupload();
+    $(this.uploadSelector).fileupload('option', 'formData').file = data;
+    $(this.uploadSelector).fileupload('add', { files: [ data ] });
+  },
+
   uploadImage: function(options, callback) {
     callback();
   },
