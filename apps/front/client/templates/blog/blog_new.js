@@ -62,10 +62,10 @@ Template.blogNew.events({
 Template.blogNew.onRendered( function (){
 
   // Define Editor Element
-  var editor = '#editor';
+  var editor = document.getElementById('editor');
 
   // Define Title Element
-  var editorTitle = '#newTitle';
+  var editorTitle = document.getElementById('newTitle');
 
   // Initiate Editor
   inlineEditor.init(editor, editorTitle);

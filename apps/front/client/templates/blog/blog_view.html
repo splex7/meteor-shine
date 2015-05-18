@@ -15,9 +15,9 @@
 					<div class="editor-toolbar">
 						<ul>
 							<li>
-								<button id="editor-image" class="cloudinary-uploader">
+								<button id="editor-image" class="cloudinary-uploader" tabindex="-1">
 									<i class="fa fa-file-image-o"></i>
-								  <input type="file" name="file" class="uploadImage cloudinary-fileupload"/>
+								  <input type="file" name="file" class="uploadImage cloudinary-fileupload" tabindex="-1"/>
 								</button>
 							</li>
 						</ul>
@@ -49,32 +49,3 @@
 		{{> blogCommentsList}}
 	</article>
 </template>
-
-
-
-<!-- <template name="blogOne">
-	<article class="page">
-		<header>
-			<h2>{{blog.title}}</h2>
-		</header>
-
-		<section>
-			<div>{{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</div>
-			<div class="text-content">
-				{{{blog.content}}}
-			</div>
-		</section>
-	</article>
-
-	<article class="community">
-		<header>
-			<h4>{{_ 'title_comments'}}</h4>
-		</header>
-
-		{{> blogCommentNew}}
-
-		{{> blogCommentsList}}
-	</article>
-</template>
-
- -->
