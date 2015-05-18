@@ -11,7 +11,7 @@ inlineEditor = {
     editor.addEventListener('keyup', self.events.keyup);
     editor.addEventListener('keydown', self.events.keydown);
     editor.addEventListener('paste', self.events.handlepaste);
-    editor.addEventListener('mousedown', self.events.mousedown);
+    editor.addEventListener('click', self.events.click);
 
     // Title Events
     title.addEventListener('paste', self.events.handlepaste);
@@ -75,8 +75,9 @@ inlineEditor = {
       };
     },
 
-    mousedown: function (event) {
+    click: function (event) {
       var editor = this;
+      var focusNode = window.getSelection().focusNode;
 
       //is Selected
       if ($(editor).is(':focus') && editor.hasChildNodes()) {
