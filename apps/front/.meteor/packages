@@ -24,13 +24,3 @@ msavin:mongol
 
 # User-Status
 mizzao:user-status
-
-# Sanitize HTML (Server-side only)
-# https://github.com/punkave/sanitize-html
-# djedi:sanitize-html
-
-# Sanitize HTML (HTML Purifier)
-vazco:universe-html-purifier
-
-# Editor
-mcrider:bootstrap-wysiwyg
