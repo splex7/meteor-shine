@@ -28,13 +28,27 @@ Template.blogNew.events({
   'submit #formBlogNew': function(e) {
     e.preventDefault();
 
-    var finalContent = $('[name=content]').html;
+    // Strip Classes Before Input into DB
+    stripTags = function (el) {
+      var lines = el.children();
 
+      lines.removeClass('editor-empty');
+      lines.removeClass('is-selected');
+
+      return lines;
+    };
+
+    var currentContent = $('[name=content]');
+    var finalContent = stripTags(currentContent).parent().html();
+
+
+    // var finalContent = stripTags(currentContent).html();
 
     // get inputs
     var object = {
       title: $(e.target).find('[name=title]').html(),
-      content: $(e.target).find('[name=content]').html()
+      content: finalContent
+      //content: $(e.target).find('[name=content]').html()
     };
 
     // validate inputs

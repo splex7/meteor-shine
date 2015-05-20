@@ -5,16 +5,14 @@ inlineEditor = {
     var self   = this;
     console.log('Inline Editor Initiated');
 
-    console.log(this);
-
     // Editor Events
     editor.addEventListener('keyup', self.events.keyup);
     editor.addEventListener('keydown', self.events.keydown);
-    editor.addEventListener('paste', self.events.handlepaste);
     editor.addEventListener('click', self.events.click);
 
-    // Title Events
+    // Paste
     title.addEventListener('paste', self.events.handlepaste);
+    editor.addEventListener('paste', self.events.handlepaste);
 
     // Title Placeholders
     title.addEventListener('blur', self.events.titleBlur, true);
@@ -76,7 +74,7 @@ inlineEditor = {
     },
 
     click: function (event) {
-      var editor = this;
+      var editor    = this;
       var focusNode = window.getSelection().focusNode;
 
       //is Selected

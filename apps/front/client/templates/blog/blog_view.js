@@ -29,11 +29,25 @@ Template.blogOne.events({
 	'submit #formBlogEdit': function(e) {
     e.preventDefault();
 
+    // Strip Classes Before Input into DB
+    stripTags = function (el) {
+      var lines = el.children();
+
+      lines.removeClass('editor-empty');
+      lines.removeClass('is-selected');
+
+      return lines;
+    };
+
+    var currentContent = $('[name=content]');
+    var finalContent = stripTags(currentContent).parent().html();
+
     // get inputs
     var blogId = this.blog._id;
     var object = {
       title: $(e.target).find('[name=title]').html(),
-      content: $(e.target).find('[name=content]').html()
+      content: finalContent
+      //content: $(e.target).find('[name=content]').html()
     };
 
     // validate inputs
