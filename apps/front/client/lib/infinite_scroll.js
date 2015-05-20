@@ -37,4 +37,3 @@ InfiniteScrollTrigger = {
       Meteor.clearInterval(handle);
   }
 };
-

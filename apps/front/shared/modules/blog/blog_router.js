@@ -72,7 +72,6 @@ BlogOneController = RouteController.extend({
       blog: this.blog()
     };
   }
-
 });
 
 MyBlogsListController = RouteController.extend({
@@ -112,7 +111,7 @@ MyBlogsListController = RouteController.extend({
 
 
 BlogNewController = RouteController.extend({
-  
+
 });
 
 BlogEditController = RouteController.extend({

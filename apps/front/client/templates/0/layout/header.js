@@ -15,7 +15,7 @@ Template.headerDefault.events({
   },
 
   'click [data-toggle=notifications]': function() {
-    $('#container').toggleClass('notifications-set')
-  }
+    $('#container').toggleClass('notification-set')
+  },
 });
 

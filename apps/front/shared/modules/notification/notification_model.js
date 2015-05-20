@@ -1,3 +1,4 @@
+
 Notifications = new Mongo.Collection('notifications');
 
 Meteor.methods({
