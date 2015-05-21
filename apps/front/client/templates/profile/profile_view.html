@@ -1,0 +1,43 @@
+<template name="profileView">
+  <article class="page">
+
+    <header>
+      <h2><span>프로필 뷰 페이지</span><a class="pull-right" href="{{pathFor 'profileEdit'}}"><i class="fa fa-sm fa-pencil-square-o"></i></a></h2>
+    </header>
+    <section>
+      <div class="container" style="padding-top: 60px;">
+        <h1 class="page-header" style="display:none">My Profile</h1>
+        <div class="row">
+          <!-- User Profile Picture column -->
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <h6 style="display:none">My Pic</h6>
+            <div class="text-center">
+              <div class="avatar-wrapper-custom">
+                <img src="../images/default_profile.png">
+              </div>
+            </div>
+          </div>
+          <!-- edit form column -->
+          <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+            <h4 style="display:none">개인정보</h4>
+            <div class="">
+              <div class="">
+                <i class="fa fa-user"></i>
+                <span class="">
+                  DavidSunny
+                </span>
+              </div>
+              <div class="">
+                <i class="fa fa-envelope-o"></i>
+                <span class="">
+                  uuunet1@gmail.com
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </article>
+</template>
