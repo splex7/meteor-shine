@@ -20,7 +20,7 @@ Meteor.Spinner.options = {
 
 /**
  * cloudinary package configuration
- */
+ *
 $.cloudinary.config({
   cloud_name: Meteor.settings.public.cloudinary.cloudName,
   api_key: Meteor.settings.public.cloudinary.apiKey,
@@ -29,3 +29,9 @@ $.cloudinary.config({
     blogs: Meteor.settings.public.cloudinary.presets.blogs
   }
 });
+
+$.cloudinary.config({
+  cloud_name: Meteor.settings.public.cloudinary.cloudName,
+  api_key: Meteor.settings.public.cloudinary.apiKey
+});
+*/
