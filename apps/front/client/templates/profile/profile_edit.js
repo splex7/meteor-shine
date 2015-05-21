@@ -113,9 +113,57 @@ Template.profileEdit.onRendered(function() {
   $('#saveBtn').on('click', function() {
     canvasData = $image.cropper('getCanvasData');
 
-    var dataUrl = $('#avatarPreview')[0].src;
+    var dataSrc = $('#avatarPreview')[0].src;
 
-    Cloudinary.uploadImageDataURL(dataUrl);
+    Cloudinary.uploadImageDataURI({
+      config: {
+        cloud_name: Meteor.settings.public.cloudinary.cloudName,
+        api_key: Meteor.settings.public.cloudinary.apiKey
+      },
+      buttonHTML: '<i class="fa fa-upload">',
+      showProgress: true,
+      options: {
+        multiple: true
+      },
+      addons: {
+        eager: { crop: "crop", x: 0, y: 0, width: 150, height: 150 }
+      },
+      data: dataSrc
+    }, function(e, data) {
+      var attributes = {
+        // genreId: instance.data.chapter.genreId,
+        // bookId: instance.data.chapter.bookId,
+        // chapterId: instance.data.chapter._id,
+        url: data.result.url,
+        surl: data.result.secure_url,
+        size: data.result.bytes,
+        width: data.result.width,
+        height: data.result.height,
+        urlFit: data.result.eager[0].url,
+        surlFit: data.result.eager[0].secure_url,
+        widthFit: data.result.eager[0].width,
+        heightFit: data.result.eager[0].height,
+        ext: data.result.format,
+        mime: data.originalFiles[0].type,
+        original: data.originalFiles[0].name,
+        repoId: data.result.public_id
+      };
+      Meteor.call('cImageUploadSave', attributes, function(error, id) {
+        if (error) {
+          //Alerts.error(error.reason);
+          console.log(error.reason)
+        }
+
+        attributes._id = id;
+
+        var source = '<p class="image"><img class="img-responsive" src="' + imageUrlFit(attributes) + '" data-id="' + id + '" /></p>';
+
+        $('#editor .is-selected').after(source);
+
+        console.log('upload done');
+      });
+
+    });
 
     // canvas Data to be sent to Cloudinary with dataURL
     console.log("canvas data: ", canvasData );

@@ -160,6 +160,7 @@ Template.blogOne.events({
   }
 });
 
+
 Template.blogOne.onRendered(function(){
 
   Session.set('editMode', false);
@@ -189,12 +190,81 @@ Template.blogOne.onRendered(function(){
     inlineEditor.preventBackspace(e);
     inlineEditor.isSelected(editor);
   });
+/*
+  Cloudinary.uploadImagePreset({
+    config: {
+      cloud_name: Meteor.settings.public.cloudinary.cloudName,
+        api_key: Meteor.settings.public.cloudinary.apiKey,
+        presets: {
+        accounts: Meteor.settings.public.cloudinary.presets.accounts,
+          blogs: Meteor.settings.public.cloudinary.presets.blogs
+      }
+    },
+    preset: Meteor.settings.public.cloudinary.presets.blogs,
+*/
+  Cloudinary.uploadImage({
+    config: {
+      cloud_name: Meteor.settings.public.cloudinary.cloudName,
+      api_key: Meteor.settings.public.cloudinary.apiKey
+    },
+    buttonHTML: '<i class="fa fa-upload"> 업로드',
+    showProgress: true,
+    options: {
+      multiple: true
+    },
+    addons: {
+      eager: { crop: "crop", x: 200, y: 50, width: 150, height: 150 }
+    }
+  }, function(e, data) {
+    var attributes = {
+      // genreId: instance.data.chapter.genreId,
+      // bookId: instance.data.chapter.bookId,
+      // chapterId: instance.data.chapter._id,
+      url: data.result.url,
+      surl: data.result.secure_url,
+      size: data.result.bytes,
+      width: data.result.width,
+      height: data.result.height,
+      urlFit: data.result.eager[0].url,
+      surlFit: data.result.eager[0].secure_url,
+      widthFit: data.result.eager[0].width,
+      heightFit: data.result.eager[0].height,
+      ext: data.result.format,
+      mime: data.originalFiles[0].type,
+      original: data.originalFiles[0].name,
+      repoId: data.result.public_id
+    };
+    Meteor.call('cImageUploadSave', attributes, function(error, id) {
+      if (error) {
+        //Alerts.error(error.reason);
+        console.log(error.reason)
+      }
+
+      attributes._id = id;
+
+      var source = '<p class="image"><img class="img-responsive" src="' + imageUrlFit(attributes) + '" data-id="' + id + '" /></p>';
+
+      $('#editor .is-selected').after(source);
+
+      console.log('upload done');
+    });
+
+  });
 
   // Cloudinary Upload Image
-  Cloudinary.uploadImagePreset(
-    {
+  /*
+  Cloudinary.uploadImagePreset({
+    config: {
+      cloud_name: Meteor.settings.public.cloudinary.cloudName,
+      api_key: Meteor.settings.public.cloudinary.apiKey,
+      presets: {
+        accounts: Meteor.settings.public.cloudinary.presets.accounts,
+        blogs: Meteor.settings.public.cloudinary.presets.blogs
+      }
+    },
       cloudName: Meteor.settings.public.cloudinary.cloudName,
       preset: Meteor.settings.public.cloudinary.presets.blogs,
+      uploadSelector: ".cloudinary-uploader",
       progress: {
         enable: true,
         window: '.cloudinary-progress',
@@ -224,7 +294,7 @@ Template.blogOne.onRendered(function(){
         original: data.originalFiles[0].name,
         repoId: data.result.public_id
       };
-    Meteor.call('cImageUploadSave', attributes, function(error, id) {
+      Meteor.call('cImageUploadSave', attributes, function(error, id) {
         if (error) {
           //Alerts.error(error.reason);
           console.log(error.reason)
@@ -240,4 +310,5 @@ Template.blogOne.onRendered(function(){
       });
     }
   );
+  */
 });
