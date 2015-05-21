@@ -1,138 +1,116 @@
 inlineEditor = {
-  toggleToolbar : function (editor) {
-    if ( $(editor).focus() ) {
-      $('.editor-toolbar').css( 'display', 'block' );
-    } else {
-      $('.editor-toolbar').css( 'display', 'none' );
-    }
+  init : function (editor, title) {
+    var editor = editor;
+    var title  = title;
+    var self   = this;
+    console.log('Inline Editor Initiated');
+
+    // Editor Events
+    editor.addEventListener('keyup', self.events.keyup);
+    editor.addEventListener('keydown', self.events.keydown);
+    editor.addEventListener('click', self.events.click);
+
+    // Paste
+    title.addEventListener('paste', self.events.handlepaste);
+    editor.addEventListener('paste', self.events.handlepaste);
+
+    // Title Placeholders
+    title.addEventListener('blur', self.events.titleBlur, true);
+    title.addEventListener('focus', self.events.titleFocus, true);
   },
 
-  nextNode : function (node) {
-    if ( node.hasChildNodes() ) {
-      return node.firstChild;
-    } else {
-      while (node && !node.nextSibling) {
-          node = node.parentNode;
-      }
+  events : {
+    keyup : function (event) {
+      var editor       = this;
+      var keycode      = event.keyCode || event.which;
+      var focusNode    = window.getSelection().focusNode;
+      var selectedNode = $.trim($(focusNode).text()).length;
 
-      if (! node) {
-        return null;
-      }
-      return node.nextSibling;
-    }
-  },
+      // onEnter
+      if (keycode === 13) {
+        document.execCommand('formatBlock', false, 'p');
+      };
 
-  getRangeSelectedNodes : function (range) {
-      var node = range.startContainer;
-      var endNode = range.endContainer;
+      // Add 'editor-empty' if P is empty
+      if (focusNode && (selectedNode > 0)) {
+        $(focusNode.parentNode).removeClass('editor-empty');
+      } else {
+        $(focusNode).addClass('editor-empty');
+      };
 
-      // Special case for a range that is contained within a single node
-      if (node === endNode) {
-        return [node];
-      }
-
-      // Iterate nodes until we hit the end container
-      var rangeNodes = [];
-      while (node && node !== endNode) {
-        rangeNodes.push( node = this.nextNode(node) );
-      }
-
-      // Add partially selected nodes at the start of the range
-      node = range.startContainer;
-      while (node && node !== range.commonAncestorContainer) {
-        rangeNodes.unshift(node);
-        node = node.parentNode;
-      }
-      return rangeNodes;
-  },
-
-  getSelectedNodes : function () {
-      if (window.getSelection) {
-        var sel = window.getSelection();
-        if (!sel.isCollapsed) {
-            return this.getRangeSelectedNodes(sel.getRangeAt(0));
+      //is Selected
+      if ($(editor).is(':focus') && editor.hasChildNodes()) {
+        var childNodes = editor.childNodes; // Array of childe nodes
+        if (childNodes && $(focusNode).hasClass('editor-empty')) {
+          $(childNodes).removeClass('is-selected');
+          $(focusNode).addClass('is-selected');
+        } else {
+          $(childNodes).removeClass('is-selected');
+          $(focusNode.parentNode).addClass('is-selected');
         }
       }
-      return [];
-  },
+    },
 
-  preventBackspace : function (e, editor) {
-    var editor = document.getElementById('editor');
+    keydown: function (event) {
+      var editor       = this;
+      var keycode      = event.keyCode || event.which;
 
-    //BackSpace
-    var pCount = document.querySelectorAll('#editor p').length  ||
-                 document.querySelectorAll('#editor h3').length ||
-                 document.querySelectorAll('#editor blockquote').length;
+      // Prevent Backspace
+      var dNode = 'P' || 'H3';
 
-    if( (e.keyCode === 8) && (pCount === 1) &&
-        (! editor.textContent.length) ){
-      console.log('Prevent Backspace Conditions met');
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
-    }
-  },
+      if ((keycode === 8)                        &&
+          (editor.childNodes.length === 1)       &&
+          (!editor.textContent.length)           &&
+          (editor.firstChild.nodeName === dNode)) {
+        console.log('Prevent Backspace Conditions met');
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+      };
 
-  editorKeyUp : function (e) {
-    // Do something to/when wrap lines of string in editor
-    var keyCode = e.keyCode || e.which;
-    var focusNode = window.getSelection().focusNode;
-    var selectedNode = $.trim( $(focusNode).text() ).length;
+      if (keycode === 9) {
+        // Space for Tab;
+      };
+    },
 
-    // Enter
-    if (keyCode === 13) {
-      // Set default wrapping to p tag
-      document.execCommand('formatBlock', false, 'p');
-      // pTag = focusedNode.
-      // Add .p--p and .p--empty
-      $(focusNode).addClass('editor-p');
-      $(focusNode).addClass('editor-empty');
-      $('#editor-header').removeClass('editor-button-active');
-    }
+    click: function (event) {
+      var editor    = this;
+      var focusNode = window.getSelection().focusNode;
 
-    // Removing and Adding of p.class
-    if (focusNode && (selectedNode > 0) ) {
-      //remove .p--empty if p tag has content.
-      $(focusNode.parentNode).removeClass('editor-empty');
-    } else {
-      //add .p--empty if p tag has no content.
-      $(focusNode).addClass('editor-empty');
-    }
-  },
-
-  isSelected : function () {
-    var focusNode = window.getSelection().focusNode;
-    var editor = document.getElementById('editor');
-
-    if( $(editor).is(':focus') && editor.hasChildNodes() ) {
-      var childNodes = editor.childNodes; // This return Array
-      if ( childNodes && $(focusNode).hasClass('editor-empty') ) {
-        $(childNodes).removeClass('is-selected');
-        $(focusNode).addClass('is-selected');
-      } else {
-        $(childNodes).removeClass('is-selected');
-        $(focusNode.parentNode).addClass('is-selected');
+      //is Selected
+      if ($(editor).is(':focus') && editor.hasChildNodes()) {
+        var childNodes = editor.childNodes; // Array of childe nodes
+        if (childNodes && $(focusNode).hasClass('editor-empty')) {
+          $(childNodes).removeClass('is-selected');
+          $(focusNode).addClass('is-selected');
+        } else {
+          $(childNodes).removeClass('is-selected');
+          $(focusNode.parentNode).addClass('is-selected');
+        }
       }
-    }
-  },
+    },
 
-  handlePaste : function ( el, evt) {
-    var editorContent = el.innerHTML;
-    if ( e && e.clipboardData && e.clipboardData.getData ) {
-      if (/text\/html/.test(e.clipboardData.types)) {
-        el.innerHTML = e.clipboardData.getData('text/html');
-        $('p is-seleceted').append(el.innerHTML);
+    handlepaste : function (event) {
+      document.execCommand('insertText', false, event.clipboardData.getData('text/plain'));
+      event.preventDefault();
+    },
+
+    titleBlur : function (event) {
+      var titleLength = $.trim($(event.target).text()).length;
+
+      if (titleLength === 0) {
+        $(event.target).append('제목');
+        $(event.target).data('default', true);
+      } else {
+        $(event.target).data('default', false);
+      }
+    },
+
+    titleFocus : function (event) {
+      if( $(event.target).data('default') === true ) {
+        $(event.target).empty();
+        $(event.target).data('default', false);
       }
     }
   }
-
-  // activeButton : function(focusNode) {
-  //   if( $(focusNode).hasClass('editor-align-center') ||
-  //       $(focusNode.parentNode).hasClass('editor-align-center') ) {
-  //     $('#editor-center').addClass('editor-button-active');
-  //   } else {
-  //     $('#editor-center').removeClass('editor-button-active');
-  //   }
-  // }
-
 };

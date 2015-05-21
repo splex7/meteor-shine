@@ -1,5 +1,5 @@
 BlogsListController = RouteController.extend({
-  increment: DEFAULT_LIST_INCREMENT,
+  increment: 1,
   limit: function() {
     return parseInt(this.params.query.r) || this.increment;
   },
@@ -112,7 +112,7 @@ MyBlogsListController = RouteController.extend({
 
 
 BlogNewController = RouteController.extend({
-  
+
 });
 
 BlogEditController = RouteController.extend({

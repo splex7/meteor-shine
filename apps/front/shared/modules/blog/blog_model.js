@@ -51,6 +51,11 @@ Meteor.methods({
     // check permission
     if (! this.userId)
       throw new Meteor.Error(403, "error_access_denied");
+    var blog = Blogs.findOne({ _id: blogId });
+
+    if ( blog.user._id != this.userId ) {
+      return false;
+    }
 
     // make input object
     var now = new Date();

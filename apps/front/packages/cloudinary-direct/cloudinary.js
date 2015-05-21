@@ -1,4 +1,3 @@
-
 var buttonDeps = new Tracker.Dependency;
 var selectors = {
   uploader: '.cloudinary-uploader',
@@ -166,4 +165,3 @@ Template.cloudinaryUploader.helpers({
     return Cloudinary.getButtonHTML();
   }
 });
-
