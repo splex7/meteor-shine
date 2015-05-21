@@ -7,6 +7,8 @@ Package.describe({
   documentation: 'README.md'
 });
 
+Npm.depends({ cloudinary: "1.2.1" });
+
 Package.onUse(function(api) {
   api.versionsFrom('1.1.0.2');
 
@@ -15,18 +17,23 @@ Package.onUse(function(api) {
     'tracker'
   ], 'client');
 
+  api.use([
+    'underscore'
+  ], 'server');
+
   api.addFiles([
     'lib/jquery.ui.widget.js',
     'lib/jquery.iframe-transport.js',
     'lib/jquery.fileupload.js',
-    'lib/jquery.cloudinary.js'
-  ], 'client');
-
-  api.addFiles([
+    'lib/jquery.cloudinary.js',
     'cloudinary.html',
     'cloudinary.css',
     'cloudinary.js'
   ], 'client');
+
+  api.addFiles([
+    'cloudinary-server.js'
+  ], 'server');
 
   api.export('Cloudinary');
 });
