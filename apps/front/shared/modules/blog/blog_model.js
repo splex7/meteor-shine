@@ -10,6 +10,7 @@
  * @type {Mongo.Collection}
  */
 Blogs = new Mongo.Collection('blogs');
+GroundBlogs = new Ground.Collection(Blogs);
 
 
 Meteor.methods({

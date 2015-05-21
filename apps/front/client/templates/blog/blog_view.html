@@ -11,7 +11,7 @@
 			<section>
 				<div>{{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</div>
 				<div class="text-content">
-				{{#if editMode}}
+				{{!-- #if editMode --}}
 					<div class="editor-toolbar">
 						<ul>
 							<li>
@@ -19,11 +19,11 @@
 									<i class="fa fa-file-image-o"></i>
 								  <input type="file" name="file" class="uploadImage cloudinary-fileupload" tabindex="-1"/>
 								</button>
+
+							  {{> cloudinaryUploader}}
 							</li>
 						</ul>
 					</div>
-				{{/if}}
-
 				{{{editable}}}
 
 				</div>
@@ -48,4 +48,6 @@
 
 		{{> blogCommentsList}}
 	</article>
+
+  {{> cloudinaryProgressBar}}
 </template>
