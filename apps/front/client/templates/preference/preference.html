@@ -1,22 +1,23 @@
 <template name="preference">
   <article class="page">
-    <header>
-      <h2>{{_ 'title_preference'}}</h2>
-    </header>
+    <h2>{{_ 'title_preference'}}</h2>
 
-    <section>
-      <form class="ss-form">
-        <div class="radio">
-          <label>
-            <input type="radio" name="theme" value="default" checked="{{isChecked 'classic'}}"> {{_ 'theme.classic'}}
-          </label>
+    <form>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="radio">
+            <label>
+              <input type="radio" name="theme" value="default" checked="{{isChecked 'classic'}}"> {{_ 'theme.classic'}}
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="theme" value="cerulean" checked="{{isChecked 'modern'}}"> {{_ 'theme.modern'}}
+            </label>
+          </div>
         </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="theme" value="cerulean" checked="{{isChecked 'modern'}}"> {{_ 'theme.modern'}}
-          </label>
-        </div>
-      </form>
-    </section>
+      </div>
+    </form>
+
   </article>
 </template>

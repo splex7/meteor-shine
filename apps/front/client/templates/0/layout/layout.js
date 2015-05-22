@@ -7,22 +7,29 @@ Template.layout.events({
 
 Template.layout.onRendered( function () {
 
+  var wrapper = $('#wrapper');
+
   // Check Mobile Mode when rendered
   if ($(window).width() <= 750) {
-     $('#container').addClass('mobile');
+    wrapper.addClass('mobile');
   } else {
-    $('#container').removeClass('mobile');
+    wrapper.removeClass('mobile');
   };
 
   // Check Mobile Mode on resize
   $(window).on( 'resize', function () {
     if ($(window).width() <= 750) {
-      $('#container').addClass('mobile');
-      $('#container').removeClass('aside-left-set');
+
+      wrapper.addClass('mobile');
+      if (wrapper.hasClass('aside-left-set')) {
+        wrapper.removeClass('aside-left-set');
+      } else {
+
+      }
     } else if ($(window).width() > 750) {
-      $('#container').removeClass('aside-left-set');
+      wrapper.removeClass('aside-left-set');
     } else {
-      $('#container').removeClass('mobile');
+      wrapper.removeClass('mobile');
     };
   });
 });

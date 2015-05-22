@@ -1,19 +1,28 @@
 <template name="home">
   <article class="page">
-    <section class="ss-list-frame">
       {{#if noBlogs}}
         {{_ 'text_no_blogs'}}
       {{else}}
-        <div class="btn-toolbar">
-          <p class="">{{getPublishedCount 'blogsCount'}}</p>
+        <div class="row-fluid">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group" role="group">
+              <a class="btn btn-default">Total Blogs: {{getPublishedCount 'blogsCount'}}</a>
+            </div>
+            <div class="btn-group" role="group">
+              <a class="btn btn-primary" href="{{pathFor 'blogNew'}}">{{_ 'command_new'}}</a>
+            </div>
+          </div>
         </div>
-        <div class="list">
+
+        <div class="row-fluid">
           {{#each blogs}}
             {{> homeListItem}}
           {{/each}}
+        </div>
 
+        <div class="row-fluid">
           {{#if hasMore}}
-            <a class="load-more">Load More</a>
+            <a class="btn btn-default btn-block load-more">Load More</a>
           {{else}}
             {{#unless ready}}
               {{> listLoading}}
@@ -21,12 +30,20 @@
           {{/if}}
         </div>
       {{/if}}
-    </section>
   </article>
 </template>
 
 <template name="homeListItem">
-  <div class="list-item">
-    <p><a href="{{pathFor 'blogOne'}}">{{title}}</a> <small>{{userDisplayName user}} {{momentFromNow createdAt}}</small></p>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>
+        <a href="{{pathFor 'blogOne'}}">{{title}} <small>{{userDisplayName user}} {{momentFromNow createdAt}}</small></a>
+      </h4>
+    </div>
+    <div class="panel-body">
+      <div class="line-clamp-2">
+        {{blog_content}}
+      </div>
+    </div>
   </div>
 </template>

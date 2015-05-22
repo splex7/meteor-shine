@@ -1,32 +1,31 @@
 <template name="layout">
   {{> userList}}
-  <div id="container" class="container-fluid">
-
-    <header>
-      {{> headerDefault}}
-    </header>
-
-    <aside class="aside-left">
+  <div id="wrapper">
+    {{> headerDefault}}
+    <div id="canvas">
       {{> navMain}}
-    </aside>
+      {{> yield}}
+    </div>
+  </div>
+  <!-- {{> yield}} -->
 
-    <aside class="aside-right">
+    <!-- <aside class="aside-right">
       {{> sidebar}}
-    </aside>
+    </aside> -->
 
-    <aside class="notifications">
+<!--     <aside class="notifications">
       {{> notificationsList}}
-    </aside>
+    </aside> -->
 
-    <main id="content" class="fixed-right">
+    <!-- <main id="content" class="fixed-right">
       <div id = "main-overlay"></div>
         {{> yield}}
-    </main>
+    </main> -->
 
-    <footer>
+  <!--   <footer>
       {{> footerDefault}}
     </footer>
   </div>
-
+ -->
   {{> meteorAlerts}}
 </template>

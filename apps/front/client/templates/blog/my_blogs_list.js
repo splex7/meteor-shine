@@ -26,6 +26,7 @@ Template.myBlogsList.helpers({
 Template.myBlogsListItem.helpers({
   blog_content: function() {
     var content = this.content;
-    return content.replace(/<(?:.|\n)*?>/gm, '');
+    // return content.replace(/<(?:.|\n)*?>/gm, '');
+    return content;
   }
 });
