@@ -27,8 +27,21 @@ body {
   }
 }
 
+a.navbar-brand {
+  position: absolute;
+  display: block;
+  left: 50%;
+  padding-right: 0;
+  padding-left: 0;
+  width: auto;
+  text-align: center;
+  -webkit-transform: translate3d(-50%, 0, 0);
+          transform: translate3d(-50%, 0, 0);
+}
+
 
 .aside-left,
+.aside-right,
 article.page {
   -webkit-transition: all @slide-transition-time ease-out;
        -o-transition: all @slide-transition-time ease-out;
