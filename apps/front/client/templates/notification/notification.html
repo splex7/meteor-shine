@@ -1,5 +1,5 @@
 <template name="notificationsList">
-  <article class="notification-frame">
+  <!-- <article class="notification-frame">
     <header>
       <h4>{{_ 'title_notifications'}}</h4>
     </header>
@@ -13,7 +13,15 @@
     <footer>
       <button id="close" class="btn btn-sm pull-right">{{_ 'command_close'}}</button>
     </footer>
-  </article>
+  </article> -->
+  <div class="aside-right">
+    <div class="row-fluid">
+      <h4>{{_ 'title_notifications'}}</h4>
+      {{#each notifications}}
+        {{> notificationsListItem}}
+      {{/each}}
+    </div>
+  </div>
 </template>
 
 <template name="notificationsListItem">

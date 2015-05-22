@@ -1,36 +1,58 @@
 
 <template name="blogCommentNew">
-  <form id="formBlogCommentNew" class="ss-form">
-    <section>
-      {{{editable}}}
-      <!-- textarea class="form-control" name="msg"></textarea -->
-    </section>
-
-    <footer>
-      <div class="pull-right">
-        <button type="button" class="btn btn-default">{{_ 'command_close'}}</button>
-        <button type="submit" class="btn btn-primary">{{_ 'command_register'}}</button>
+  <form id="formBlogCommentNew">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        {{{editable}}}
+        <!-- textarea class="form-control" name="msg"></textarea -->
       </div>
-    </footer>
+
+
+      <div class="panel-footer clearfix">
+        <div class="btn-toolbar pull-right">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default">{{_ 'command_close'}}</button>
+          </div>
+          <div class="btn-group">
+            <button type="submit" class="btn btn-primary">{{_ 'command_register'}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </form>
 </template>
 
 <template name="blogCommentsList">
-  <ul>
+  <ul class="media-list">
     {{#each blogComments}}
       {{> blogCommentsListItem}}
     {{/each}}
   </ul>
 
-  {{#if hasMore}}
-    <a class="load-more" href="#"></a>
-  {{else}}
-    {{#unless ready}}
-      {{> listLoading}}
-    {{/unless}}
-  {{/if}}
+  <div class="row-fluid">
+    {{#if hasMore}}
+      <a class="btn btn-block btn-default load-more">Load More</a>
+    {{else}}
+      {{#unless ready}}
+        {{> listLoading}}
+      {{/unless}}
+    {{/if}}
+  </div>
 </template>
 
 <template name="blogCommentsListItem">
-  <li>{{{msg}}} by {{user.username}}</li>
+  <!-- <li>{{{msg}}} by {{user.username}}</li> -->
+  <li class="media">
+    <div class="media-left">
+      <a href="#">
+        <div class="avatar-wrapper-custom avatar-50">
+          <img class="media-object" src="/images/default_profile.png" alt="...">
+        </div>
+      </a>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">{{user.username}}</h4>
+      {{{msg}}}
+    </div>
+  </li>
 </template>
