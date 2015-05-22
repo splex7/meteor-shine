@@ -16,8 +16,9 @@ Open Source Meteor CMS Project
 * Separated Admin app
 * Deploy to your own server using Nginx + Phusion Passenger
 
-## Coding Convention
+## Packages
 
-* based on [Meteor Style Guide](https://github.com/meteor/meteor/wiki/Meteor-Style-Guide)
-* [JSHint](http://jshint.com/)
 
+## Read more
+
+[Meteor Shine Wiki](https://github.com/BookpalLab/meteor-shine/wiki)
