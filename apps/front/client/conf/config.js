@@ -17,15 +17,3 @@ Meteor.Spinner.options = {
   left: 'auto' // Left position relative to parent in px
 };
 
-
-/**
- * cloudinary package configuration
- */
-$.cloudinary.config({
-  cloud_name: Meteor.settings.public.cloudinary.cloudName,
-  api_key: Meteor.settings.public.cloudinary.apiKey,
-  presets: {
-    accounts: Meteor.settings.public.cloudinary.presets.accounts,
-    blogs: Meteor.settings.public.cloudinary.presets.blogs
-  }
-});

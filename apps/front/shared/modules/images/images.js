@@ -3,7 +3,7 @@ GroundImages = new Ground.Collection(Images);
 
 var prepareData = function(attributes) {
   var user = Meteor.user();
- 
+
   return _.extend(_.pick(attributes, 'url', 'surl', 'size', 'width', 'height',
     'urlFit', 'surlFit', 'widthFit', 'heightFit',
     'ext', 'mime', 'original', 'repoId'), {
@@ -17,13 +17,18 @@ var prepareData = function(attributes) {
 };
 
 Meteor.methods({
+/*
+  cloudinaryUploadTag: function() {
+    return CloudinaryServer.uploadTag();
+  },
+*/
 	"cImageUploadSave" :function(attributes){
 		check(attributes, Match.Any)
-		
+
 		var image = prepareData(attributes);
 
 		image._id = Images.insert(image);
-	
+
 
 		return image._id;
 	}
