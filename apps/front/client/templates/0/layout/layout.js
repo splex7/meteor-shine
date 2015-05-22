@@ -25,5 +25,6 @@ Template.layout.onRendered( function () {
       $('#container').removeClass('mobile');
     };
   });
+
 });
 

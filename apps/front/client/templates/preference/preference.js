@@ -8,18 +8,12 @@ Template.preference.events({
   'change input:radio[name=theme]': function(e) {
     e.preventDefault();
 
-    //$('body').attr('data-theme', $(e.target).val());
-    //
-
-    var themes = {
-      "default": "/themes/default.css",
-      "cerulean" : "/themes/cerulean.css"
-    };
+    $('.data-theme').remove();
 
     var themeName = $(e.target).val();
 
-    var themesheet = $('<link href="'+themes[themeName]+'" rel="stylesheet" data-theme="theme"/>');
+    var themeSheet = $('<link href="'+themes[themeName]+'" rel="stylesheet" class="data-theme"/>');
 
-    themesheet.appendTo('head');
+    themeSheet.appendTo('head');
   }
 });

@@ -60,8 +60,23 @@ I18n_data_ko = {
 
 
   "theme"                         : {
-  "classic"                       : "클래식",
-  "modern"                        : "모던"
+    "default"                       : "Default",
+    "cerulean"                      : "Cerulean",
+    "cosmo"                         : "Cosmo",
+    "cyborg"                        : "Cyborg",
+    "darkly"                        : "Darkly",
+    "flatly"                        : "Flatly",
+    "journal"                       : "Journal",
+    "lumen"                         : "Lumen",
+    "paper"                         : "Paper",
+    "readable"                      : "Readable",
+    "sandstone"                     : "Sandstone",
+    "simplex"                       : "Simplex",
+    "slate"                         : "Slate",
+    "spacelab"                      : "Spacelab",
+    "superhero"                     : "Superhero",
+    "united"                        : "United",
+    "yeti"                          : "Yeti"
   }
 
 };

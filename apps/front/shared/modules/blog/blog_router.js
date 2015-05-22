@@ -72,7 +72,6 @@ BlogOneController = RouteController.extend({
       blog: this.blog()
     };
   }
-
 });
 
 MyBlogsListController = RouteController.extend({
