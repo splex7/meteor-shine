@@ -24,6 +24,15 @@ Template.home.helpers({
   }
 });
 
+Template.homeListItem.helpers({
+  blog_content: function() {
+    var content = this.content;
+    //return content.replace(/<(?:.|\n)*?>/gm, '');
+    //return content.replace(/(<([^>]+)>)/ig, "");
+    return content;
+  }
+});
+
 /*
 Template.home.events({
   'change input[name=theme]': function(e) {

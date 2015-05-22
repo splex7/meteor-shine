@@ -1,126 +1,118 @@
-//
-//  Layout: container, header & footer, aside, content
-//--------------------------------------------------------------
-
-#container > header {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: @header-height;
-  z-index: @zindex-navbar-fixed;
+html,
+body {
+  height: 100%;
 }
 
-#container > footer {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: @footer-height;
-  z-index: @zindex-navbar-fixed;
+#wrapper {
+  position: relative;
+  overflow-x: hidden;
+  height: 100%;
 }
 
-#container > aside {
-  position: fixed;
-  top: @header-height;
-  bottom: @footer-height;
-  z-index: @zindex-navbar-fixed - 1;
-  overflow: auto;
+#canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: 0.3s ease all;
+          transition: 0.3s ease all;
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
 }
-#container > aside.aside-left {
+
+.navbar {
+  margin: 0;
+}
+.btn-toolbar .btn-group {
+  padding: 5px 0;
+  .btn {
+    margin-top: 0;
+    vertical-align: top;
+  }
+}
+
+
+.aside-left,
+article.page {
+  -webkit-transition: all @slide-transition-time ease-out;
+       -o-transition: all @slide-transition-time ease-out;
+          transition: all @slide-transition-time ease-out;
+}
+
+.aside-left {
+  position: relative;
+  padding: 5px 5px;
+  min-height: 100%;
   width: @aside-left-width;
-}
-#container > aside.aside-right {
-  width: @aside-right-width;
+  border-right: 1px solid @navbar-default-border;
+  background: white;
 }
 
-#container {
+article.page {
+  position: absolute;
+  top: 0;
+  padding: 5px;
+  width: calc(~'100% - @{aside-left-width}');
+  transform: translateX(@aside-left-width);
+}
+
+// Aside Left Set in Desktop means Aside is ***"OFF"***
+#wrapper.aside-left-set {
   .aside-left {
-    left: 0;
+    transform: translateX(-@aside-left-width);
   }
-  .aside-right {
-    right: -@aside-right-width;
+  article.page {
+    width: 100%;
+    transform: translateX(0);
   }
-  #content {
-    left: @aside-left-width;
-    right: 0;
-  }
-}
-
-#container.aside-left-set {
-  .aside-left {
-    left: -@aside-left-width;
-  }
-  #content {
-    left: 0;
-  }
-}
-
-#container.aside-right-set {
-  .aside-right {
-    right: 0;
-  }
-}
-
-#container {
-  .aside-right {
-    right: -@aside-right-width;
-  }
-}
-
-#main-overlay {
-  opacity: 0;
-  display: hidden;
-  -webkit-transition: opacity @slide-transition-time ease-in-out;
-       -o-transition: opacity @slide-transition-time ease-in-out;
-          transition: opacity @slide-transition-time ease-in-out;
 }
 
 @media screen and (max-width: @container-sm) {
-  #container {
-    .aside-left {
-      left: -@aside-left-width;
-    }
-    #content {
-      left: 0;
-    }
+  .aside-left {
+    transform: translateX(-@aside-left-width);
+    z-index: 11;
   }
-  #container.aside-left-set {
+
+  article.page {
+    width: 100%;
+    transform: translateX(0);
+  }
+
+  #wrapper.aside-left-set {
     .aside-left {
       position: absolute;
-      left: 0;
+      top: 0;
+      transform: translateX(0);
     }
-    #content {
-      #main-overlay{
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0, 0.3);
-        opacity: 1;
-        display: block;
-      }
-      // left: @aside-left-width;
+    article.page {
+      width: 100%;
+      transform: translateX(0);
     }
   }
 }
 
 
-//
-//  Notifications
-//--------------------------------------------------------------
 
-#container aside.notifications {
-  bottom: auto;
-  top: -@notifications-height;
-  right: 10px;
-  width: @notifications-width;
-  height: @notifications-height;
+/**Custom Avatar Wrapper**/
+.avatar-wrapper-custom {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid @navbar-default-border;
+
 }
 
-#container.notificationsSet aside.notifications {
-  top: @header-height;
-}
-
+//<<<<<<< HEAD
+.avatar-wrapper-custom > img {
+  width: 100%;
+  margin-left: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  margin-left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+/*=======
 // When you click the notification button, don't toggle.
 // This temporarily is bug fix.
 // change class : notifications-set => notification-set
@@ -139,62 +131,203 @@
   bottom: @footer-height;
   left: @aside-left-width;
   overflow: auto;
-}
-
-#content.fixed-left {
-  left: 0;
-}
-
-#content.fixed-right {
-  right: 0;
+>>>>>>> master*/
 }
 
 
-//
-//  Border, background, color, transition, etc
-//--------------------------------------------------------------
 
-#container {
-  background: #000;
-}
 
-#container > header {
-  background: #fff;
-  //box-shadow: 0 1px 1px #666;
-  border-bottom: 1px solid @gray-outline;
-}
 
-#container > footer {
-  background: #ccc;
-  box-shadow: 0 -1px 1px #666;
-}
+// //
+// //  Layout: container, header & footer, aside, content
+// //--------------------------------------------------------------
 
-#container aside {
-  background: @nav-main-bg;
-  // -webkit-transform: translateZ(0);
-  // This forces GPU usage when animated.
-  -webkit-transform: translateZ(0);
-  -webkit-transition: all @slide-transition-time ease-in-out;
-       -o-transition: all @slide-transition-time ease-in-out;
-          transition: all @slide-transition-time ease-in-out;
-}
+// #container > header {
+//   position: fixed;
+//   top: 0;
+//   right: 0;
+//   left: 0;
+//   height: @header-height;
+//   z-index: @zindex-navbar-fixed;
+// }
 
-aside.aside-left {
-  //box-shadow: 1px 1px 1px 0 #888;
-  border-right: 1px solid @gray-outline;
-}
-aside.aside-right {
-  box-shadow: -1px 1px 1px 0 #888;
-}
+// #container > footer {
+//   position: fixed;
+//   right: 0;
+//   bottom: 0;
+//   left: 0;
+//   height: @footer-height;
+//   z-index: @zindex-navbar-fixed;
+// }
 
-#content {
-  background: #ddd;
-  -webkit-transition: all @slide-transition-time ease-out;
-       -o-transition: all @slide-transition-time ease-out;
-          transition: all @slide-transition-time ease-out;
-}
+// #container > aside {
+//   position: fixed;
+//   top: @header-height;
+//   bottom: @footer-height;
+//   z-index: @zindex-navbar-fixed - 1;
+//   overflow: auto;
+// }
+// #container > aside.aside-left {
+//   width: @aside-left-width;
+// }
+// #container > aside.aside-right {
+//   width: @aside-right-width;
+// }
 
-#container > aside.notifications {
-  background: #e9e9e9;
-  box-shadow: 1px 1px 1px 0 #888;
-}
+// #container {
+//   .aside-left {
+//     left: 0;
+//   }
+//   .aside-right {
+//     right: -@aside-right-width;
+//   }
+//   #content {
+//     left: @aside-left-width;
+//     right: 0;
+//   }
+// }
+
+// #container.aside-left-set {
+//   .aside-left {
+//     left: -@aside-left-width;
+//   }
+//   #content {
+//     left: 0;
+//   }
+// }
+
+// #container.aside-right-set {
+//   .aside-right {
+//     right: 0;
+//   }
+// }
+
+// #container {
+//   .aside-right {
+//     right: -@aside-right-width;
+//   }
+// }
+
+// #main-overlay {
+//   opacity: 0;
+//   display: hidden;
+//   -webkit-transition: opacity @slide-transition-time ease-in-out;
+//        -o-transition: opacity @slide-transition-time ease-in-out;
+//           transition: opacity @slide-transition-time ease-in-out;
+// }
+
+// @media screen and (max-width: @container-sm) {
+//   #container {
+//     .aside-left {
+//       left: -@aside-left-width;
+//     }
+//     #content {
+//       left: 0;
+//     }
+//   }
+//   #container.aside-left-set {
+//     .aside-left {
+//       position: absolute;
+//       left: 0;
+//     }
+//     #content {
+//       #main-overlay{
+//         position: absolute;
+//         width: 100%;
+//         height: 100%;
+//         background: rgba(0,0,0, 0.3);
+//         opacity: 1;
+//         display: block;
+//       }
+//       // left: @aside-left-width;
+//     }
+//   }
+// }
+
+
+// //
+// //  Notifications
+// //--------------------------------------------------------------
+
+// #container aside.notifications {
+//   bottom: auto;
+//   top: -@notifications-height;
+//   right: 10px;
+//   width: @notifications-width;
+//   height: @notifications-height;
+// }
+
+// #container.notificationsSet aside.notifications {
+//   top: @header-height;
+// }
+
+// //
+// //  Content
+// //--------------------------------------------------------------
+
+// #content {
+//   position: fixed;
+//   top: @header-height;
+//   right: @aside-right-width;
+//   bottom: @footer-height;
+//   left: @aside-left-width;
+//   overflow: auto;
+// }
+
+// #content.fixed-left {
+//   left: 0;
+// }
+
+// #content.fixed-right {
+//   right: 0;
+// }
+
+
+// //
+// //  Border, background, color, transition, etc
+// //--------------------------------------------------------------
+
+// #container {
+//   background: #000;
+// }
+
+// #container > header {
+//   background: #fff;
+//   //box-shadow: 0 1px 1px #666;
+//   border-bottom: 1px solid @gray-outline;
+// }
+
+// #container > footer {
+//   background: #ccc;
+//   box-shadow: 0 -1px 1px #666;
+// }
+
+// #container aside {
+//   background: @nav-main-bg;
+//   // -webkit-transform: translateZ(0);
+//   // This forces GPU usage when animated.
+//   -webkit-transform: translateZ(0);
+//   -webkit-transition: all @slide-transition-time ease-in-out;
+//        -o-transition: all @slide-transition-time ease-in-out;
+//           transition: all @slide-transition-time ease-in-out;
+// }
+
+// aside.aside-left {
+//   //box-shadow: 1px 1px 1px 0 #888;
+//   border-right: 1px solid @gray-outline;
+// }
+// aside.aside-right {
+//   box-shadow: -1px 1px 1px 0 #888;
+// }
+
+// #content {
+//   background: #ddd;
+//   -webkit-transition: all @slide-transition-time ease-out;
+//        -o-transition: all @slide-transition-time ease-out;
+//           transition: all @slide-transition-time ease-out;
+// }
+
+// #container > aside.notifications {
+//   background: #e9e9e9;
+//   box-shadow: 1px 1px 1px 0 #888;
+// }

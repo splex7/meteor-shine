@@ -1,33 +1,39 @@
 <template name="blogNew">
-	<!-- div class="ss-path">
-		<a href="#" class="btn btn-sm btn-default">{{_ 'command_back'}}</a>
-	</div -->
-	<article class="page">
-		<header>
-			<h2>{{_ 'title_blog_new'}}</h2>
-		</header>
+  <!-- div class="ss-path">
+    <a href="#" class="btn btn-sm btn-default">{{_ 'command_back'}}</a>
+  </div -->
+  <article class="page">
+    <h2>{{_ 'title_blog_new'}}</h2>
 
-		<section class="ss-form-frame">
-			<form id="formBlogNew" class="ss-form">
-				<section>
-					{{{title}}}
-					<span class="help-block"></span>
-				</section>
+    <form id="formBlogNew">
 
-				<section>
-						<div class="editor-toolbar"></div>
-					{{{editable}}}
-				</section>
+      <div class="panel panel-default">
 
-				<footer>
-					<div class="pull-right">
-						<button type="button" class="btn btn-default">{{_ 'command_cancel'}}</button>
-						<button type="submit" class="btn btn-primary">{{_ 'command_ok'}}</button>
-					</div>
-				</footer>
-			</form>
-		</section>
+        <div class="panel-body">
+          <div class="row-fluid">
+            {{{title}}}
+            <span class="help-block"></span>
+          </div>
+          <div class="row-fluid">
+            <div class="editor-toolbar"></div>
+            {{{editable}}}
+          </div>
+        </div>
 
-	</article>
+        <div class="panel-footer clearfix">
+          <div class="btn-toolbar pull-right">
+            <div class="btn-group">
+              <button type="button" class="btn btn-default">{{_ 'command_cancel'}}</button>
+            </div>
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary">{{_ 'command_ok'}}</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+  </article>
 
 </template>

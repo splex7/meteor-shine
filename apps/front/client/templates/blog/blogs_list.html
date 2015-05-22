@@ -1,38 +1,52 @@
 <template name="blogsList">
   <article class="page">
-    <header>
-      <h2>{{_ 'title_blogs'}}</h2>
-    </header>
+    <h2>{{_ 'title_blogs'}}</h2>
 
-    <section class="ss-list-frame">
-      {{#if noBlogs}}
-        {{_ 'text_no_blogs'}}
-      {{else}}
-      <div class="btn-toolbar">
-        <p class="">{{getPublishedCount 'blogsCount'}}</p>
+    {{#if noBlogs}}
+      {{_ 'text_no_blogs'}}
+    {{else}}
+      <div class="row-fluid">
+        <div class="btn-toolbar" role="toolbar">
+          <div class="btn-group" role="group">
+            <a class="btn btn-default">Total Blogs: {{getPublishedCount 'blogsCount'}}</a>
+          </div>
+          <div class="btn-group" role="group">
+            <a class="btn btn-primary" href="{{pathFor 'blogNew'}}">{{_ 'command_new'}}</a>
+          </div>
+        </div>
       </div>
-      <ul class="list">
+
+      <div class="row-fluid">
         {{#each blogs}}
           {{> blogsListItem}}
         {{/each}}
+      </div>
 
+      <div class="row-fluid">
         {{#if hasMore}}
-          <a class="load-more">Load More</a>
+          <a class="btn btn-default btn-block load-more">Load More</a>
         {{else}}
           {{#unless ready}}
             {{> listLoading}}
           {{/unless}}
         {{/if}}
-      </ul>
-      {{/if}}
-    </section>
+      </div>
+    {{/if}}
   </article>
 
 </template>
 
 <template name="blogsListItem">
-  <li class="list-item">
-    <h4 class = "blog-title"><a href="{{pathFor 'blogOne'}}">{{title}}</a> <small>{{userDisplayName user}} {{momentFromNow createdAt}}</small></h4>
-    <p class="line-clamp-2">{{blog_content}}</p>
-  </li>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>
+        <a href="{{pathFor 'blogOne'}}">{{title}} <small>{{userDisplayName user}} {{momentFromNow createdAt}}</small></a>
+      </h4>
+    </div>
+    <div class="panel-body">
+      <div class="line-clamp-2">
+        {{blog_content}}
+      </div>
+    </div>
+  </div>
 </template>

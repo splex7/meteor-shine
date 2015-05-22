@@ -7,15 +7,15 @@ Template.headerDefault.helpers({
 
 Template.headerDefault.events({
   'click [data-toggle=aside-left]': function() {
-    $('#container').toggleClass('aside-left-set');
+    $('#wrapper').toggleClass('aside-left-set');
   },
 
   'click [data-toggle=aside-right]': function() {
-    $('#container').toggleClass('aside-right-set');
+    $('#wrapper').toggleClass('aside-right-set');
   },
 
   'click [data-toggle=notifications]': function() {
-    $('#container').toggleClass('notification-set')
+    $('#wrapper').toggleClass('notifications-set');
   }
 });
 

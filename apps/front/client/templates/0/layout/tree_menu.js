@@ -3,7 +3,7 @@
  */
 
 Template.treeMenu.events({
-  'click .menu-item': function(e) {
+  'click .menu-item-c': function(e) {
     e.preventDefault();
 
     var template = Template.instance();
