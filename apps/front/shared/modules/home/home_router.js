@@ -1,5 +1,5 @@
 HomeController = RouteController.extend({
-  increment: DEFAULT_LIST_INCREMENT,
+  increment: 1,
   limit: function() {
     return parseInt(this.params.query.r) || this.increment;
   },
