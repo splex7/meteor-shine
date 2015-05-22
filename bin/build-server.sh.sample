@@ -1,0 +1,41 @@
+#!/bin/bash
+
+APP_PATH="/home/apps/bookpal/front"
+DEPLOY_PATH="/home/webapps/bookpal_front"
+SERVER_NAME="http://test.bookp.al"
+OWNER=root
+
+echo "Download source..."
+cd $APP_PATH/src
+git fetch --all
+git reset --hard origin/master
+echo "Download done..."
+
+echo "Building..."
+rm -rf ../build
+meteor build $APP_PATH/build
+echo "Build done..."
+cd ..
+
+echo "Make the product file..."
+cd ./build
+tar xzf src.tar.gz
+mkdir -p ./bundle/public
+mkdir -p ./bundle/tmp
+
+# file to restart the passenger automatically
+now=$(date '+%Y-%m-%d %H:%M:%S')
+destdir=./bundle/tmp/restart.txt
+echo "$now" > "$destdir"
+
+cd ./bundle/programs/server
+npm install
+
+echo "Done..."
+
+echo "Deploy to the server"
+rm -rf $DEPLOY_PATH
+mv $APP_PATH/build/bundle $DEPLOY_PATH
+chown -R $OWNER:$OWNER $DEPLOY_PATH
+echo "Done..."
+cd $APP_PATH

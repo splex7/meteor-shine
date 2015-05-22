@@ -14,6 +14,7 @@ Open Source Meteor CMS Project
 * Notification
 * Mobile push
 * Separated Admin app
+* Deploy to your own server using Nginx + Phusion Passenger
 
 ## Coding Convention
 
