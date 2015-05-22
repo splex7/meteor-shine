@@ -1,4 +1,4 @@
-/*
+
 BlogCommentsListController = RouteController.extend({
   increment: DEFAULT_LIST_INCREMENT,
   limit: function() {
@@ -33,11 +33,11 @@ BlogCommentsListController = RouteController.extend({
   }
 
 });
-*/
-/*
+
+
 Router.route('/blog/:blogId/comments', {
   name: 'blogCommentssList',
   controller: 'BlogCommentsListController'
 });
-*/
+
 
