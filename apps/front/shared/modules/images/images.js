@@ -1,5 +1,4 @@
 Images = new Mongo.Collection('images');
-GroundImages = new Ground.Collection(Images);
 
 var prepareData = function(attributes) {
   var user = Meteor.user();
@@ -29,7 +28,29 @@ Meteor.methods({
 
 		image._id = Images.insert(image);
 
-
 		return image._id;
-	}
-})
+	},
+
+  "updateProfileId" : function(publicId, originUrl, userId) {
+    Meteor.users.update(userId,
+    {
+      $set: {
+          "profile.tempId": publicId,
+          "profile.tempUrl": originUrl
+      }
+    });
+  },
+
+  "updateProfileUrl" : function(fetchedUrl, user) {
+    Meteor.users.update(user._id,
+      { $set:
+        {
+          "profile.avatarUrl": fetchedUrl,
+          "profile.publicId": user.profile.tempId,
+          "profile.tempUrl": "",
+          "profile.tempId": ""
+        }
+      });
+  }
+
+});
