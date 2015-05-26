@@ -2,13 +2,23 @@
   <article class="page">
     <h2 style="display:inline-block;">프로필 뷰 페이지</h2>
 
-    <div class="row-fluid">
-      <div class="col-xs-12">
-        <div class="btn-toolbar" role="toolbar">
-          <div class="btn-group" role="group">
-            <a class="btn btn-default" href="{{pathFor 'profileEdit'}}">
-              <i class="fa fa-pencil-square-o"></i>
-            </a>
+    <header>
+      <h2><span>프로필 뷰 페이지</span><a class="pull-right" href="{{pathFor 'profileEdit'}}"><i class="fa fa-sm fa-pencil-square-o"></i></a></h2>
+    </header>
+    <section>
+      <div class="container" style="padding-top: 60px;">
+        <h1 class="page-header" style="display:none">My Profile</h1>
+        <div class="row">
+          <!-- User Profile Picture column -->
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <h6 style="display:none">My Pic</h6>
+            <div class="text-center">
+              <div class="avatar-wrapper-custom">
+                <!-- <img src="../images/default_profile.png"> -->
+
+                <img src="{{getAvatarUrl}}">
+              </div>
+            </div>
           </div>
         </div>
       </div>

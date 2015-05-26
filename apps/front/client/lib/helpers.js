@@ -7,4 +7,17 @@ Template.registerHelper('activeRoute', function(/* route names */) {
 	});
 
 	return active && 'active';
-})
+});
+
+Template.registerHelper('getAvatarUrl', function () {
+  // var newSrc = Meteor.user().profile;
+  // if(newSrc) {
+  //   return newSrc.url;
+  // }
+  // return '/images/default_profile.png';
+  var user  = Meteor.user();
+
+  if (user && user.profile) {
+    return user.profile.avatarUrl;
+  }
+});
