@@ -112,7 +112,7 @@ MyBlogsListController = RouteController.extend({
 
 
 BlogNewController = RouteController.extend({
-  
+
 });
 
 BlogEditController = RouteController.extend({
