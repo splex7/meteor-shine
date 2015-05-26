@@ -1,4 +1,5 @@
 var buttonDeps = new Tracker.Dependency;
+
 var selectors = {
   uploader: '.cloudinary-uploader',
   button: '.cloudinary-uploader .btn',

@@ -1,4 +1,6 @@
 var cloudinary = Npm.require('cloudinary');
+var Fiber = Npm.require('fibers');
+var Future = Npm.require('fibers/future');
 
 /**
  * cloudinary configuration
@@ -17,3 +19,15 @@ Meteor.methods({
     return cloudinary.uploader.image_upload_tag(elementId, options);
   }
 });
+
+CloudinaryServer = {
+  removeImage: function(imageId) {
+    var future = new Future();
+
+    cloudinary.uploader.destroy(imageId, function(result) {
+      future.return(result);
+    });
+
+    return future.wait();
+  }
+};
