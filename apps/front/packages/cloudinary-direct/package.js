@@ -36,6 +36,7 @@ Package.onUse(function(api) {
   ], 'server');
 
   api.export('Cloudinary');
+  api.export('CloudinaryServer');
 });
 
 Package.onTest(function(api) {

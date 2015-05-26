@@ -1,6 +1,7 @@
 /.idea
 /logs
 /release
+/build
 
 *.sh
 conf/development/*.json
