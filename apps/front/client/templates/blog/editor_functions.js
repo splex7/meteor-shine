@@ -26,6 +26,9 @@ inlineEditor = {
       var focusNode    = window.getSelection().focusNode;
       var selectedNode = $.trim($(focusNode).text()).length;
 
+      $(editor).data('default', false);
+      // console.log($(editor).data('default'));
+
       // onEnter
       if (keycode === 13) {
         document.execCommand('formatBlock', false, 'p');

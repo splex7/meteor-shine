@@ -41,8 +41,14 @@ Template.layout.onRendered( function () {
     if ($(window).width() <= 750) {
       // When Mobile
       wrapper.addClass('mobile');
+      if (wrapper.hasClass('aside-right-set')) {
+        // Collapse Notifications
+        wrapper.removeClass('aside-right-set');
+      } else {
 
+      }
       if (wrapper.hasClass('aside-left-set')) {
+        // Collapse Tree Menu
         wrapper.removeClass('aside-left-set');
       } else {
 
