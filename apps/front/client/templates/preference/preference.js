@@ -17,10 +17,10 @@ Template.preference.events({
     themeSheet.appendTo('head');
 
     // Get 'background-color' of body
-    // Then set 'background-color' to '.aside-left'
+    // Then set 'background-color' to '.aside-left,right'
     //
     // Get 'border-color' of panel-default
-    // Then set 'border-color' to '.aside-left'
+    // Then set 'border-color' to '.aside-left,right'
     //
     // Need to find sweetspot to grab border color
     setTimeout( function () {
@@ -30,8 +30,8 @@ Template.preference.events({
       $('.aside-left').css('background-color', bodyBg);
       $('.aside-left').css('border-color', border);
 
-      console.log(bodyBg);
-      console.log($('.aside-left').css('background-color'));
+      $('.aside-right').css('background-color', bodyBg);
+      $('.aside-right').css('border-color', border);
     }, 300);
 
   }
