@@ -31,7 +31,7 @@ Meteor.methods({
 		return image._id;
 	},
 
-  "updateProfileId" : function(publicId, originUrl, userId) {
+  "uploadOriginImage" : function(publicId, originUrl, userId) {
     Meteor.users.update(userId,
     {
       $set: {
@@ -41,12 +41,12 @@ Meteor.methods({
     });
   },
 
-  "updateProfileUrl" : function(fetchedUrl, user) {
-    Meteor.users.update(user._id,
+  "updateProfileUrl" : function(originUrl, croppedUrl, publicId) {
+    Meteor.users.update(Meteor.userId,
       { $set:
-        {
-          "profile.avatarUrl": fetchedUrl,
-          "profile.publicId": user.profile.tempId,
+        { "profile.originUrl": originUrl,
+          "profile.avatarUrl": croppedUrl,
+          "profile.publicId": publicId,
           "profile.tempUrl": "",
           "profile.tempId": ""
         }
