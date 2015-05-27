@@ -15,7 +15,7 @@ Drafts = new Mongo.Collection('drafts');
 Meteor.methods({
 
   draftAutosave: function(object) {
-    check(object, Match.Where(matchBlogInsert));
+    check(object, Match.Where(matchDraftInsert));
 
     // check permission
     if (! this.userId)
@@ -46,7 +46,7 @@ Meteor.methods({
 
   draftAutoupdate: function(draftId, object) {
     check(draftId, String);
-    check(object, Match.Where(matchBlogEdit));
+    check(object, Match.Where(matchDraftUpdate));
 
     // check permission
     if (! this.userId)
@@ -70,16 +70,16 @@ Meteor.methods({
     return updated;
   },
 
-  /*
-  blogRemove: function(blogId) {
+
+  draftRemove: function(draftId) {
 
     // check permission
     if (! this.userId)
       throw new Meteor.Error(403, "error_access_denied");
 
     // remove the blog
-    var removed = Blogs.remove({ _id: blogId, 'user._id': this.userId });
+    var removed = Drafts.remove({ _id: draftId, 'user._id': this.userId });
     return removed;
   }
-  */
+
 });

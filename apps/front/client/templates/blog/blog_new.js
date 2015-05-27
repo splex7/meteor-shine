@@ -80,6 +80,17 @@ Template.blogNew.events({
         alert(error.reason);
       } else {
         alert('insert success');
+        var getDraft = Session.get('currentDraft');
+        if (getDraft !== null) {
+          Meteor.call('draftRemove', getDraft, function(error, result) {
+            if (error) {
+              console.log(error.reason);
+            } else {
+              window.clearInterval(Autoupdate);
+              console.log('Draft Removed');
+            }
+          });
+        }
         Router.go('myBlogsList');
       }
     });
@@ -105,9 +116,9 @@ Template.blogNew.onRendered( function (){
     if (Session.get('currentDraft') === null) {
 
       var editor = $('#editor');
-
+      var title  = $('#newTitle');
       Autosave = window.setInterval( function () {
-        if ( editor.data('default') === false) {
+        if ((editor.data('default') === false) || (title.data('default') === false)) {
           var object = {
             title: $('#newTitle').html(),
             content: $('#editor').html()
@@ -143,12 +154,13 @@ Template.blogNew.onRendered( function (){
           content: content
         };
 
-        if (draftContent.content !== content) {
+        if ((draftContent.content !== content) || (draftContent.title !== title)) {
           Meteor.call('draftAutoupdate', draft, object, function(error, result) {
             if (error) {
               console.log(error.reason);
             } else {
               console.log('Draft Autosaved');
+
               // Session.set('currentDraft', result);
             }
           });

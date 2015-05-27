@@ -10,6 +10,9 @@ inlineEditor = {
     editor.addEventListener('keydown', self.events.keydown);
     editor.addEventListener('click', self.events.click);
 
+    // Title Events
+    title.addEventListener('keydown', self.events.titleKeydown);
+
     // Paste
     title.addEventListener('paste', self.events.handlepaste);
     editor.addEventListener('paste', self.events.handlepaste);
@@ -17,6 +20,10 @@ inlineEditor = {
     // Title Placeholders
     title.addEventListener('blur', self.events.titleBlur, true);
     title.addEventListener('focus', self.events.titleFocus, true);
+
+    // Editor Placeholders
+    editor.addEventListener('blur', self.events.editorBlur, true);
+    editor.addEventListener('focus', self.events.editorFocus, true);
   },
 
   events : {
@@ -76,6 +83,16 @@ inlineEditor = {
       };
     },
 
+    titleKeydown: function (event) {
+      var keycode      = event.keyCode || event.which;
+
+      if (keycode === 13) {
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+      }
+    },
+
     click: function (event) {
       var editor    = this;
       var focusNode = window.getSelection().focusNode;
@@ -110,10 +127,32 @@ inlineEditor = {
     },
 
     titleFocus : function (event) {
-      if( $(event.target).data('default') === true ) {
+      if ( $(event.target).data('default') === true ) {
         $(event.target).empty();
+        // $(event.target).data('default', false);
+      } else {
+
+      }
+    },
+
+    editorBlur : function (event) {
+      var editorLength = $.trim($(event.target).text()).length;
+
+      if (editorLength === 0) {
+        $(event.target).append('본문');
+        $(event.target).data('default', true);
+      } else {
         $(event.target).data('default', false);
       }
-    }
+    },
+
+    editorFocus : function (event) {
+      if ( $(event.target).data('default') === true ) {
+        $(event.target).empty();
+        // $(event.target).data('default', false);
+      } else {
+
+      }
+    },
   }
 };
