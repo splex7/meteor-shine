@@ -3,25 +3,15 @@
 </body>
 <template name="profileEdit">
   <article class="page">
+    <h2>프로필 수정 페이지</h2>
 
-    <header>
-      <h2><span>프로필 수정 페이지</span></h2>
-    </header>
-    <section>
-      <!-- bootstrap 3.2.0 & fontawosome 4.1.0 -->
-      <!-- http://snipplicious.com/snippet/19/edit-profile-page -->
-      <div class="container" style="padding-top: 60px;">
-        <h1 class="page-header" style="display:none">Edit Profile</h1>
-        <div class="row">
-          <!-- User Profile Picture column -->
+    <div class="panel panel-default">
+      <div class="panel-body">
+      <div class="row-fluid">
+        <!-- User Profile Picture column -->
           <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="text-center" id="crop-profile">
-              <!-- Current avatar -->
-              <!-- <a href="#" class="profile-pic-modal">
-                <img src="http://res.cloudinary.com/dwxtsjyic/image/upload/c_scale,w_990/v1431077789/test/oyeeclbzmb0kb9bvf1am.jpg" class="avatar img-circle img-thumbnail" width="100" alt="avatar">
-              </a> -->
-
-              <div class="avatar-wrapper-custom">
+              <div class="avatar-wrapper-custom" style="margin-top: 60px;">
                 <img src="{{getAvatarUrl}}">
               </div>
               {{> cloudinaryUploader}}
@@ -31,29 +21,29 @@
             </div>
           </div>
           <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
-            <div class="alert alert-info alert-dismissable">
+            <!-- <div class="alert alert-info alert-dismissable">
               <a class="panel-close close" data-dismiss="alert">×</a>
               <i class="fa fa-coffee"></i>
               이것은 <strong>경고 </strong>메시지 알림창입니다.
-            </div>
+            </div> -->
             <h4>개인정보</h4>
             <form class="form-horizontal" role="form">
               <div class="form-group">
                 <label class="col-lg-3 control-label">Username</label>
                 <div class="col-lg-8">
-                  <input class="form-control" value="DavidSunny" type="text">
+                  <input class="form-control" value="{{currentUser.username}}" type="text">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-lg-3 control-label">Email</label>
                 <div class="col-lg-8">
-                  <input class="form-control" value="uuunet1@gmail.com" type="email">
+                  <input class="form-control" value="{{userEmail}}" type="email">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-lg-3 control-label">Current Password</label>
                 <div class="col-lg-8">
-                  <input class="form-control" value="11111122333" type="password">
+                  <input class="form-control" value="" type="password">
                 </div>
               </div>
               <div class="form-group">
@@ -63,7 +53,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-lg-3 control-label">Confirm password</label>
+                <label class="col-lg-3 control-label">Confirm New password</label>
                 <div class="col-lg-8">
                   <input class="form-control" value="" type="password">
                 </div>
@@ -71,7 +61,7 @@
               <div class="form-group">
                 <label class="col-md-3 control-label"></label>
                 <div class="col-md-8">
-                  <input class="btn btn-primary" value="Save Changes" type="button">
+                  <input class="btn btn-primary" value="Save Changes" type="button" style="margin-top: 0;">
                   <span></span>
                   <input class="btn btn-default" value="Cancel" type="reset">
                 </div>
@@ -79,9 +69,9 @@
             </form>
           </div>
         </div>
+        </div>
       </div>
 
-    </section>
 
   </article>
 
