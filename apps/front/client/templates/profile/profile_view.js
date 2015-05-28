@@ -10,11 +10,6 @@ var EDIT_PASSWORD = 'editPassword';
 Template.profileView.helpers({
   getAvatarUrl: function() {
     var user = Meteor.user();
-
-    if(user.profile.tempUrl) {
-     return user.profile.tempUrl
-    }
-
     return user.profile.avatarUrl
   },
 
@@ -29,21 +24,31 @@ Template.profileView.helpers({
 });
 
 Template.profileView.events({
+
   "click #editPicture": function() {
     // alert('test');
     // set Cropperjs's options
+
+    // Default crop box data property setting
+    var cropBoxData = {};
+    cropBoxData.width = 270;
+    cropBoxData.height = 270;
+
     $('#avatarPreview').cropper({
-      aspectRatio: 1 / 1,
-      autoCropArea: 0.85,
+      aspectRatio: 1/1,
+      autoCropArea: 1,
       strict: false,
-      guides: false,
+      responsive: false,
       background: false,
-      modal: false,
-      // highlight: false,
-      // dragCrop: false,
-      // movable: false,
-      // resizable: false,
-      preview: '.avatar-preview'
+      highlight: false,
+      dragCrop: false,
+      movable: false,
+      resizable: false,
+      preview: '.avatar-preview',
+      built: function() {
+        // Strict mode: set crop box data first
+        $('#avatarPreview').cropper('setCropBoxData', cropBoxData);
+      },
     });
 
     $('#profileModal').modal('show');
@@ -165,3 +170,4 @@ Template.profileView.onRendered(function() {
     });
   });
 });
+

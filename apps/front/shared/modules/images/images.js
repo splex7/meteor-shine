@@ -42,11 +42,21 @@ Meteor.methods({
   },
 
   "updateProfileUrl" : function(originUrl, croppedUrl, publicId) {
-    Meteor.users.update(Meteor.userId,
+    Meteor.users.update(Meteor.userId(),
       { $set:
         { "profile.originUrl": originUrl,
           "profile.avatarUrl": croppedUrl,
           "profile.publicId": publicId,
+          "profile.tempUrl": "",
+          "profile.tempId": ""
+        }
+      });
+  },
+
+  'deleteTempUrl' : function() {
+    Meteor.users.update(Meteor.userId(),
+      { $set:
+        {
           "profile.tempUrl": "",
           "profile.tempId": ""
         }

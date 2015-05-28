@@ -7,6 +7,9 @@ Template.headerDefault.helpers({
 
 Template.headerDefault.events({
   'click [data-toggle=aside-left]': function() {
+//<<<<<<< HEAD
+//    $('#wrapper').toggleClass('aside-left-set');
+//=======
 
     var wrapper = $('#wrapper');
     if (wrapper.hasClass('aside-right-set') && wrapper.hasClass('mobile')) {
@@ -23,6 +26,7 @@ Template.headerDefault.events({
       wrapper.toggleClass('aside-left-set');
     }
 
+//>>>>>>> master
   },
 
   'click [data-toggle=aside-right]': function() {

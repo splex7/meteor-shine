@@ -1,0 +1,127 @@
+.profile-wrap {
+  position: relative;
+}
+
+.picture-finder {
+  position: absolute;
+  font-size: 20px;
+  color: #000000;
+  cursor: pointer;
+  bottom: 5%;
+  right: 5%;
+}
+
+/**Custom Avatar Wrapper**/
+.avatar-wrapper-custom {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid @navbar-default-border;
+
+}
+
+.avatar-wrapper-custom > img {
+  width: 100%;
+  cursor: pointer;
+  margin-left: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  margin-left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+// profile.css
+.avatar-wrapper {
+  width: 270px;
+  height: 270px;
+  margin-top: 15px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,.25);
+  background-color: #fcfcfc;
+  overflow: hidden;
+}
+
+.avatar-wrapper img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+.cropper-container {
+  margin: auto;
+}
+
+.cropper-modal {
+  background-color: #000;
+  opacity: 1;
+}
+
+.btn.btn-primary {
+  margin:10px 10px 0 0;
+}
+
+.avatar-preview {
+  float: left;
+  margin-top: 15px;
+  margin-right: 15px;
+  border: 1px solid #eee;
+  border-radius: 50%;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.avatar-preview:hover {
+  border-color: #ccf;
+  box-shadow: 0 0 5px rgba(0,0,0,.15);
+}
+
+.avatar-preview img {
+  width: 100%;
+}
+
+.preview-lg {
+  height: 120px;
+  width: 120px;
+  margin-top: 15px;
+}
+
+.preview-md {
+  height: 80px;
+  width: 80px;
+}
+
+.preview-sm {
+  height: 50px;
+  width: 50px;
+}
+
+.cropper-dashed {
+  position: absolute;
+  display: block;
+  filter: alpha(opacity=50);
+  /*border: 0 dashed #fff;*/
+  border: 0 solid #fff;
+  opacity: .6;
+}
+
+.cropper-view-box {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /*outline: 1px solid #69f;*/
+  outline: 1px solid #fff;
+  /*outline-color: rgba(102, 153, 255, .75);*/
+  outline-color: rgba(255, 255, 255, .9);
+}
+
+.avatar-preview img {
+  top: 0px !important;
+  left: 0px !important;
+}
+
+.cropper-container {
+  background-color: #000;
+}
