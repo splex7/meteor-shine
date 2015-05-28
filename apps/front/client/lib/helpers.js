@@ -7,4 +7,5 @@ Template.registerHelper('activeRoute', function(/* route names */) {
 	});
 
 	return active && 'active';
-})
+});
+

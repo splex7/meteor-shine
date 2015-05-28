@@ -144,15 +144,15 @@ Meteor.methods({
 
     Meteor.users.update(this.userId, { $set: { 'profile.staySignedIn' : state }});
   },
-  
+
   forgotPasswordExt: function(options, lang) {
     check(options, { email: String });
     check(lang, String);
-    
+
     var user = Meteor.users.findOne({ "emails.address": options.email });
     if (!user)
       throw new Meteor.Error(403, "Email not found");
-    
+
     Accounts.sendResetPasswordEmailExt(user._id, options.email, lang);
   }
 

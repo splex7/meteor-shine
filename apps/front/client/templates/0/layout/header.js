@@ -8,7 +8,6 @@ Template.headerDefault.helpers({
 Template.headerDefault.events({
   'click [data-toggle=aside-left]': function() {
     var wrapper = $('#wrapper');
-
     if (wrapper.hasClass('aside-right-set') && wrapper.hasClass('mobile')) {
       // Aside Right is On && Mobile
       wrapper.removeClass('aside-right-set');
@@ -22,6 +21,7 @@ Template.headerDefault.events({
       // In Other Situations
       wrapper.toggleClass('aside-left-set');
     }
+
   },
 
   'click [data-toggle=aside-right]': function() {

@@ -94,6 +94,8 @@
   border: solid 1px #ccc;
   background: #fff;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  /**/
+  z-index: 9999;
 }
 
 .cloudinary-progress .progress {
