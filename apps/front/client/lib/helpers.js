@@ -9,3 +9,9 @@ Template.registerHelper('activeRoute', function(/* route names */) {
 	return active && 'active';
 });
 
+Template.registerHelper('userEmail', function () {
+    var user = Meteor.user();
+    if (user && user.emails) {
+      return user.emails[0].address;
+    }
+});
