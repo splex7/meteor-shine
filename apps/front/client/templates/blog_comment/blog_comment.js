@@ -38,3 +38,8 @@ Template.blogCommentsList.onDestroyed(function() {
     InfiniteScrollTrigger.unbind(triggerHandle);
 });
 
+Template.blogCommentsList.events({
+  'click .load-more': function () {
+    // if (Router.current().nextPath())
+  }
+});

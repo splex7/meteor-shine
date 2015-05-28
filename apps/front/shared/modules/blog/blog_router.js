@@ -111,7 +111,9 @@ MyBlogsListController = RouteController.extend({
 
 
 BlogNewController = RouteController.extend({
-
+  waitOn: function () {
+    Meteor.subscribe('Drafts');
+  }
 });
 
 BlogEditController = RouteController.extend({

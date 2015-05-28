@@ -7,7 +7,26 @@ Template.headerDefault.helpers({
 
 Template.headerDefault.events({
   'click [data-toggle=aside-left]': function() {
-    $('#wrapper').toggleClass('aside-left-set');
+//<<<<<<< HEAD
+//    $('#wrapper').toggleClass('aside-left-set');
+//=======
+
+    var wrapper = $('#wrapper');
+    if (wrapper.hasClass('aside-right-set') && wrapper.hasClass('mobile')) {
+      // Aside Right is On && Mobile
+      wrapper.removeClass('aside-right-set');
+      wrapper.addClass('aside-left-set');
+    }
+    if (wrapper.hasClass('aside-right-set') && (! wrapper.hasClass('mobile'))) {
+      // Aside Right is On && Not Mobile
+      wrapper.removeClass('aside-right-set');
+      wrapper.removeClass('aside-left-set'); // When Not Mobile, ! aside-left-set means its on
+    } else {
+      // In Other Situations
+      wrapper.toggleClass('aside-left-set');
+    }
+
+//>>>>>>> master
   },
 
   'click [data-toggle=aside-right]': function() {
@@ -15,7 +34,7 @@ Template.headerDefault.events({
   },
 
   'click [data-toggle=notifications]': function() {
-    $('#wrapper').toggleClass('notifications-set');
+    $('#wrapper').toggleClass('aside-right-set');
   }
 });
 

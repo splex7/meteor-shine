@@ -1,10 +1,12 @@
 <template name="layout">
   {{> userList}}
+  {{> draftModal}}
   <div id="wrapper">
     {{> headerDefault}}
     <div id="canvas">
       {{> navMain}}
       {{> yield}}
+      {{> notificationsList}}
     </div>
   </div>
   <!-- {{> yield}} -->

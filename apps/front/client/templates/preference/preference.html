@@ -2,8 +2,8 @@
   <article class="page">
     <h2>{{_ 'title_preference'}}</h2>
 
-    <section>
-      <form class="ss-form">
+    <div class="panel panel-default">
+      <div class="panel-body">
         <div class="radio">
           <label>
             <input type="radio" name="theme" value="default" checked="{{isChecked 'default'}}"> {{_ 'theme.default'}}
@@ -89,7 +89,7 @@
             <input type="radio" name="theme" value="yeti" checked="{{isChecked 'yeti'}}"> {{_ 'theme.yeti'}}
           </label>
         </div>
-      </form>
-    </section>
+      </div>
+    </div>
   </article>
 </template>
