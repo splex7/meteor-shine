@@ -13,30 +13,13 @@
       <div class="container" style="padding-top: 60px;">
         <h1 class="page-header" style="display:none">Edit Profile</h1>
         <div class="row">
-          <!-- User Profile Picture column -->
-          <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="text-center" id="crop-profile">
-              <!-- Current avatar -->
-              <!-- <a href="#" class="profile-pic-modal">
-                <img src="http://res.cloudinary.com/dwxtsjyic/image/upload/c_scale,w_990/v1431077789/test/oyeeclbzmb0kb9bvf1am.jpg" class="avatar img-circle img-thumbnail" width="100" alt="avatar">
-              </a> -->
-
-              <div class="avatar-wrapper-custom">
-                <img src="{{getAvatarUrl}}">
-              </div>
-              {{> cloudinaryUploader}}
-            </div>
-            <div id="wrapperAvatar" style="width:0;height:0;overflow:hidden;">
-              <input id="photoPicker" class="image_upload" name="" type="file" accept="image/*">
-            </div>
-          </div>
           <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+            <h4>개인정보</h4>
             <div class="alert alert-info alert-dismissable">
               <a class="panel-close close" data-dismiss="alert">×</a>
               <i class="fa fa-coffee"></i>
               이것은 <strong>경고 </strong>메시지 알림창입니다.
             </div>
-            <h4>개인정보</h4>
             <form class="form-horizontal" role="form">
               <div class="form-group">
                 <label class="col-lg-3 control-label">Username</label>

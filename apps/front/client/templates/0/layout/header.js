@@ -8,7 +8,6 @@ Template.headerDefault.helpers({
 Template.headerDefault.events({
   'click [data-toggle=aside-left]': function() {
     $('#wrapper').toggleClass('aside-left-set');
-    alert("test");
   },
 
   'click [data-toggle=aside-right]': function() {

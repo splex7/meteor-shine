@@ -13,24 +13,34 @@ Template.profileView.helpers({
 });
 
 Template.profileView.events({
-  "click .avatar-wrapper-custom img": function() {
+  "click .avatar-wrapper-custom img, click .picture-finder": function() {
     // alert('test');
     // set Cropperjs's options
+
     $('#avatarPreview').cropper({
-      aspectRatio: 1 / 1,
-      autoCropArea: 0.85,
-      strict: false,
-      guides: false,
+      aspectRatio: 1/1,
+      autoCropArea: 1,
+      strict: true,
+      guides: true,
+      responsive: false,
       background: false,
       modal: false,
-      // highlight: false,
-      // dragCrop: false,
-      // movable: false,
-      // resizable: false,
-      preview: '.avatar-preview'
+      highlight: false,
+      dragCrop: false,
+      movable: false,
+      resizable: false,
+      rotatable: false,
+      minCanvasWidth: 300,
+      minCropBoxWidth: 300,
+      minCropBoxHeight: 300,
+      minContainerWidth: 300,
+      minContainerHeight: 300,
+      preview: '.avatar-preview',
     });
+    Meteor.setTimeout(function(){
+      $('#profileModal').modal('show');
+    }, 300);
 
-    $('#profileModal').modal('show');
   },
 });
 
@@ -46,6 +56,8 @@ Template.profileView.onRendered(function() {
   // code here for upload profile photo to cloudinary server
   // using jquery file upload & cloudinary
   $('#saveBtn').on('click', function() {
+    console.log('saveBtn this: ', this);
+
     var cropData = $('#avatarPreview').cropper('getData');
 
     var newWidth = Math.round(cropData.width);
@@ -56,7 +68,7 @@ Template.profileView.onRendered(function() {
 
     var originUrl = $('#avatarPreview')[0].src;
 
-    var fetchedImgage = $.cloudinary.fetch_image(originUrl,
+    var croppedImgage = $.cloudinary.fetch_image(originUrl,
       {
         crop: 'crop',
         width: newWidth,
@@ -67,17 +79,20 @@ Template.profileView.onRendered(function() {
         fetch_format: 'png'
       });
 
-    if(!fetchedImgage) {
+    if(!croppedImgage) {
 
       console.log('fetch failed');
 
     } else {
 
-      console.log('fetch success');
+      console.log('fetch success: ', croppedImgage);
 
-      var croppedUrl = fetchedImgage[0].src;
-      var user = Meteor.user();
-      var publicId = user.profile.tempId;
+      var croppedUrl = croppedImgage[0].src;
+      var publicId = Meteor.user().profile.tempId;
+
+      if(publicId === "") {
+        publicId = Meteor.user().profile.publicId;
+      }
 
       console.log('publicId: ', publicId);
 
@@ -100,13 +115,8 @@ Template.profileView.onRendered(function() {
       multiple: false
     }
   }, function(e, data) {
-    // $('#profileModal').modal('show');
-    // this is modal's img element
-    // $('.avatar-preview').resetPreview();
-
-    // $('#avatarPreview').src = data.result.url;
-    // var img = $('#avatarPreview')[0];
-    // img.src = data.result.url;
+    $('#avatarPreview').cropper('reset');
+    // $('#avatarPreview').cropper('destroy');
 
     var tempId = data.result.public_id;
     var tempUrl = data.result.url;
@@ -120,19 +130,27 @@ Template.profileView.onRendered(function() {
 
     Meteor.call('uploadOriginImage', tempId, tempUrl, userId);
 
-
     $('#avatarPreview').cropper({
-      aspectRatio: 1 / 1,
-      autoCropArea: 0.85,
-      strict: false,
-      guides: false,
-      background: false,
-      modal: false,
-      // highlight: false,
-      // dragCrop: false,
-      // movable: false,
-      // resizable: false,
-      preview: '.avatar-preview'
-    });
+          aspectRatio: 1/1,
+          autoCropArea: 1,
+          strict: false,
+          guides: true,
+          responsive: false,
+          background: false,
+          modal: false,
+          highlight: false,
+          dragCrop: false,
+          movable: false,
+          resizable: false,
+          rotatable: false,
+          minCanvasWidth: 300,
+          minCropBoxWidth: 300,
+          minCropBoxHeight: 300,
+          minContainerWidth: 300,
+          minContainerHeight: 300,
+          preview: '.avatar-preview',
+        });
+
+
   });
 });
