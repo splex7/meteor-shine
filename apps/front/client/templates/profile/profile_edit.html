@@ -1,78 +1,68 @@
 <body>
   {{> profilePicDialogs}}
 </body>
-<template name="profileEdit">
-  <article class="page">
-    <h2>프로필 수정 페이지</h2>
 
-    <div class="panel panel-default">
-      <div class="panel-body">
-      <div class="row-fluid">
-        <!-- User Profile Picture column -->
-          <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="text-center" id="crop-profile">
-              <div class="avatar-wrapper-custom" style="margin-top: 60px;">
-                <img src="{{getAvatarUrl}}">
-              </div>
-              {{> cloudinaryUploader}}
-            </div>
-            <div id="wrapperAvatar" style="width:0;height:0;overflow:hidden;">
-              <input id="photoPicker" class="image_upload" name="" type="file" accept="image/*">
-            </div>
-          </div>
-          <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
-            <!-- <div class="alert alert-info alert-dismissable">
-              <a class="panel-close close" data-dismiss="alert">×</a>
-              <i class="fa fa-coffee"></i>
-              이것은 <strong>경고 </strong>메시지 알림창입니다.
-            </div> -->
-            <h4>개인정보</h4>
-            <form class="form-horizontal" role="form">
-              <div class="form-group">
-                <label class="col-lg-3 control-label">Username</label>
-                <div class="col-lg-8">
-                  <input class="form-control" value="{{currentUser.username}}" type="text">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-3 control-label">Email</label>
-                <div class="col-lg-8">
-                  <input class="form-control" value="{{userEmail}}" type="email">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-3 control-label">Current Password</label>
-                <div class="col-lg-8">
-                  <input class="form-control" value="" type="password">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-3 control-label">New password</label>
-                <div class="col-lg-8">
-                  <input class="form-control" value="" type="password">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-3 control-label">Confirm New password</label>
-                <div class="col-lg-8">
-                  <input class="form-control" value="" type="password">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-3 control-label"></label>
-                <div class="col-md-8">
-                  <input class="btn btn-primary" value="Save Changes" type="button" style="margin-top: 0;">
-                  <span></span>
-                  <input class="btn btn-default" value="Cancel" type="reset">
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-        </div>
+<template name="profileEditNormal">
+  <ul class="list-group">
+    <li class="list-group-item">{{currentUser.username}}</li>
+    <li class="list-group-item">
+      <i class="fa fa-mail"></i> {{userEmail}}
+    </li>
+  </ul>
+</template>
+
+<template name="profileEditForm">
+  <form class="form-horizontal" role="form">
+    <div class="form-group">
+      <label class="col-lg-3 control-label">Username</label>
+      <div class="col-lg-8">
+        <input class="form-control" value="DavidSunny" type="text">
       </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-3 control-label">Email</label>
+      <div class="col-lg-8">
+        <input class="form-control" value="uuunet1@gmail.com" type="email">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-3 control-label"></label>
+      <div class="col-md-8">
+        <input class="btn btn-primary" value="Save Changes" type="button">
+        <span></span>
+        <input class="btn btn-default" value="Cancel" type="reset">
+      </div>
+    </div>
+  </form>
+</template>
 
-
-  </article>
-
+<template name="profilePassword">
+  <form class="form-horizontal" role="form">
+    <div class="form-group">
+      <label class="col-lg-3 control-label">Current Password</label>
+      <div class="col-lg-8">
+        <input class="form-control" value="11111122333" type="password">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-3 control-label">New password</label>
+      <div class="col-lg-8">
+        <input class="form-control" value="" type="password">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-3 control-label">Confirm password</label>
+      <div class="col-lg-8">
+        <input class="form-control" value="" type="password">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-3 control-label"></label>
+      <div class="col-md-8">
+        <input class="btn btn-primary" value="Save Changes" type="button">
+        <span></span>
+        <input class="btn btn-default" value="Cancel" type="reset">
+      </div>
+    </div>
+  </form>
 </template>
