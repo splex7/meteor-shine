@@ -19,9 +19,6 @@ body {
           transform: translateX(0);
 }
 
-.navbar {
-  margin: 0;
-}
 .btn-toolbar .btn-group {
   padding: 5px 0;
   .btn {
@@ -30,12 +27,43 @@ body {
   }
 }
 
+a.navbar-brand {
+  position: absolute;
+  display: block;
+  left: 50%;
+  padding-right: 0;
+  padding-left: 0;
+  width: auto;
+  text-align: center;
+  -webkit-transform: translate3d(-50%, 0, 0);
+          transform: translate3d(-50%, 0, 0);
+}
+
 
 .aside-left,
+.aside-right,
 article.page {
   -webkit-transition: all @slide-transition-time ease-out;
        -o-transition: all @slide-transition-time ease-out;
           transition: all @slide-transition-time ease-out;
+}
+
+.aside-right {
+  position: absolute;
+  top: 0;
+  right: -@aside-right-width;
+  padding: 5px 5px;
+  min-height: 100%;
+  width: @aside-right-width;
+  border-left: 1px solid @navbar-default-border;
+  background-color: @body-bg;
+}
+
+#wrapper.aside-right-set {
+  #canvas {
+    -webkit-transform: translateX(-@aside-right-width);
+            transform: translateX(-@aside-right-width);
+  }
 }
 
 .aside-left {
@@ -44,7 +72,7 @@ article.page {
   min-height: 100%;
   width: @aside-left-width;
   border-right: 1px solid @navbar-default-border;
-  background: white;
+  background-color: @body-bg;
 }
 
 article.page {
@@ -52,40 +80,47 @@ article.page {
   top: 0;
   padding: 5px;
   width: calc(~'100% - @{aside-left-width}');
-  transform: translateX(@aside-left-width);
+  -webkit-transform: translateX(@aside-left-width);
+          transform: translateX(@aside-left-width);
 }
 
 // Aside Left Set in Desktop means Aside is ***"OFF"***
 #wrapper.aside-left-set {
   .aside-left {
-    transform: translateX(-@aside-left-width);
+    -webkit-transform: translateX(-@aside-left-width);
+            transform: translateX(-@aside-left-width);
   }
   article.page {
     width: 100%;
-    transform: translateX(0);
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
   }
 }
 
 @media screen and (max-width: @container-sm) {
   .aside-left {
-    transform: translateX(-@aside-left-width);
     z-index: 11;
+    -webkit-transform: translateX(-@aside-left-width);
+            transform: translateX(-@aside-left-width);
   }
 
   article.page {
     width: 100%;
-    transform: translateX(0);
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
   }
 
   #wrapper.aside-left-set {
     .aside-left {
       position: absolute;
       top: 0;
-      transform: translateX(0);
+      -webkit-transform: translateX(0);
+              transform: translateX(0);
     }
     article.page {
       width: 100%;
-      transform: translateX(0);
+      -wekbit-transform: translateX(0);
+              transform: translateX(0);
     }
   }
 }
@@ -95,24 +130,31 @@ article.page {
 /**Custom Avatar Wrapper**/
 .avatar-wrapper-custom {
   display: inline-block;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
   overflow: hidden;
   border: 3px solid @navbar-default-border;
+  border-radius: 50%;
+}
 
+.avatar-wrapper-custom.avatar-100 {
+  width: 100px;
+  height: 100px;
+}
+
+.avatar-wrapper-custom.avatar-50 {
+  width: 50px;
+  height: 50px;
 }
 
 //<<<<<<< HEAD
 .avatar-wrapper-custom > img {
+  margin-left: 50%;
+  margin-left: 50%;
   width: 100%;
-  margin-left: 50%;
   -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-  margin-left: 50%;
   -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
-/*=======
+          transform: translateY(-50%);
+          transform: translateX(-50%);
+  /*=======
 // When you click the notification button, don't toggle.
 // This temporarily is bug fix.
 // change class : notifications-set => notification-set
