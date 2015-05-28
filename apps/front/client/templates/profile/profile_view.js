@@ -1,3 +1,11 @@
+/**
+ * Display user information
+ *    - picture
+ *    - profile
+ */
+
+var TEMPLATE_PROFILE = 'templateProfile';
+var EDIT_PASSWORD = 'editPassword';
 
 Template.profileView.helpers({
   getAvatarUrl: function() {
@@ -8,12 +16,20 @@ Template.profileView.helpers({
     }
 
     return user.profile.avatarUrl
+  },
+
+  templateProfile: function() {
+    return Session.get(TEMPLATE_PROFILE) || 'profileEditNormal';
+  },
+
+  editPassword: function() {
+    return Session.get(EDIT_PASSWORD) || false;
   }
 
 });
 
 Template.profileView.events({
-  "click .avatar-wrapper-custom img": function() {
+  "click #editPicture": function() {
     // alert('test');
     // set Cropperjs's options
     $('#avatarPreview').cropper({
@@ -32,6 +48,19 @@ Template.profileView.events({
 
     $('#profileModal').modal('show');
   },
+
+  'click #editProfile': function() {
+    var template = Session.get(TEMPLATE_PROFILE);
+    if (template === 'profileEditForm')
+      Session.set(TEMPLATE_PROFILE, 'profileEditNormal');
+    else
+      Session.set(TEMPLATE_PROFILE, 'profileEditForm');
+  },
+
+  'click #editPassword': function() {
+    var edit = Session.get(EDIT_PASSWORD);
+    Session.set(EDIT_PASSWORD, ! edit);
+  }
 });
 
 Template.profileView.onRendered(function() {
@@ -67,7 +96,7 @@ Template.profileView.onRendered(function() {
         fetch_format: 'png'
       });
 
-    if(!fetchedImgage) {
+    if (! fetchedImgage) {
 
       console.log('fetch failed');
 
