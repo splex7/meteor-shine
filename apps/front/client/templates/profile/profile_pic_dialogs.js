@@ -3,7 +3,7 @@ Template.profilePicDialogs.helpers({
   getOriginUrl: function() {
     var user = Meteor.user();
 
-    if(user.profile.tempUrl) {
+    if(user && user.profile.tempUrl) {
      return user.profile.tempUrl
     } else if(user.profile.originUrl) {
       return user.profile.originUrl
@@ -15,6 +15,7 @@ Template.profilePicDialogs.helpers({
 });
 
 Template.profilePicDialogs.events({
+
   "click #rotateLeft": function(event, template){
     $('.avatar-wrapper > img').cropper('rotate', -90);
   },
@@ -23,36 +24,34 @@ Template.profilePicDialogs.events({
     $('.avatar-wrapper > img').cropper('rotate', 90);
   },
 
-  "click #resetBtn": function() {
-    $('.avatar-wrapper > img').cropper('reset');
-  },
-
   "click #saveBtn" : function() {
     var cropData = $('#avatarPreview').cropper('getData');
+    var canvasData = {};
 
-    var newWidth = Math.round(cropData.width);
-    var newHeight = Math.round(cropData.height);
-    var newX = Math.round(cropData.x);
-    var newY = Math.round(cropData.y);
-    var newRotate = cropData.rotate;
+    canvasData = $('#avatarPreview').cropper('getCanvasData');
+    canvasData.left = Math.round(canvasData.left);
+    canvasData.top = Math.round(canvasData.top);
+    canvasData.width = Math.round(canvasData.width);
+    canvasData.height = Math.round(canvasData.height);
+    canvasData.rotate = cropData.rotate;
+
+    console.log(canvasData);
 
     var originUrl = $('#avatarPreview')[0].src;
 
     var croppedImgage = $.cloudinary.fetch_image(originUrl,
       {
         crop: 'crop',
-        width: newWidth,
-        height: newHeight,
-        x: newX,
-        y: newY,
-        angle: newRotate,
+        width: Math.round(cropData.width),
+        height: Math.round(cropData.height),
+        x: Math.round(cropData.x),
+        y: Math.round(cropData.y),
+        angle: cropData.rotate,
         fetch_format: 'png'
       });
 
     if(!croppedImgage) {
-
-      console.log('fetch failed');
-
+      console.log('fetch failed', croppedImgage);
     } else {
 
       console.log('fetch success: ', croppedImgage);
@@ -66,7 +65,7 @@ Template.profilePicDialogs.events({
 
       console.log('publicId: ', publicId);
 
-      Meteor.call('updateProfileUrl', originUrl, croppedUrl, publicId);
+      Meteor.call('updateProfileUrl', originUrl, croppedUrl, publicId, canvasData);
 
       $('#profileModal').modal('hide');
       Router.go('profileView');
@@ -76,8 +75,10 @@ Template.profilePicDialogs.events({
 
 Template.profilePicDialogs.onRendered(function() {
   $('#profileModal').on('hidden.bs.modal', function () {
+
     $('#avatarPreview').cropper('destroy');
     Meteor.call('deleteTempUrl');
+
   });
 
   Cloudinary.uploadImage({
@@ -85,39 +86,40 @@ Template.profilePicDialogs.onRendered(function() {
       cloud_name: Meteor.settings.public.cloudinary.cloudName,
       api_key: Meteor.settings.public.cloudinary.apiKey
     },
-    buttonHTML: '<i class="fa fa-upload">사진선택',
+    buttonHTML: '<i class="fa fa-upload">',
     showProgress: true,
     options: {
       multiple: false
     }
   }, function(e, data) {
 
-    var tempId = data.result.public_id;
-    var tempUrl = data.result.url;
-    var cropBoxData = {};
+    // $().cropper(options);
+    // $.fn.cropper.setDefaults(options).
+    $('#avatarPreview').cropper('destroy');
 
-    cropBoxData.width = 270;
-    cropBoxData.height = 270;
+    var cropBoxData = {};
+    cropBoxData.width = 300;
+    cropBoxData.height = 300;
 
     $('#avatarPreview').cropper({
       aspectRatio: 1/1,
       autoCropArea: 1,
       strict: false,
-      guides: true,
       responsive: false,
       background: false,
-      modal: false,
       highlight: false,
       dragCrop: false,
       movable: false,
       resizable: false,
-      rotatable: true,
       preview: '.avatar-preview',
       built: function() {
         // Strict mode: set crop box data first
         $('#avatarPreview').cropper('setCropBoxData', cropBoxData);
       },
     });
+
+    var tempId = data.result.public_id;
+    var tempUrl = data.result.url;
 
     $('#avatarPreview').cropper('replace', tempUrl);
 

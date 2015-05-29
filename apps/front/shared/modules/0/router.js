@@ -4,6 +4,7 @@ Router.configure({
   loadingTemplate: 'loading',
   waitOn: function() {
     Meteor.subscribe("userStatus");
+    Meteor.subscribe('profileView');
 
     return (Meteor.userId()) ? [ Meteor.subscribe('notificationsList') ] : [];
   }

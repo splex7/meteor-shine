@@ -41,14 +41,15 @@ Meteor.methods({
     });
   },
 
-  "updateProfileUrl" : function(originUrl, croppedUrl, publicId) {
+  "updateProfileUrl" : function(originUrl, croppedUrl, publicId, canvasData) {
     Meteor.users.update(Meteor.userId(),
       { $set:
         { "profile.originUrl": originUrl,
           "profile.avatarUrl": croppedUrl,
           "profile.publicId": publicId,
           "profile.tempUrl": "",
-          "profile.tempId": ""
+          "profile.tempId": "",
+          "profile.position": canvasData
         }
       });
   },
