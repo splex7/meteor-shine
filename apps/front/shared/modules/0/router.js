@@ -3,6 +3,8 @@ Router.configure({
   layoutTemplate: 'layout',
   loadingTemplate: 'loading',
   waitOn: function() {
+    Meteor.subscribe("userStatus");
+
     return (Meteor.userId()) ? [ Meteor.subscribe('notificationsList') ] : [];
   }
 });
