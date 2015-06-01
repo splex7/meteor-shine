@@ -31,24 +31,42 @@ Meteor.methods({
 		return image._id;
 	},
 
-  "uploadOriginImage" : function(publicId, originUrl, userId) {
-    Meteor.users.update(userId,
+  "defaultProfile": function() {
+    Meteor.users.update(Meteor.userId(),
     {
       $set: {
-          "profile.tempId": publicId,
-          "profile.tempUrl": originUrl
+          "profile.avatarUrl": "/images/default_profile.png",
+          "profile.tempUrl": "",
+          "profile.tempId": "",
+          "profile.originUrl": "",
+          "profile.publicId": "",
+          "profile.position.left": 0,
+          "profile.position.top": 10,
+          "profile.position.width": 280,
+          "profile.position.height": 280,
       }
     });
   },
 
-  "updateProfileUrl" : function(originUrl, croppedUrl, publicId) {
+  "uploadOriginImage" : function(publicId, originUrl) {
+    Meteor.users.update(Meteor.userId(),
+    {
+      $set: {
+          "profile.tempId": publicId,
+          "profile.tempUrl": originUrl,
+      }
+    });
+  },
+
+  "updateProfileUrl" : function(originUrl, croppedUrl, publicId, canvasData) {
     Meteor.users.update(Meteor.userId(),
       { $set:
         { "profile.originUrl": originUrl,
           "profile.avatarUrl": croppedUrl,
           "profile.publicId": publicId,
           "profile.tempUrl": "",
-          "profile.tempId": ""
+          "profile.tempId": "",
+          "profile.position": canvasData
         }
       });
   },
@@ -61,6 +79,6 @@ Meteor.methods({
           "profile.tempId": ""
         }
       });
-  }
+  },
 
 });

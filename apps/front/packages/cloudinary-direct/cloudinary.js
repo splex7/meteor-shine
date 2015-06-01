@@ -141,14 +141,13 @@ Cloudinary = {
       this.setButtonHTML(options.buttonHTML);
     }
 
-    $.cloudinary.config(options.config);
-
     $(selectors.inputFile).unsigned_cloudinary_upload(
-      options.preset,
-      { cloud_name: options.config.cloud_name },
-      options.options
+      'bs_accounts',
+      { cloud_name: 'meteor-shine' },
+      {
+       multiple: false
+      }
     );
-
     self.setEventHandler(selectors.uploader, options.showProgress, callback);
   },
 
