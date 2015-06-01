@@ -10,7 +10,8 @@ var EDIT_PASSWORD = 'editPassword';
 Template.profileView.helpers({
   getAvatarUrl: function() {
     var user = Meteor.user();
-    if(user && user.profile) return user.profile.avatarUrl
+    if (user && user.profile)
+      return user.profile.avatarUrl;
   },
 
   templateProfile: function() {
@@ -86,7 +87,7 @@ Template.profileView.events({
             $('#avatarPreview').cropper('rotate', rotateValue);
             // $('.cropper-view-box img, .cropper-canvas img').css('margin', '0');
           }
-        },
+        }
       });
 
       console.log('canvasData: ', canvasData);

@@ -11,7 +11,7 @@ Template.profilePicDialogs.helpers({
       } else return user.profile.avatarUrl
     }
 
-    return ""
+    return "";
   }
 
 });
