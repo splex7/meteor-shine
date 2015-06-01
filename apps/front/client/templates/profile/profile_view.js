@@ -38,6 +38,8 @@ Template.profileView.events({
 
     cropBoxData.width = 280;
     cropBoxData.height = 280;
+    cropBoxData.x = 0;
+    cropBoxData.y = 0;
 
     if ( user.profile.avatarUrl === "/images/default_profile.png" ) {
 
@@ -66,9 +68,11 @@ Template.profileView.events({
       $('#avatarPreview').cropper({
         aspectRatio: 1/1,
         autoCropArea: 1,
-        strict: false,
+        strict: true,
+        minCanvasWidth: 280, // Width of canvas-container to keep 1:1 at all times
+        // minCanvasHeight: 280, // Width of canvas-container to keep 1:1 at all times
         responsive: false,
-        background: false,
+        background: true,
         highlight: false,
         dragCrop: false,
         movable: false,
@@ -80,6 +84,7 @@ Template.profileView.events({
           if(user && user.profile.position) {
             $('#avatarPreview').cropper('setCanvasData', canvasData);
             $('#avatarPreview').cropper('rotate', rotateValue);
+            // $('.cropper-view-box img, .cropper-canvas img').css('margin', '0');
           }
         },
       });

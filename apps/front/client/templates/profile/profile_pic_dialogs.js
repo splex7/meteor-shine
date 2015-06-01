@@ -41,6 +41,10 @@ Template.profilePicDialogs.events({
     // /meteor-shine/image/upload?public_ids=
     // /resources/image/upload?public_ids=image1,image2
     var user = Meteor.user();
+
+    console.log('avatarUrl: ',user.profile.avatarUrl);
+    console.log('tempUrl: ', user.profile.tempUrl);
+
     if (!(user.profile.avatarUrl === "/images/default_profile.png") || user.profile.tempUrl ) {
       Meteor.call("removeImage", user.profile.publicId, function(err,result){
           if(err){
@@ -153,26 +157,35 @@ Template.profilePicDialogs.onRendered(function() {
     var cropBoxData = {};
     cropBoxData.width = 280;
     cropBoxData.height = 280;
+    cropBoxData.x = 0;
+    cropBoxData.y = 0;
 
     $('#avatarPreview').cropper({
       aspectRatio: 1/1,
       autoCropArea: 1,
-      strict: false,
+      strict: true,
+      minCanvasWidth: 280, // Width of canvas-container to keep 1:1 at all times
+      // minCanvasWidth: 280, // Width of canvas-container to keep 1:1 at all times
       responsive: false,
-      background: false,
+      background: true,
       highlight: false,
       dragCrop: false,
       movable: false,
       resizable: false,
       preview: '.avatar-preview',
-      built: function() {
+      build: function () {
+
+      },
+      built: function () {
         // Strict mode: set crop box data first
         $('#avatarPreview').cropper('setCropBoxData', cropBoxData);
-
+        $('span.cropper-view-box > img').css('margin-left', '0');
         $('.avatar-preview').css({display: 'block'});
+        $('.avatar-preview > img').css('margin-left', '0');
         $('#saveBtn').addClass('btn-primary').css({margin:0});
         $('#cancelBtn').removeClass('btn-primary');
         $('#cancelBtn').addClass('btn-default');
+        // $('.cropper-view-box img, .cropper-canvas img').css('margin', '0');
       },
     });
 

@@ -23,6 +23,21 @@
   transform: translateX(-50%);
 }
 
+.cropper-outer {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  overflow: hidden;
+  margin: auto;
+  img {
+    width: 100%;
+  }
+}
+
+.cropper-modal {
+  background: rgba(0, 0, 0, 0.8) !important;
+}
+
 // profile.css
 .avatar-wrapper {
   width: 280px;
@@ -33,6 +48,20 @@
   overflow: hidden;
   margin: auto;
 }
+
+// .cropper-container {
+//   position: relative;
+//   width: 280px !important;
+//   height: 280px !important;
+// }
+
+// .cropper-crop-box {
+//   position: absolute;
+//   top: 0 !important;
+//   left: 0 !important;
+//   width: 280px !important;
+//   height: 280px !important;
+// }
 
 .avatar-btn-wrapper {
   width: 270px;
@@ -113,14 +142,23 @@
   outline-color: rgba(255, 255, 255, .9);
 }
 
-.cropper-view-box img{
-
+.cropper-view-box img,
+.cropper-canvas img {
+  // margin-left: 0 !important;
 }
 
-.avatar-preview img {
-  top: 0px !important;
-  left: 0px !important;
+.cropper-canvas {
+  left: 0 !important;
 }
+
+.cropper-view-box img {
+  margin-left: 0;
+}
+
+// .avatar-preview img {
+//   top: 0px !important;
+//   left: 0px !important;
+// }
 
 .cropper-container {
   background-color: #000;
