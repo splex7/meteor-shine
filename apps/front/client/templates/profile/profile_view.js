@@ -36,45 +36,59 @@ Template.profileView.events({
     var cropBoxData = {};
     var canvasData = {};
 
-    cropBoxData.width = 270;
-    cropBoxData.height = 270;
+    cropBoxData.width = 280;
+    cropBoxData.height = 280;
 
-    if(user && user.profile.position) {
-      canvasData.left = user.profile.position.left;
-      canvasData.top = user.profile.position.top;
-      canvasData.width = user.profile.position.width;
-      canvasData.height = user.profile.position.height;
+    if ( user.profile.avatarUrl === "/images/default_profile.png" ) {
 
-      var rotateValue = user.profile.position.rotate;
+      $('#profileModal').modal('show');
+      $('.cloudinary-uploader > .btn').addClass('btn-primary').css({margin:0});
+      $('#cancelBtn').addClass('btn-primary').css({margin:0});
+      $('.avatar-preview').css({ display: 'none'});
+
+    } else {
+
+      $('.avatar-preview').css({display: 'block'});
+      $('#saveBtn').addClass('btn-primary').css({margin:0});
+
+      if(user && user.profile.position) {
+        canvasData.left = user.profile.position.left;
+        canvasData.top = user.profile.position.top;
+        canvasData.width = user.profile.position.width;
+        canvasData.height = user.profile.position.height;
+
+        var rotateValue = user.profile.position.rotate;
+      }
+
+      // $().cropper(options);
+      // $.fn.cropper.setDefaults(options).
+
+      $('#avatarPreview').cropper({
+        aspectRatio: 1/1,
+        autoCropArea: 1,
+        strict: false,
+        responsive: false,
+        background: false,
+        highlight: false,
+        dragCrop: false,
+        movable: false,
+        resizable: false,
+        preview: '.avatar-preview',
+        built: function() {
+          // Strict mode: set crop box data first
+          $('#avatarPreview').cropper('setCropBoxData', cropBoxData);
+          if(user && user.profile.position) {
+            $('#avatarPreview').cropper('setCanvasData', canvasData);
+            $('#avatarPreview').cropper('rotate', rotateValue);
+          }
+        },
+      });
+
+      console.log('canvasData: ', canvasData);
+
+      $('#profileModal').modal('show');
     }
 
-    // $().cropper(options);
-    // $.fn.cropper.setDefaults(options).
-
-    $('#avatarPreview').cropper({
-      aspectRatio: 1/1,
-      autoCropArea: 1,
-      strict: false,
-      responsive: false,
-      background: false,
-      highlight: false,
-      dragCrop: false,
-      movable: false,
-      resizable: false,
-      preview: '.avatar-preview',
-      built: function() {
-        // Strict mode: set crop box data first
-        $('#avatarPreview').cropper('setCropBoxData', cropBoxData);
-        if(user && user.profile.position) {
-          $('#avatarPreview').cropper('setCanvasData', canvasData);
-          $('#avatarPreview').cropper('rotate', rotateValue);
-        }
-      },
-    });
-
-    console.log('canvasData: ', canvasData);
-
-    $('#profileModal').modal('show');
   },
 
   'click #editProfile': function() {

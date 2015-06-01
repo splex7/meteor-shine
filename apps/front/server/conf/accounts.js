@@ -35,6 +35,16 @@ Accounts.onCreateUser(function(options, user) {
 
   user.profile = {
     avatarUrl: "/images/default_profile.png",
+    tempUrl: "",
+    tempId: "",
+    originUrl: "",
+    publicId: "",
+    position: {
+      left: 0,
+      top: 10,
+      width: 280,
+      height: 280
+    }
   }
 
   /*

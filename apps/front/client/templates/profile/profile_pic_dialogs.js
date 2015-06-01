@@ -3,13 +3,15 @@ Template.profilePicDialogs.helpers({
   getOriginUrl: function() {
     var user = Meteor.user();
 
-    if(user && user.profile.tempUrl) {
-     return user.profile.tempUrl
-    } else if(user.profile.originUrl) {
-      return user.profile.originUrl
+    if(user && user.profile){
+      if(user.profile.tempUrl) {
+        return user.profile.tempUrl
+      } else if(user.profile.originUrl) {
+        return user.profile.originUrl
+      } else return user.profile.avatarUrl
     }
 
-    return user.profile.avatarUrl
+    return ""
   }
 
 });
@@ -17,63 +19,113 @@ Template.profilePicDialogs.helpers({
 Template.profilePicDialogs.events({
 
   "click #rotateLeft": function(event, template){
-    $('.avatar-wrapper > img').cropper('rotate', -90);
+    var user = Meteor.user();
+    if (! (user.profile.avatarUrl === "/images/default_profile.png") ) {
+      $('#avatarPreview').cropper('rotate', -90);
+    } else if (user.profile.tempUrl) {
+      $('#avatarPreview').cropper('rotate', -90);
+    }
   },
 
   "click #rotateRight": function(event, template){
-    $('.avatar-wrapper > img').cropper('rotate', 90);
+    var user = Meteor.user();
+    if (! (user.profile.avatarUrl === "/images/default_profile.png") ) {
+      $('#avatarPreview').cropper('rotate', 90);
+    } else if (user.profile.tempUrl) {
+      $('#avatarPreview').cropper('rotate', 90);
+    }
   },
 
-  "click #saveBtn" : function() {
-    var cropData = $('#avatarPreview').cropper('getData');
-    var canvasData = {};
+  "click #deleteBtn": function(event, template){
+    // unsigned image delete(원본 삭제됨)
+    // /meteor-shine/image/upload?public_ids=
+    // /resources/image/upload?public_ids=image1,image2
+    var user = Meteor.user();
+    if (!(user.profile.avatarUrl === "/images/default_profile.png") || user.profile.tempUrl ) {
+      Meteor.call("removeImage", user.profile.publicId, function(err,result){
+          if(err){
+            console.log(err);
+          } else {
+            console.log('profile image delete result: ', result);
 
-    canvasData = $('#avatarPreview').cropper('getCanvasData');
-    canvasData.left = Math.round(canvasData.left);
-    canvasData.top = Math.round(canvasData.top);
-    canvasData.width = Math.round(canvasData.width);
-    canvasData.height = Math.round(canvasData.height);
-    canvasData.rotate = cropData.rotate;
+            Meteor.call('defaultProfile');
 
-    console.log(canvasData);
+            $('#avatarPreview').cropper('destroy');
 
-    var originUrl = $('#avatarPreview')[0].src;
+            $('.cloudinary-uploader > .btn').removeClass('btn-default');
+            $('.cloudinary-uploader > .btn').addClass('btn-primary').css({margin:0});
+            $('.avatar-preview').css({display: 'none'});
+            $('#saveBtn').removeClass('btn-primary');
+            $('#saveBtn').addClass('btn-default');
+            $('#cancelBtn').removeClass('btn-default');
+            $('#cancelBtn').addClass('btn-primary');
 
-    var croppedImgage = $.cloudinary.fetch_image(originUrl,
-      {
-        crop: 'crop',
-        width: Math.round(cropData.width),
-        height: Math.round(cropData.height),
-        x: Math.round(cropData.x),
-        y: Math.round(cropData.y),
-        angle: cropData.rotate,
-        fetch_format: 'png'
+          }
       });
-
-    if(!croppedImgage) {
-      console.log('fetch failed', croppedImgage);
-    } else {
-
-      console.log('fetch success: ', croppedImgage);
-
-      var croppedUrl = croppedImgage[0].src;
-      var publicId = Meteor.user().profile.tempId;
-
-      if(publicId === "") {
-        publicId = Meteor.user().profile.publicId;
-      }
-
-      console.log('publicId: ', publicId);
-
-      Meteor.call('updateProfileUrl', originUrl, croppedUrl, publicId, canvasData);
-
-      $('#profileModal').modal('hide');
-      Router.go('profileView');
     }
+
+  },
+
+  "click #saveBtn" : function(event, template) {
+    var user = Meteor.user();
+    if (!(user.profile.avatarUrl === "/images/default_profile.png") || user.profile.tempUrl ) {
+
+      var cropData = $('#avatarPreview').cropper('getData');
+      var canvasData = {};
+
+      canvasData = $('#avatarPreview').cropper('getCanvasData');
+      canvasData.left = Math.round(canvasData.left);
+      canvasData.top = Math.round(canvasData.top);
+      canvasData.width = Math.round(canvasData.width);
+      canvasData.height = Math.round(canvasData.height);
+      canvasData.rotate = cropData.rotate;
+
+      console.log(cropData);
+      console.log(canvasData);
+
+      var originUrl = $('#avatarPreview')[0].src;
+
+      var croppedImage = $.cloudinary.fetch_image(originUrl,
+        {
+          crop: 'crop',
+          width: Math.round(cropData.width),
+          height: Math.round(cropData.height),
+          x: Math.round(cropData.x),
+          y: Math.round(cropData.y),
+          angle: cropData.rotate,
+          fetch_format: 'png'
+        });
+
+      if(!croppedImage) {
+        console.log('fetch failed', croppedImage);
+      } else {
+
+        console.log('fetch success: ', croppedImage);
+
+        var croppedUrl = croppedImage[0].src;
+        var publicId = Meteor.user().profile.tempId;
+
+        if(publicId === "") {
+          publicId = Meteor.user().profile.publicId;
+        }
+
+        console.log('publicId: ', publicId);
+
+        Meteor.call('updateProfileUrl', originUrl, croppedUrl, publicId, canvasData);
+
+        $('#profileModal').modal('hide');
+        Router.go('profileView');
+      }
+    }
+
+
+
+
   },
 });
 
 Template.profilePicDialogs.onRendered(function() {
+
   $('#profileModal').on('hidden.bs.modal', function () {
 
     $('#avatarPreview').cropper('destroy');
@@ -84,7 +136,6 @@ Template.profilePicDialogs.onRendered(function() {
   Cloudinary.uploadImage({
     config: {
       cloud_name: Meteor.settings.public.cloudinary.cloudName,
-      api_key: Meteor.settings.public.cloudinary.apiKey
     },
     buttonHTML: '<i class="fa fa-upload">',
     showProgress: true,
@@ -93,13 +144,15 @@ Template.profilePicDialogs.onRendered(function() {
     }
   }, function(e, data) {
 
+    console.log('returned data: ', data.result);
+
     // $().cropper(options);
     // $.fn.cropper.setDefaults(options).
     $('#avatarPreview').cropper('destroy');
 
     var cropBoxData = {};
-    cropBoxData.width = 300;
-    cropBoxData.height = 300;
+    cropBoxData.width = 280;
+    cropBoxData.height = 280;
 
     $('#avatarPreview').cropper({
       aspectRatio: 1/1,
@@ -115,6 +168,11 @@ Template.profilePicDialogs.onRendered(function() {
       built: function() {
         // Strict mode: set crop box data first
         $('#avatarPreview').cropper('setCropBoxData', cropBoxData);
+
+        $('.avatar-preview').css({display: 'block'});
+        $('#saveBtn').addClass('btn-primary').css({margin:0});
+        $('#cancelBtn').removeClass('btn-primary');
+        $('#cancelBtn').addClass('btn-default');
       },
     });
 
@@ -123,10 +181,8 @@ Template.profilePicDialogs.onRendered(function() {
 
     $('#avatarPreview').cropper('replace', tempUrl);
 
-    var userId = Meteor.user()._id;
-
     console.log('original image upload done');
 
-    Meteor.call('uploadOriginImage', tempId, tempUrl, userId);
+    Meteor.call('uploadOriginImage', tempId, tempUrl);
   });
 });
