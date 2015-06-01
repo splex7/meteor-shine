@@ -8,10 +8,12 @@ var TEMPLATE_PROFILE = 'templateProfile';
 var EDIT_PASSWORD = 'editPassword';
 
 Template.profileView.helpers({
-  getAvatarUrl: function() {
-    var user = Meteor.user();
-    return user.profile.avatarUrl
-  },
+  // getAvatarUrl: function() {
+  //   var user = Meteor.user();
+  //   if (user && user.profile) {
+  //     return user.profile.avatarUrl
+  //   }
+  // },
 
   templateProfile: function() {
     return Session.get(TEMPLATE_PROFILE) || 'profileEditNormal';

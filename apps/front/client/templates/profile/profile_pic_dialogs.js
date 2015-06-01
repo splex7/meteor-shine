@@ -3,13 +3,14 @@ Template.profilePicDialogs.helpers({
   getOriginUrl: function() {
     var user = Meteor.user();
 
-    if(user.profile.tempUrl) {
-     return user.profile.tempUrl
-    } else if(user.profile.originUrl) {
-      return user.profile.originUrl
+    if (user && user.profile) {
+      if(user && user.profile.tempUrl) {
+        return user.profile.tempUrl;
+      } else if(user && user.profile.originUrl) {
+        return user.profile.originUrl;
+      }
+      return user.profile.avatarUrl;
     }
-
-    return user.profile.avatarUrl
   }
 
 });

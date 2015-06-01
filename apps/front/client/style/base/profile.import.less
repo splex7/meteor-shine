@@ -37,7 +37,7 @@
 .avatar-wrapper {
   width: 270px;
   height: 270px;
-  margin-top: 15px;
+  margin: 0 auto;
   box-shadow: inset 0 0 5px rgba(0,0,0,.25);
   background-color: #fcfcfc;
   overflow: hidden;
@@ -63,13 +63,17 @@
 }
 
 .avatar-preview {
-  float: left;
-  margin-top: 15px;
-  margin-right: 15px;
+  // float: left;
+  // margin-top: 15px;
+  // margin-right: 15px;
+  display: block;
+  margin: 0 auto;
   border: 1px solid #eee;
   border-radius: 50%;
   background-color: #fff;
   overflow: hidden;
+
+
 }
 
 .avatar-preview:hover {
@@ -124,4 +128,22 @@
 
 .cropper-container {
   background-color: #000;
+}
+
+@media screen and (max-width: 351px) {
+  // profile.css
+  .avatar-wrapper {
+    width: 270px;
+    height: 270px;
+    margin: 0 auto;
+    box-shadow: inset 0 0 5px rgba(0,0,0,.25);
+    background-color: #fcfcfc;
+    overflow: hidden;
+  }
+  .slam-gutter{
+    padding: 5px !important;
+  }
+  .no-gutter {
+    padding: 0 !important;
+  }
 }

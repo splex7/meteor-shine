@@ -1,12 +1,12 @@
 <template name = "userStatus">
   <div class="panel panel-info clearfix">
-    <div class="panel-body">
+    <div class="panel-body userListBody">
       <ul class="userList">
         {{#each usersOnline}}
           <li>
             <div class="inner">
               <div class="profile-wrapper">
-                <img src="/portrait.jpg">
+                <img src="{{getAvatarUrl}}">
               </div>
               <p>{{username}}</p>
             </div>
