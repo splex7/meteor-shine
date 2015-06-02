@@ -44,7 +44,7 @@ Template.profileView.events({
 
     if ( user.profile.avatarUrl === "/images/default_profile.png" ) {
 
-      //$('#profileModal').modal('show');
+      $('#profileModal').modal('show');
       $('.cloudinary-uploader > .btn').addClass('btn-primary').css({margin:0});
       $('#cancelBtn').addClass('btn-primary').css({margin:0});
       $('.avatar-preview').css({ display: 'none'});
@@ -73,7 +73,7 @@ Template.profileView.events({
         minCanvasWidth: 280, // Width of canvas-container to keep 1:1 at all times
         // minCanvasHeight: 280, // Width of canvas-container to keep 1:1 at all times
         responsive: false,
-        background: true,
+        background: false,
         highlight: false,
         dragCrop: false,
         movable: false,

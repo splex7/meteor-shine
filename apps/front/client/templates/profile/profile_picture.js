@@ -46,25 +46,26 @@ Template.profilePicture.events({
     console.log('tempUrl: ', user.profile.tempUrl);
 
     if (!(user.profile.avatarUrl === "/images/default_profile.png") || user.profile.tempUrl ) {
-      Meteor.call("removeImage", user.profile.publicId, function(err,result){
-          if(err){
-            console.log(err);
-          } else {
-            console.log('profile image delete result: ', result);
+      Meteor.call("removeImage", user.profile.publicId, function(error, result){
+          if(error){
+            console.log(error);
+            return
+          }
+          console.log('profile image delete result: ', result);
 
-            Meteor.call('defaultProfile');
-
+          Meteor.call('defaultProfile', function(error, result) {
+            if(error) {
+              console.log(error);
+            }
             $('#avatarPreview').cropper('destroy');
-
             $('.cloudinary-uploader > .btn').removeClass('btn-default');
             $('.cloudinary-uploader > .btn').addClass('btn-primary').css({margin:0});
             $('.avatar-preview').css({display: 'none'});
             $('#saveBtn').removeClass('btn-primary');
             $('#saveBtn').addClass('btn-default');
             $('#cancelBtn').removeClass('btn-default');
-            $('#cancelBtn').addClass('btn-primary');
-
-          }
+            $('#cancelBtn').addClass('btn-primary').css({margin:0});
+          });
       });
     }
 
@@ -87,45 +88,43 @@ Template.profilePicture.events({
       console.log(cropData);
       console.log(canvasData);
 
-      var originUrl = $('#avatarPreview')[0].src;
+      // publicId
+      if(Meteor.user().profile.tempId) {
+        var publicId = Meteor.user().profile.tempId;
+      } else {
+        var publicId = Meteor.user().profile.publicId;
+      }
 
-      var croppedImage = $.cloudinary.fetch_image(originUrl,
-        {
-          crop: 'crop',
-          width: Math.round(cropData.width),
-          height: Math.round(cropData.height),
-          x: Math.round(cropData.x),
-          y: Math.round(cropData.y),
-          angle: cropData.rotate,
-          fetch_format: 'png'
+
+      cropData.width = Math.round(cropData.width);
+      cropData.height = Math.round(cropData.height);
+      cropData.x = Math.round(cropData.x);
+      cropData.y =  Math.round(cropData.y);
+
+      console.log('cropData: ', cropData);
+
+      Meteor.call('cloudinaryImageCrop', publicId, cropData, function(error, result) {
+        if(error) {
+          console.log(error);
+        }
+        console.log('save result: ', result);
+
+        $('.avatar-wrapper-custom img')[0].src = result;
+        $('#profileModal').modal('hide');
+
+        var originUrl = $('#avatarPreview')[0].src;
+        Meteor.call('updateProfileUrl', originUrl, result, publicId, canvasData, function(error, result) {
+          if(error) {
+            console.log(error);
+          }
+          console.log('updateProfileUrl result: ', result);
+
+
         });
 
-      if(!croppedImage) {
-        console.log('fetch failed', croppedImage);
-      } else {
-
-        console.log('fetch success: ', croppedImage);
-
-        var croppedUrl = croppedImage[0].src;
-        var publicId = Meteor.user().profile.tempId;
-
-        if(publicId === "") {
-          publicId = Meteor.user().profile.publicId;
-        }
-
-        console.log('publicId: ', publicId);
-
-        Meteor.call('updateProfileUrl', originUrl, croppedUrl, publicId, canvasData);
-
-        $('#profileModal').modal('hide');
-        Router.go('profileView');
-      }
+      });
     }
-
-
-
-
-  },
+  }
 });
 
 
@@ -182,7 +181,7 @@ Template.profilePictureToolbar.onRendered(function() {
       minCanvasWidth: 280, // Width of canvas-container to keep 1:1 at all times
       // minCanvasWidth: 280, // Width of canvas-container to keep 1:1 at all times
       responsive: false,
-      background: true,
+      background: false,
       highlight: false,
       dragCrop: false,
       movable: false,
@@ -206,6 +205,8 @@ Template.profilePictureToolbar.onRendered(function() {
 
     var tempId = data.result.public_id;
     var tempUrl = data.result.url;
+
+    console.log('data.result: ', data.result);
 
     $('#avatarPreview').cropper('replace', tempUrl);
 

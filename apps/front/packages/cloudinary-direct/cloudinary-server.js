@@ -28,20 +28,21 @@ Meteor.methods({
 
     return future.wait();
   },
-  // ### Admin API ###
-  // http://cloudinary.com/documentation/admin_api#delete_resources
-  // cloudinaryDeleteProfile: function(publicId){
-  //   //This isn't very safe, lol
-  //   this.unblock();
 
-  //   var future = new Future();
+  cloudinaryImageCrop: function(publicId, cropData) {
+    return cloudinary.url( publicId,
+    {
+      transformation: {
+        crop: 'crop',
+        width: cropData.width,
+        height: cropData.height,
+        x: cropData.x,
+        y: cropData.y
+      },
+      angle: cropData.rotate
+    })
+  }
 
-  //   cloudinary.api.delete_resources([publicId],function(result){
-  //     future.return(result);
-  //   });
-
-  //   return future.wait();
-  // },
 });
 
 CloudinaryServer = {
@@ -53,6 +54,9 @@ CloudinaryServer = {
     });
 
     return future.wait();
+  },
+  updateProfileImage: function() {
+
   },
 
 };
