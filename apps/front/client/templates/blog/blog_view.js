@@ -115,23 +115,25 @@ Template.blogOne.onRendered(function(){
   // Initiate Editor
   inlineEditor.init(editor, editorTitle);
 
-/*
+});
+
+Template.blogContentToolbar.onRendered(function() {
+
   Cloudinary.uploadImagePreset({
     config: {
       cloud_name: Meteor.settings.public.cloudinary.cloudName,
-        api_key: Meteor.settings.public.cloudinary.apiKey,
-        presets: {
+      api_key: Meteor.settings.public.cloudinary.apiKey,
+      presets: {
         accounts: Meteor.settings.public.cloudinary.presets.accounts,
-          blogs: Meteor.settings.public.cloudinary.presets.blogs
+        blogs: Meteor.settings.public.cloudinary.presets.blogs
       }
     },
     preset: Meteor.settings.public.cloudinary.presets.blogs,
-*/
-  Cloudinary.uploadImage({
+    /*
     config: {
       cloud_name: Meteor.settings.public.cloudinary.cloudName,
       api_key: Meteor.settings.public.cloudinary.apiKey
-    },
+    },*/
     buttonHTML: '<i class="fa fa-upload"> 업로드',
     showProgress: true,
     options: {
@@ -169,11 +171,10 @@ Template.blogOne.onRendered(function(){
 
       var source = '<p class="image"><img class="img-responsive" src="' + imageUrlFit(attributes) + '" data-id="' + id + '" /></p>';
 
-      $('#editor .is-selected').after(source);
+      $('#editor p.is-selected').after(source);
 
       console.log('upload done');
     });
 
   });
-
 });

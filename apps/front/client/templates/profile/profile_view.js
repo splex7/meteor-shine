@@ -44,7 +44,7 @@ Template.profileView.events({
 
     if ( user.profile.avatarUrl === "/images/default_profile.png" ) {
 
-      $('#profileModal').modal('show');
+      //$('#profileModal').modal('show');
       $('.cloudinary-uploader > .btn').addClass('btn-primary').css({margin:0});
       $('#cancelBtn').addClass('btn-primary').css({margin:0});
       $('.avatar-preview').css({ display: 'none'});
@@ -117,3 +117,10 @@ Template.profileView.onRendered(function() {
   });
 });
 
+Template.profileView.onCreated(function() {
+  Blaze.render(Template.profilePicture, document.body);
+});
+
+Template.profileView.onDestroyed(function() {
+  Blaze.remove(Template.profilePicture);
+});

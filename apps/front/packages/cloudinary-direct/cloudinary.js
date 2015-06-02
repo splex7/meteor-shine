@@ -142,7 +142,7 @@ Cloudinary = {
     }
 
     $(selectors.inputFile).unsigned_cloudinary_upload(
-      'bs_accounts',
+      options.preset,
       { cloud_name: 'meteor-shine' },
       {
        multiple: false

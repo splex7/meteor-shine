@@ -14,21 +14,7 @@
 
             <div class="text-content">
               {{#if editMode}}
-
-                   <!--    <button id="editor-image" class="cloudinary-uploader" tabindex="-1">
-                        <i class="fa fa-file-image-o"></i>
-                        <input type="file" name="file" class="uploadImage cloudinary-fileupload" tabindex="-1"/>
-                      </button> -->
-                  <div class="btn-toolbar">
-                    <div class="btn-group">
-                      {{> cloudinaryUploader}}
-                    </div>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-default">
-                        <i class="fa fa-link"></i>
-                      </button>
-                    </div>
-                  </div>
+                {{> blogContentToolbar}}
               {{/if}}
 
               {{{editable}}}
@@ -68,4 +54,21 @@
   </article>
 
 
+</template>
+
+<template name="blogContentToolbar">
+  <!--    <button id="editor-image" class="cloudinary-uploader" tabindex="-1">
+     <i class="fa fa-file-image-o"></i>
+     <input type="file" name="file" class="uploadImage cloudinary-fileupload" tabindex="-1"/>
+   </button> -->
+  <div class="btn-toolbar">
+    <div class="btn-group">
+      {{> cloudinaryUploader}}
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn btn-default">
+        <i class="fa fa-link"></i>
+      </button>
+    </div>
+  </div>
 </template>

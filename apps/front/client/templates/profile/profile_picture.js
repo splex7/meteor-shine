@@ -1,5 +1,5 @@
 
-Template.profilePicDialogs.helpers({
+Template.profilePicture.helpers({
   getOriginUrl: function() {
     var user = Meteor.user();
 
@@ -16,7 +16,7 @@ Template.profilePicDialogs.helpers({
 
 });
 
-Template.profilePicDialogs.events({
+Template.profilePicture.events({
 
   "click #rotateLeft": function(event, template){
     var user = Meteor.user();
@@ -128,7 +128,8 @@ Template.profilePicDialogs.events({
   },
 });
 
-Template.profilePicDialogs.onRendered(function() {
+
+Template.profilePicture.onRendered(function() {
 
   $('#profileModal').on('hidden.bs.modal', function () {
 
@@ -137,10 +138,24 @@ Template.profilePicDialogs.onRendered(function() {
 
   });
 
-  Cloudinary.uploadImage({
+});
+
+Template.profilePictureToolbar.onRendered(function() {
+  Cloudinary.uploadImagePreset({
     config: {
       cloud_name: Meteor.settings.public.cloudinary.cloudName,
+      api_key: Meteor.settings.public.cloudinary.apiKey,
+      presets: {
+        accounts: Meteor.settings.public.cloudinary.presets.accounts,
+        blogs: Meteor.settings.public.cloudinary.presets.blogs
+      }
     },
+    preset: Meteor.settings.public.cloudinary.presets.accounts,
+    /*
+     config: {
+     cloud_name: Meteor.settings.public.cloudinary.cloudName,
+     },
+     */
     buttonHTML: '<i class="fa fa-upload">',
     showProgress: true,
     options: {
@@ -198,4 +213,5 @@ Template.profilePicDialogs.onRendered(function() {
 
     Meteor.call('uploadOriginImage', tempId, tempUrl);
   });
+
 });
