@@ -71,14 +71,14 @@ Meteor.methods({
       });
   },
 
-  'deleteTempUrl' : function() {
-    Meteor.users.update(Meteor.userId(),
-      { $set:
-        {
-          "profile.tempUrl": "",
-          "profile.tempId": ""
-        }
-      });
-  },
+  // 'deleteTempUrl' : function() {
+  //   Meteor.users.update(Meteor.userId(),
+  //     { $set:
+  //       {
+  //         "profile.tempUrl": "",
+  //         "profile.tempId": ""
+  //       }
+  //     });
+  // },
 
 });

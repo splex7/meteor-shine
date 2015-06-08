@@ -34,17 +34,38 @@ Accounts.onCreateUser(function(options, user) {
   console.log('onCreateUser:user = ' + JSON.stringify(user));
 
   user.profile = {
-    avatarUrl: "/images/default_profile.png",
-    tempUrl: "",
-    tempId: "",
-    originUrl: "",
-    publicId: "",
-    position: {
-      left: 0,
-      top: 10,
-      width: 280,
-      height: 280
+    picture: {
+      _id: "",
+      repoId: "",
+      url: "",
+      urlCropped: "",
+      coordinates: {
+        left: 0,
+        top: 10,
+        width: 280,
+        height: 280,
+        rotate: 0
+      },
+      temp: {
+        _id: "",
+        repoId: "",
+        url: "",
+      }
     }
+
+    // url: "/images/default_profile.png",
+    // originalAvatar: "",
+    // croppedAvatar: "",
+    // repoId: "",
+    // imageId: "",
+    // temporaryInfo: [],
+    // croppedPosition: {
+    //   left: 0,
+    //   top: 10,
+    //   width: 280,
+    //   height: 280,
+    //   rotate: 0
+    // }
   }
 
   /*

@@ -28,7 +28,7 @@ BlogCommentsListController = RouteController.extend({
     return {
       ready: this.subs.ready,
       hasMore: this.blogs().count() === this.limit(),
-      blogComments: this.blogComments()
+      blogComments: this.blogComments().fetch()
     };
   }
 
@@ -36,7 +36,7 @@ BlogCommentsListController = RouteController.extend({
 
 
 Router.route('/blog/:blogId/comments', {
-  name: 'blogCommentssList',
+  name: 'blogCommentsList',
   controller: 'BlogCommentsListController'
 });
 

@@ -6,12 +6,23 @@
 
 var TEMPLATE_PROFILE = 'templateProfile';
 var EDIT_PASSWORD = 'editPassword';
+var DEFAULT_IMAGE = "/images/default_profile.png";
 
 Template.profileView.helpers({
-  getAvatarUrl: function() {
+  getAvatar: function() {
     var user = Meteor.user();
-    if (user && user.profile)
-      return user.profile.avatarUrl;
+
+    // if profile image is default image, set profileState `0`
+    // otherwise set profileState `1`
+    if(user && user.profile.picture) {
+      if(! user.profile.picture.url) {
+        Session.set('profileState', 0)
+        return DEFAULT_IMAGE
+      }
+      Session.set('profileState', 1)
+      return user.profile.picture.urlCropped
+    }
+
   },
 
   templateProfile: function() {
@@ -27,75 +38,44 @@ Template.profileView.helpers({
 Template.profileView.events({
 
   "click #editPicture": function() {
-    // set Cropperjs's options
-    // Default crop box data property setting
-    // return String (e.g 400px)
-    // $('.avatar-wrapper').css('width');
-
     var user = Meteor.user();
+    // 유저가 업로드한 프로필 이미지가 있는 경우
+    var flag = Session.get('profileState');
 
-    var cropBoxData = {};
-    var canvasData = {};
+    if(flag === 1 || flag === 2) {
+      var canvasData = {
+        left: user.profile.picture.coordinates.left,
+        top: user.profile.picture.coordinates.top,
+        width: user.profile.picture.coordinates.width,
+        height: user.profile.picture.coordinates.height,
+      };
+      var rotateValue = user.profile.picture.coordinates.rotate;
 
-    cropBoxData.width = 280;
-    cropBoxData.height = 280;
-    cropBoxData.x = 0;
-    cropBoxData.y = 0;
-
-    if ( user.profile.avatarUrl === "/images/default_profile.png" ) {
-
+      $('#avatarPreview').cropper({
+        //this function fires when a cropper instance has built completely
+        built: function() {
+          var cropBoxData = {
+            width: 280,
+            height: 280,
+          };
+          // Strict mode: set crop box data first
+          $('#avatarPreview').cropper('setCropBoxData', cropBoxData);
+          $('#avatarPreview').cropper('setCanvasData', canvasData);
+          $('#avatarPreview').cropper('rotate', rotateValue);
+        }
+      });
+      // console.log('canvasData: ', canvasData);
       $('#profileModal').modal('show');
+
+    } else {
+      $('#profileModal').modal('show');
+      // for CSS problems
       $('.cloudinary-uploader > .btn').addClass('btn-primary').css({margin:0});
       $('#cancelBtn').addClass('btn-primary').css({margin:0});
       $('.avatar-preview').css({ display: 'none'});
-
-    } else {
-
-      $('.avatar-preview').css({display: 'block'});
-      $('#saveBtn').addClass('btn-primary').css({margin:0});
-
-      if(user && user.profile.position) {
-        canvasData.left = user.profile.position.left;
-        canvasData.top = user.profile.position.top;
-        canvasData.width = user.profile.position.width;
-        canvasData.height = user.profile.position.height;
-
-        var rotateValue = user.profile.position.rotate;
-      }
-
-      // $().cropper(options);
-      // $.fn.cropper.setDefaults(options).
-
-      $('#avatarPreview').cropper({
-        aspectRatio: 1/1,
-        autoCropArea: 1,
-        strict: true,
-        minCanvasWidth: 280, // Width of canvas-container to keep 1:1 at all times
-        // minCanvasHeight: 280, // Width of canvas-container to keep 1:1 at all times
-        responsive: false,
-        background: false,
-        highlight: false,
-        dragCrop: false,
-        movable: false,
-        resizable: false,
-        preview: '.avatar-preview',
-        built: function() {
-          // Strict mode: set crop box data first
-          $('#avatarPreview').cropper('setCropBoxData', cropBoxData);
-          if(user && user.profile.position) {
-            $('#avatarPreview').cropper('setCanvasData', canvasData);
-            $('#avatarPreview').cropper('rotate', rotateValue);
-            // $('.cropper-view-box img, .cropper-canvas img').css('margin', '0');
-          }
-        }
-      });
-
-      console.log('canvasData: ', canvasData);
-
-      $('#profileModal').modal('show');
     }
-
   },
+
 
   'click #editProfile': function() {
     var template = Session.get(TEMPLATE_PROFILE);
@@ -111,16 +91,19 @@ Template.profileView.events({
   }
 });
 
+Template.profileView.onCreated(function() {
+  Blaze.render(Template.profilePicture, document.body);
+});
+
 Template.profileView.onRendered(function() {
+  // when modal close, cropper container destroies
   $('#profileModal').on('hidden.bs.modal', function () {
     $('#avatarPreview').cropper('destroy');
   });
-});
 
-Template.profileView.onCreated(function() {
-  Blaze.render(Template.profilePicture, document.body);
 });
 
 Template.profileView.onDestroyed(function() {
   Blaze.remove(Template.profilePicture);
 });
+
