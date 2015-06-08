@@ -59,7 +59,7 @@ Meteor.methods({
   },
 
   "updateProfileUrl" : function(originUrl, croppedUrl, publicId, canvasData) {
-    Meteor.users.update(Meteor.userId(),
+    return Meteor.users.update(Meteor.userId(),
       { $set:
         { "profile.originUrl": originUrl,
           "profile.avatarUrl": croppedUrl,
@@ -71,14 +71,14 @@ Meteor.methods({
       });
   },
 
-  'deleteTempUrl' : function() {
-    Meteor.users.update(Meteor.userId(),
-      { $set:
-        {
-          "profile.tempUrl": "",
-          "profile.tempId": ""
-        }
-      });
-  },
+  // 'deleteTempUrl' : function() {
+  //   Meteor.users.update(Meteor.userId(),
+  //     { $set:
+  //       {
+  //         "profile.tempUrl": "",
+  //         "profile.tempId": ""
+  //       }
+  //     });
+  // },
 
 });
