@@ -5,6 +5,9 @@
  * @returns {*}
  */
 userDisplayName = function(user) {
+  if (! user)
+    return "";
+
   if (user.name)
     return user.name;
 

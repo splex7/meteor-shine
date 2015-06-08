@@ -17,3 +17,18 @@ Meteor.Spinner.options = {
   left: 'auto' // Left position relative to parent in px
 };
 
+// Default settings for Cropper
+$.fn.cropper.setDefaults({
+  aspectRatio: 1/1,
+  autoCropArea: 1,
+  strict: true,
+  minCanvasWidth: 280, // Width of canvas-container to keep 1:1 at all times
+  // minCanvasWidth: 280, // Width of canvas-container to keep 1:1 at all times
+  responsive: false,
+  background: false,
+  highlight: false,
+  dragCrop: false,
+  movable: false,
+  resizable: false,
+  preview: '.avatar-preview'
+});

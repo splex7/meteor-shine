@@ -33,60 +33,6 @@ Accounts.onCreateUser(function(options, user) {
   console.log('onCreateUser:options = ' + JSON.stringify(options));
   console.log('onCreateUser:user = ' + JSON.stringify(user));
 
-  user.profile = {
-    picture: {
-      _id: "",
-      repoId: "",
-      url: "",
-      urlCropped: "",
-      coordinates: {
-        left: 0,
-        top: 10,
-        width: 280,
-        height: 280,
-        rotate: 0
-      },
-      temp: {
-        _id: "",
-        repoId: "",
-        url: "",
-      }
-    }
-
-    // url: "/images/default_profile.png",
-    // originalAvatar: "",
-    // croppedAvatar: "",
-    // repoId: "",
-    // imageId: "",
-    // temporaryInfo: [],
-    // croppedPosition: {
-    //   left: 0,
-    //   top: 10,
-    //   width: 280,
-    //   height: 280,
-    //   rotate: 0
-    // }
-  }
-
-  /*
-  user.profile = {
-    state: 10,
-    mobile: {
-      no: "",
-      os: -1,
-      deviceToken: ""
-    },
-    wallet: {
-      coupon: 0,
-      point: 0,
-      sumCoupon: 0,
-      sumPoint: 0,
-      usedCoupon: 0,
-      usedPoint: 0
-    }
-  };
-  */
-
   return user;
 });
 
