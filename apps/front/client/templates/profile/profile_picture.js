@@ -3,31 +3,36 @@
  *    - picture
  *
  * Session
- *   - profileState
- *      0 : default profile image state
- *      1 : user`s profile image exist, but new image not yet uploaded
- *      2 : new image uploaded
  */
 
- var DEFAULT_IMAGE = "/images/default_profile.png";
+
+/**
+ *  0 : default profile image state
+ *  1 : user`s profile image exist, but new image not yet uploaded
+ *  2 : new image uploaded
+ *
+ * @returns {boolean}
+ */
+var profilePictureState = function() {
+  var user = Meteor.user();
+
+  if (user && user.profile && user.profile.picture) {
+    return (user.profile.picture.temp) ?  1 : 2;
+  }
+
+  return 0;
+};
 
 Template.profilePicture.helpers({
   getAvatar: function() {
     var user = Meteor.user();
-    var flag = Session.get('profileState');
 
-    console.log('flag: ', flag);
-
-    if(user.profile.picture.temp.url) {
-      Session.set('profileState', 2);
-      return user.profile.picture.temp.url
-    }else if(flag === 1) {
-      Session.set('profileState', 1);
-      return user.profile.picture.url
+    if (user && user.profile && user.profile.picture) {
+      return (user.profile.picture.temp) ?
+        user.profile.picture.temp.url : user.profile.picture.url;
     }
-    Session.set('profileState', 0);
-    return DEFAULT_IMAGE;
 
+    return DEFAULT_PICTURE_URL;
   }
 
 });
@@ -36,7 +41,7 @@ Template.profilePicture.events({
   "click #saveBtn" : function(event, template) {
     var user = Meteor.user();
 
-    var flag = Session.get('profileState');
+    var flag = profilePictureState();
 
     if (flag === 1 || flag === 2) {
       var cropData = $('#avatarPreview').cropper('getData');
@@ -48,7 +53,7 @@ Template.profilePicture.events({
         x: Math.round(cropData.x),
         y: Math.round(cropData.y),
         rotate: cropData.rotate
-      }
+      };
       console.log(cropData);
 
       canvasData = {
@@ -57,12 +62,13 @@ Template.profilePicture.events({
         width: Math.round(canvasData.width),
         height: Math.round(canvasData.height),
         rotate: cropData.rotate
-      }
+      };
+
       console.log(canvasData);
 
       var profileObj = {};
 
-      if( flag === 1 ){
+      if (flag === 1 ) {
         profileObj._id = user.profile.picture._id;
         profileObj.repoId = user.profile.picture.repoId;
         profileObj.url = user.profile.picture.url;
@@ -90,7 +96,7 @@ Template.profilePicture.events({
 
     }
     $('#profileModal').modal('hide');
-    },
+  },
 
 
   "click #rotateLeft": function(event, template){

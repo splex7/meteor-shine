@@ -6,23 +6,17 @@
 
 var TEMPLATE_PROFILE = 'templateProfile';
 var EDIT_PASSWORD = 'editPassword';
-var DEFAULT_IMAGE = "/images/default_profile.png";
+
 
 Template.profileView.helpers({
   getAvatar: function() {
     var user = Meteor.user();
 
-    // if profile image is default image, set profileState `0`
-    // otherwise set profileState `1`
-    if(user && user.profile.picture) {
-      if(! user.profile.picture.url) {
-        Session.set('profileState', 0)
-        return DEFAULT_IMAGE
-      }
-      Session.set('profileState', 1)
-      return user.profile.picture.urlCropped
+    if (user && user.profile && user.profile.picture) {
+      return user.profile.picture.urlCropped;
+    } else {
+      return DEFAULT_PICTURE_URL;
     }
-
   },
 
   templateProfile: function() {
