@@ -50,7 +50,12 @@ Validator = function(schema) {
   this.validate = function(object, attributes) {
     var self = this;
 
-    _.each(attributes, function(attribute) {
+    if (! _.isArray(attributes)) {
+      attributes = [ attributes ];
+    }
+    
+    for (var i = 0; i < attributes.length; i++) {
+      var attribute = attributes[i];
 
       var rule = self.schema(attribute);
       var value = object[attribute];
@@ -64,9 +69,10 @@ Validator = function(schema) {
       }
 
       if ((rule.minLength && value.length < rule.minLength) ||
-          (rule.maxLength && value.length > rule.maxLength))
+        (rule.maxLength && value.length > rule.maxLength))
         self.setError(attribute, "error_out_of_range");
-    });
+    }
+
   }
 };
 
