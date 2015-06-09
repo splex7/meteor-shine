@@ -3,5 +3,3 @@ $(document).mouseup(function(e) {
     $('#container').removeClass('notifications-set')
   }
 });
-
-

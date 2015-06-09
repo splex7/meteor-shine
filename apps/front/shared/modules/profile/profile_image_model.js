@@ -21,7 +21,7 @@
 
 ProfileImages = new Mongo.Collection('profileImages');
 
-var prepareData = function(attributes) {
+var prepareData = function (attributes) {
   var user = Meteor.user();
 
   return _.extend(_.pick(attributes, 'url', 'surl', 'size', 'width', 'height',
@@ -37,7 +37,7 @@ var prepareData = function(attributes) {
 };
 
 Meteor.methods({
-  "profileImagesInsert" :function(attributes){
+  "profileImagesInsert": function (attributes) {
     check(attributes, Match.Any)
 
     var user = Meteor.user();
@@ -46,37 +46,36 @@ Meteor.methods({
 
     // insert new uploaded profile image into DB
     var profileImageId = ProfileImages.insert(profileImage);
-
-    if(profileImageId) {
+    if (profileImageId) {
+      console.log('ProfileImages insert success!');
       // user profile picture temp field update
       var userProfileUpdateResult = Meteor.users.update(this.userId, {
-        $set:
-          {
-            "profile.picture.temp": {
-              _id: profileImageId,
-              repoId: attributes.repoId,
-              url: attributes.url,
-            }
+        $set: {
+          "profile.picture.temp": {
+            _id: profileImageId,
+            repoId: attributes.repoId,
+            url: attributes.url,
           }
+        }
       });
 
-      if(userProfileUpdateResult) {
-        console.log('profile image insert success! & user profile update success!');
+      if (userProfileUpdateResult) {
+        console.log('user profile update success!');
         // if temporary profile info exists, remove it
-        if(user.profile.picture.temp._id && user.profile.picture.temp.repoId) {
+        if (user.profile && user.profile.picture && user.profile.picture.temp) {
           console.log(ProfileImages.find(user.profile.picture.temp._id).fetch());
           console.log(ProfileImages.find(user.profile.picture.temp._repoId).fetch());
           // in db, temp img remove
           var result = ProfileImages.remove(user.profile.picture.temp._id);
-          if(result === 1) {
-            console.log('### Was temp DB img removed?  : success!');
+          if (result === 1) {
+            console.log('temporary ProfileImages doc remove success!');
 
             // in cloudinary, temp img remove
             var cloudRemoveResult = CloudinaryServer.removeProfileImages(user.profile.picture.temp.repoId);
-            console.log('### Was temp Cloudinary img removed? : ', cloudRemoveResult);
-            if(cloudRemoveResult) {
+            console.log('temporary Cloudinary image remove : ', cloudRemoveResult);
+            if (cloudRemoveResult) {
               return cloudRemoveResult
-             } else return 'temp cloud remove failed'
+            } else return 'temp cloud remove failed'
           } else return 'temp db profile image remove failed'
         } else {
           console.log('There`s not temporary image');
@@ -91,12 +90,18 @@ Meteor.methods({
     return false
   },
 
-  temporaryProfileReset: function() {
-    var result = Meteor.users.update( this.userId, {$set: {
-            'profile.picture.temp': {}
-      }
+  temporaryProfileReset: function (check) {
+    var result;
+    if (check === true) {
+      result = Meteor.users.update(this.userId, {
+        $unset: {'profile.picture.temp': ""}
+      });
+    } else result = Meteor.users.update(this.userId, {
+      $unset: {'profile.picture': ""}
+
     });
-    return result
+
+    return result;
   },
 
   // profileImagesUpdate: function() {
