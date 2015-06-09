@@ -9,16 +9,6 @@ var EDIT_PASSWORD = 'editPassword';
 
 
 Template.profileView.helpers({
-  getAvatar: function() {
-    var user = Meteor.user();
-
-    if (user && user.profile && user.profile.picture) {
-      return user.profile.picture.urlCropped;
-    } else {
-      return DEFAULT_PICTURE_URL;
-    }
-  },
-
   templateProfile: function() {
     return Session.get(TEMPLATE_PROFILE) || 'profileEditNormal';
   },
@@ -33,10 +23,10 @@ Template.profileView.events({
 
   "click #editPicture": function() {
     var user = Meteor.user();
-    // 유저가 업로드한 프로필 이미지가 있는 경우
-    var flag = Session.get('profileState');
+    var check = originPictureCheck();
+    console.log('check : ', check);
 
-    if(flag === 1 || flag === 2) {
+    if (check === true) {
       var canvasData = {
         left: user.profile.picture.coordinates.left,
         top: user.profile.picture.coordinates.top,
@@ -58,16 +48,15 @@ Template.profileView.events({
           $('#avatarPreview').cropper('rotate', rotateValue);
         }
       });
-      // console.log('canvasData: ', canvasData);
-      $('#profileModal').modal('show');
-
     } else {
-      $('#profileModal').modal('show');
       // for CSS problems
       $('.cloudinary-uploader > .btn').addClass('btn-primary').css({margin:0});
       $('#cancelBtn').addClass('btn-primary').css({margin:0});
       $('.avatar-preview').css({ display: 'none'});
     }
+
+    $('#profileModal').modal('show');
+
   },
 
 
@@ -90,10 +79,7 @@ Template.profileView.onCreated(function() {
 });
 
 Template.profileView.onRendered(function() {
-  // when modal close, cropper container destroies
-  $('#profileModal').on('hidden.bs.modal', function () {
-    $('#avatarPreview').cropper('destroy');
-  });
+
 
 });
 

@@ -30,48 +30,46 @@ Meteor.methods({
   },
 
   updateCroppedImage: function(profileObj, flag) {
-    // 클라우디네리 크롭된 이미지 업데이트
+    // cropped image uploaded into cloudinary
     var croppedUrl = CloudinaryServer.updateProfileImages(profileObj);
-    // console.log('result - cropped url: ', croppedUrl);
+    console.log('cropped image url: ', croppedUrl);
+
     //http://res.cloudinary.com/meteor-shine/image/upload/c_crop,h_239,w_239,x_249,y_157/v1/accounts/shlfujafszezsfkqcyis
 
-    // 크롭 성공
+    // if cropping success
     if(croppedUrl) {
 
-      console.log('user._id : ', this.userId);
-      console.log('profile object _id : ', profileObj._id);
+      var userUpdate = Meteor.users.update( this.userId, { $set: { 'profile.picture.origin.urlCropped': croppedUrl }});
+      if (userUpdate === 1) console.log('temporary cloudinary image remove!')
 
       var tempProfileDoc = ProfileImages.find({'user._id':this.userId, _id: {$ne: profileObj._id}}).fetch();
-      console.log('temporary profile images count :',tempProfileDoc.length);
-      console.log('temporary profile images count :',tempProfileDoc);
+      console.log('temporary ProfileImages doc count :',tempProfileDoc.length);
 
       if(tempProfileDoc.length > 0) {
         for(var i = 0; i < tempProfileDoc.length; i++) {
-
+          console.log('index: ', i);
           console.log('tempProfileDoc[i]._id : ', tempProfileDoc[i]._id);
           console.log('tempProfileDoc[i].repoId : ', tempProfileDoc[i].repoId);
           var imageId = tempProfileDoc[i].repoId;
 
-          console.log('i: ', i);
-
           var dbRemove = ProfileImages.remove(tempProfileDoc[i]._id);
-          console.log('dbRemove : ', dbRemove);
+          if (dbRemove === 1) console.log('temporary ProfileImages doc remove!');
+
 
           if (dbRemove === 1) {
             var cloudRemove = CloudinaryServer.removeProfileImages(imageId);
-            console.log('cloudRemove: ', cloudRemove);
+            console.log('cloud remove: ', cloudRemove);
           }
         }
       }
 
 
-      // user profile picture 정보 업데이트
+      // user profile picture update
       var dbUpdateResult = Meteor.users.update( this.userId, {$set: {
-        'profile.picture._id': profileObj._id,
-        'profile.picture.repoId': profileObj.repoId,
-        'profile.picture.url': profileObj.url,
-        'profile.picture.urlCropped': croppedUrl,
-        'profile.picture.temp': {},
+        'profile.picture.origin._id': profileObj._id,
+        'profile.picture.origin.repoId': profileObj.repoId,
+        'profile.picture.origin.url': profileObj.url,
+        // 'profile.picture.origin.urlCropped': croppedUrl,
         'profile.picture.coordinates.left': profileObj.canvasData.left,
         'profile.picture.coordinates.top': profileObj.canvasData.top,
         'profile.picture.coordinates.width': profileObj.canvasData.width,

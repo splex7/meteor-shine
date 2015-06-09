@@ -2,38 +2,9 @@
  * Display window for cropping profile image
  *    - picture
  *
- * Session
  */
-
-
-/**
- *  0 : default profile image state
- *  1 : user`s profile image exist, but new image not yet uploaded
- *  2 : new image uploaded
- *
- * @returns {boolean}
- */
-var profilePictureState = function() {
-  var user = Meteor.user();
-
-  if (user && user.profile && user.profile.picture) {
-    return (user.profile.picture.temp) ?  1 : 2;
-  }
-
-  return 0;
-};
 
 Template.profilePicture.helpers({
-  getAvatar: function() {
-    var user = Meteor.user();
-
-    if (user && user.profile && user.profile.picture) {
-      return (user.profile.picture.temp) ?
-        user.profile.picture.temp.url : user.profile.picture.url;
-    }
-
-    return DEFAULT_PICTURE_URL;
-  }
 
 });
 
@@ -46,6 +17,18 @@ Template.profilePicture.events({
     if (flag === 1 || flag === 2) {
       var cropData = $('#avatarPreview').cropper('getData');
       var canvasData = $('#avatarPreview').cropper('getCanvasData');
+      var profileObj = {};
+
+      if (flag === 1 ) {
+        profileObj._id = user.profile.picture.origin._id;
+        profileObj.repoId = user.profile.picture.origin.repoId;
+        profileObj.url = user.profile.picture.origin.url;
+
+      } else {
+        profileObj._id = user.profile.picture.temp._id;
+        profileObj.repoId = user.profile.picture.temp.repoId;
+        profileObj.url = user.profile.picture.temp.url;
+      }
 
       cropData = {
         width: Math.round(cropData.width),
@@ -63,61 +46,39 @@ Template.profilePicture.events({
         height: Math.round(canvasData.height),
         rotate: cropData.rotate
       };
-
       console.log(canvasData);
 
-      var profileObj = {};
-
-      if (flag === 1 ) {
-        profileObj._id = user.profile.picture._id;
-        profileObj.repoId = user.profile.picture.repoId;
-        profileObj.url = user.profile.picture.url;
-
-      } else {
-        profileObj._id = user.profile.picture.temp._id;
-        profileObj.repoId = user.profile.picture.temp.repoId;
-        profileObj.url = user.profile.picture.temp.url;
-      }
-
-      // this property is for cropping
       profileObj.cropData = cropData;
-      // this property is for image positioning
-      // when cropped image is reloaded.
       profileObj.canvasData = canvasData;
 
       console.log('profile object : ', profileObj);
 
       Meteor.call('updateCroppedImage', profileObj, flag, function(error, result) {
-        if(error) {
+        if (error) {
           console.log('error reason: ', error.reason);
         }
         console.log('updateCroppedImage call result: ', result);
+        if (result) {
+          $('#profileModal').modal('hide');
+        }
       });
 
     }
-    $('#profileModal').modal('hide');
+
   },
 
 
   "click #rotateLeft": function(event, template){
-    var user = Meteor.user();
-    if (! (user.profile.avatarUrl === "/images/default_profile.png") ) {
-      $('#avatarPreview').cropper('rotate', -90);
-    } else if (user.profile.tempUrl) {
-      $('#avatarPreview').cropper('rotate', -90);
-    }
+    var flag = profilePictureState();
+    if (flag === 1 || flag === 2) $('#avatarPreview').cropper('rotate', -90);
   },
 
   "click #rotateRight": function(event, template){
-    var user = Meteor.user();
-    if (! (user.profile.avatarUrl === "/images/default_profile.png") ) {
-      $('#avatarPreview').cropper('rotate', 90);
-    } else if (user.profile.tempUrl) {
-      $('#avatarPreview').cropper('rotate', 90);
-    }
+   var flag = profilePictureState();
+   if (flag === 1 || flag === 2) $('#avatarPreview').cropper('rotate', 90);
   },
 
-  "click #deleteBtn": function(event, template){
+  "click #cancelBtn": function(event, template){
 
   }
 
@@ -125,14 +86,18 @@ Template.profilePicture.events({
 
 
 Template.profilePicture.onRendered(function() {
+
   $('#profileModal').on('hidden.bs.modal', function () {
+
     $('#avatarPreview').cropper('destroy');
 
-    Meteor.call('temporaryProfileReset', function(error, result) {
+    var check = originPictureCheck();
+
+    Meteor.call('temporaryProfileReset', check, function(error, result) {
       if(error) {
         console.log('error reason: ', error.reason);
       }
-      console.log('result: ', result);
+      console.log('`user.profile.picture.temp` field unset: ', result);
     });
 
   });
@@ -159,6 +124,8 @@ Template.profilePictureToolbar.onRendered(function() {
     }
   }, function(e, data) {
     console.log('returned data from cloudinary : ', data.result);
+
+    $('.cropper-view-box img').src = data.result.url;
 
     var attributes = {
       url: data.result.url,
