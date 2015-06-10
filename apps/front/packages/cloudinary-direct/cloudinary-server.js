@@ -8,68 +8,38 @@ var Future = Npm.require('fibers/future');
 cloudinary.config({
   cloud_name: Meteor.settings.public.cloudinary.cloudName,
   api_key: Meteor.settings.public.cloudinary.apiKey,
-  api_secret: Meteor.settings.cloudinary.apiSecret,
+  api_secret: Meteor.settings.cloudinary.apiSecret
 });
 
 var cloudinary_cors = Meteor.absoluteUrl('upload/cloudinary_cors.html');
 
 Meteor.methods({
   cloudinaryUploadTag: function(elementId, options) {
-    options = _.extend(options, { callback: cloudinary_cors })
+    options = _.extend(options, { callback: cloudinary_cors });
     return cloudinary.uploader.image_upload_tag(elementId, options);
   },
-  // http://cloudinary.com/documentation/node_image_upload
   removeImage: function(imageId) {
     var future = new Future();
 
     cloudinary.uploader.destroy(imageId, function(result) {
-      future.return(result);
+      future['return'](result);
     });
 
     return future.wait();
   },
 
-  updateCroppedImage: function(profileObj, flag) {
+  updateCroppedImage: function(profileObj) {
     // cropped image uploaded into cloudinary
     var croppedUrl = CloudinaryServer.updateProfileImages(profileObj);
-    console.log('cropped image url: ', croppedUrl);
-
-    //http://res.cloudinary.com/meteor-shine/image/upload/c_crop,h_239,w_239,x_249,y_157/v1/accounts/shlfujafszezsfkqcyis
 
     // if cropping success
     if(croppedUrl) {
-
-      var userUpdate = Meteor.users.update( this.userId, { $set: { 'profile.picture.origin.urlCropped': croppedUrl }});
-      if (userUpdate === 1) console.log('temporary cloudinary image remove!')
-
-      var tempProfileDoc = ProfileImages.find({'user._id':this.userId, _id: {$ne: profileObj._id}}).fetch();
-      console.log('temporary ProfileImages doc count :',tempProfileDoc.length);
-
-      if(tempProfileDoc.length > 0) {
-        for(var i = 0; i < tempProfileDoc.length; i++) {
-          console.log('index: ', i);
-          console.log('tempProfileDoc[i]._id : ', tempProfileDoc[i]._id);
-          console.log('tempProfileDoc[i].repoId : ', tempProfileDoc[i].repoId);
-          var imageId = tempProfileDoc[i].repoId;
-
-          var dbRemove = ProfileImages.remove(tempProfileDoc[i]._id);
-          if (dbRemove === 1) console.log('temporary ProfileImages doc remove!');
-
-
-          if (dbRemove === 1) {
-            var cloudRemove = CloudinaryServer.removeProfileImages(imageId);
-            console.log('cloud remove: ', cloudRemove);
-          }
-        }
-      }
-
-
       // user profile picture update
-      var dbUpdateResult = Meteor.users.update( this.userId, {$set: {
+      Meteor.users.update( this.userId, {$set: {
         'profile.picture.origin._id': profileObj._id,
         'profile.picture.origin.repoId': profileObj.repoId,
         'profile.picture.origin.url': profileObj.url,
-        // 'profile.picture.origin.urlCropped': croppedUrl,
+        'profile.picture.origin.urlCropped': croppedUrl,
         'profile.picture.coordinates.left': profileObj.canvasData.left,
         'profile.picture.coordinates.top': profileObj.canvasData.top,
         'profile.picture.coordinates.width': profileObj.canvasData.width,
@@ -77,9 +47,19 @@ Meteor.methods({
         'profile.picture.coordinates.rotate': profileObj.canvasData.rotate
       }});
 
-      if(dbUpdateResult === 1) {
-        console.log('DB user profile update success!');
+      var tempProfileDoc = ProfileImages.find({'user._id':this.userId, _id: {$ne: profileObj._id}}).fetch();
+
+      if(tempProfileDoc.length > 0) {
+        for(var i = 0; i < tempProfileDoc.length; i++) {
+          var imageId = tempProfileDoc[i].repoId;
+          var result = ProfileImages.remove(tempProfileDoc[i]._id);
+
+          if (result === 1) {
+            CloudinaryServer.removeProfileImages(imageId);
+          }
+        }
       }
+
       return croppedUrl
     }
 
@@ -94,7 +74,7 @@ CloudinaryServer = {
 
     // cloudinary.url(public_id, callback, options);
     cloudinary.uploader.destroy(imageId, function(result) {
-      future.return(result);
+      future['return'](result);
     });
 
     return future.wait();
@@ -114,6 +94,6 @@ CloudinaryServer = {
         angle: profileObj.cropData.rotate
       }
     );
-  },
+  }
 
 };
