@@ -17,41 +17,14 @@ profilePictureState = function() {
   return 0;
 };
 
-/**
- *  false : only default profile url exists
- *  true : original profile url exists
- *
- * @returns Boolean
- */
-originPictureCheck = function() {
+getAccountPictureUrl = function() {
   var user = Meteor.user();
 
   if (user && user.profile && user.profile.picture && user.profile.picture.origin) {
-    return true
+    return user.profile.picture.origin.urlCropped;
+  } else {
+    return DEFAULT_PICTURE_URL;
   }
-  return false
-}
+};
 
-Template.registerHelper('getOriginAvatar', function() {
-    var user = Meteor.user();
-    var flag = profilePictureState();
-
-    switch (flag) {
-      case 2  : return user.profile.picture.temp.url;
-        break;
-      case 1  : return user.profile.picture.origin.url;
-        break;
-      default : return DEFAULT_PICTURE_URL;
-        break;
-    }
-});
-
-Template.registerHelper('getCroppedAvatar', function() {
-    var user = Meteor.user();
-
-    if (user && user.profile && user.profile.picture && user.profile.picture.origin) {
-      return user.profile.picture.origin.urlCropped;
-    } else {
-      return DEFAULT_PICTURE_URL;
-    }
-});
+Template.registerHelper('accountPictureUrl', getAccountPictureUrl);
