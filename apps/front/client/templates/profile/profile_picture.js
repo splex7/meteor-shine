@@ -12,9 +12,7 @@
  */
 var isPictureOriginUrl = function() {
   var user = Meteor.user();
-
   return !!(user && user.profile && user.profile.picture && user.profile.picture.origin);
-
 };
 
 var getPictureOriginUrl = function() {
@@ -31,7 +29,9 @@ var getPictureOriginUrl = function() {
 };
 
 Template.profilePicture.helpers({
-  pictureOriginUrl: getPictureOriginUrl
+  pictureOriginUrl: function() {
+    return getPictureOriginUrl();
+  }
 
 });
 
@@ -58,6 +58,8 @@ Template.profilePicture.events({
         profileObj.url = user.profile.picture.temp.url;
       }
 
+      $('#profileModal').modal('hide');
+
       cropData = {
         width: Math.round(cropData.width),
         height: Math.round(cropData.height),
@@ -65,7 +67,6 @@ Template.profilePicture.events({
         y: Math.round(cropData.y),
         rotate: cropData.rotate
       };
-      console.log(cropData);
 
       canvasData = {
         left: Math.round(canvasData.left),
@@ -74,25 +75,15 @@ Template.profilePicture.events({
         height: Math.round(canvasData.height),
         rotate: cropData.rotate
       };
-      console.log(canvasData);
 
       profileObj.cropData = cropData;
       profileObj.canvasData = canvasData;
 
-      console.log('profile object : ', profileObj);
-
       Meteor.call('updateCroppedImage', profileObj, flag, function (error, result) {
-        if (error) {
-          console.log('error reason: ', error.reason);
-        }
-        console.log('updateCroppedImage call result: ', result);
-        if (result) {
-          $('#profileModal').modal('hide');
-        }
+        if (error) console.log('error reason: ', error.reason);
+        console.log(result + ': updateCroppedImage call`s result');
       });
-
     }
-
   },
 
   "click #rotateLeft": function(){
@@ -109,62 +100,71 @@ Template.profilePicture.events({
 
 Template.profilePicture.onCreated(function() {
   // TODO remove the temp image of Meteor.user.profile if exists.
-
+  var avatarView = $('#avatarPreview');
+  var check = isPictureOriginUrl();
+  removeTempPicture(check);
+  avatarView.cropper('destroy');
 });
 
 Template.profilePicture.onRendered(function() {
-  var profileModal = $('#profileModal');
-
   var user = Meteor.user();
+
+  var avatarView = $('#avatarPreview');
   var check = isPictureOriginUrl();
-  console.log('check : ', check);
 
   if (check === true) {
-    Tracker.autorun(function() {
-      var canvasData = {
-        left: user.profile.picture.coordinates.left,
-        top: user.profile.picture.coordinates.top,
-        width: user.profile.picture.coordinates.width,
-        height: user.profile.picture.coordinates.height
-      };
-      var rotateValue = user.profile.picture.coordinates.rotate;
+    var canvasData = {
+      left: user.profile.picture.coordinates.left,
+      top: user.profile.picture.coordinates.top,
+      width: user.profile.picture.coordinates.width,
+      height: user.profile.picture.coordinates.height
+    };
+    var rotateValue = user.profile.picture.coordinates.rotate;
 
-      $('#avatarPreview').cropper({
-        //this function fires when a cropper instance has built completely
-        built: function() {
-          var cropBoxData = {
-            width: 280,
-            height: 280
-          };
-          // Strict mode: set crop box data first
-          $('#avatarPreview').cropper('setCropBoxData', cropBoxData)
-            .cropper('setCanvasData', canvasData)
-            .cropper('rotate', rotateValue);
-        }
-      });
+    avatarView.cropper({
+      //this function fires when a cropper instance has built completely
+      built: function() {
+
+      }
     });
   } else {
-    // for CSS problems
-    $('.cloudinary-uploader > .btn').addClass('btn-primary').css({margin:0});
-    $('#cancelBtn').addClass('btn-primary').css({margin:0});
     $('.avatar-preview').css({ display: 'none'});
   }
+
+
+  $('#profileModal').on('show.bs.modal', function() {
+
+  });
+
+  $('#profileModal').on('hide.bs.modal', function() {
+    var avatarView = $('#avatarPreview');
+    var check = isPictureOriginUrl();
+
+    removeTempPicture(check);
+    setTimeout(function() {
+      avatarView.cropper('destroy');
+      console.log('destroy');
+    }, 300);
+
+  });
+
+  // Tracker.autorun(function() { });
+
 });
 
 Template.profilePicture.onDestroyed(function() {
-  $('#avatarPreview').cropper('destroy');
+  console.log('profilePicture onDestroyed');
+});
 
-  var check = isPictureOriginUrl();
-
-  Meteor.call('temporaryProfileReset', check, function(error, result) {
-    if (error) {
-      console.log('error reason: ', error.reason);
-    }
-    console.log('`user.profile.picture.temp` field unset: ', result);
-  });
+Template.profilePictureToolbar.onCreated(function(){
+  console.log('profilePictureToolbar onCreated');
+});
+Template.profilePictureToolbar.onDestroyed(function(){
+  console.log('profilePictureToolbar onDestroyed');
 });
 
 Template.profilePictureToolbar.onRendered(function() {
+  console.log('profilePictureToolbar onRendered');
   // When user clicks upload button, window for selecting an image shows
   // and then uploadImagePreset method excutes after selecting an image
   Cloudinary.uploadImagePreset({
@@ -184,8 +184,6 @@ Template.profilePictureToolbar.onRendered(function() {
     }
   }, function(e, data) {
     console.log('returned data from cloudinary : ', data.result);
-
-    $('.cropper-view-box img').src = data.result.url;
 
     var attributes = {
       url: data.result.url,
@@ -212,6 +210,16 @@ Template.profilePictureToolbar.onRendered(function() {
         console.log('insert success!!!');
 
         // TODO save the uploaded file information to ProfileImages and Temp data of Meteor.user.profile.picture
+        var setData,
+        canvasData;
+        $('#avatarPreview').cropper('replace', data.result.url);
+        $('#avatarPreview').cropper({
+          built: function() {
+            $('#avatarPreview').cropper('setData', setData);
+            $('#avatarPreview').cropper('setCanvasData', canvasData);
+          }
+
+        });
 
         /*
         var avatarPreview = $('#avatarPreview');

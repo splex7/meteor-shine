@@ -22,13 +22,12 @@ $.fn.cropper.setDefaults({
   aspectRatio: 1/1,
   autoCropArea: 1,
   strict: true,
-  minCanvasWidth: 280, // Width of canvas-container to keep 1:1 at all times
-  // minCanvasWidth: 280, // Width of canvas-container to keep 1:1 at all times
-  responsive: false,
+  guides: false,
+  responsive: true,
   background: false,
   highlight: false,
   dragCrop: false,
-  movable: false,
-  resizable: false,
+  cropBoxResizable: false,
+  cropBoxMovable: false,
   preview: '.avatar-preview'
 });
