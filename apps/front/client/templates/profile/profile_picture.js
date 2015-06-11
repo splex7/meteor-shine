@@ -110,56 +110,51 @@ Template.profilePicture.events({
 Template.profilePicture.onRendered(function() {
   var profileModal = $('#profileModal');
 
-  profileModal.on('show.bs.modal', function () {
-    var user = Meteor.user();
-    var check = isPictureOriginUrl();
-    console.log('check : ', check);
+  var user = Meteor.user();
+  var check = isPictureOriginUrl();
+  console.log('check : ', check);
 
-    if (check === true) {
-      var canvasData = {
-        left: user.profile.picture.coordinates.left,
-        top: user.profile.picture.coordinates.top,
-        width: user.profile.picture.coordinates.width,
-        height: user.profile.picture.coordinates.height
-      };
-      var rotateValue = user.profile.picture.coordinates.rotate;
+  if (check === true) {
+    var canvasData = {
+      left: user.profile.picture.coordinates.left,
+      top: user.profile.picture.coordinates.top,
+      width: user.profile.picture.coordinates.width,
+      height: user.profile.picture.coordinates.height
+    };
+    var rotateValue = user.profile.picture.coordinates.rotate;
 
-      $('#avatarPreview').cropper({
-        //this function fires when a cropper instance has built completely
-        built: function() {
-          var cropBoxData = {
-            width: 280,
-            height: 280
-          };
-          // Strict mode: set crop box data first
-          $('#avatarPreview').cropper('setCropBoxData', cropBoxData)
-                             .cropper('setCanvasData', canvasData)
-                             .cropper('rotate', rotateValue);
-        }
-      });
-    } else {
-      // for CSS problems
-      $('.cloudinary-uploader > .btn').addClass('btn-primary').css({margin:0});
-      $('#cancelBtn').addClass('btn-primary').css({margin:0});
-      $('.avatar-preview').css({ display: 'none'});
-    }
-  });
-
-  profileModal.on('hide.bs.modal', function () {
-
-    $('#avatarPreview').cropper('destroy');
-
-    var check = isPictureOriginUrl();
-
-    Meteor.call('temporaryProfileReset', check, function(error, result) {
-      if(error) {
-        console.log('error reason: ', error.reason);
+    $('#avatarPreview').cropper({
+      //this function fires when a cropper instance has built completely
+      built: function() {
+        var cropBoxData = {
+          width: 280,
+          height: 280
+        };
+        // Strict mode: set crop box data first
+        $('#avatarPreview').cropper('setCropBoxData', cropBoxData)
+                           .cropper('setCanvasData', canvasData)
+                           .cropper('rotate', rotateValue);
       }
-      console.log('`user.profile.picture.temp` field unset: ', result);
     });
+  } else {
+    // for CSS problems
+    $('.cloudinary-uploader > .btn').addClass('btn-primary').css({margin:0});
+    $('#cancelBtn').addClass('btn-primary').css({margin:0});
+    $('.avatar-preview').css({ display: 'none'});
+  }
+});
 
+Template.profilePicture.onDestroyed(function() {
+  $('#avatarPreview').cropper('destroy');
+
+  var check = isPictureOriginUrl();
+
+  Meteor.call('temporaryProfileReset', check, function(error, result) {
+    if (error) {
+      console.log('error reason: ', error.reason);
+    }
+    console.log('`user.profile.picture.temp` field unset: ', result);
   });
-
 });
 
 Template.profilePictureToolbar.onRendered(function() {
