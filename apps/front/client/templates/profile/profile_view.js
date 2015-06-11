@@ -39,15 +39,17 @@ Template.profileView.events({
   }
 });
 
+
 Template.profileView.onCreated(function() {
-  Blaze.render(Template.profilePicture, document.body);
+  this._profilePictureView = Blaze.render(Template.profilePicture, document.body);
 });
 
 Template.profileView.onRendered(function() {
-
-
 });
 
 Template.profileView.onDestroyed(function() {
-  Blaze.remove(Template.profilePicture);
+  if (this._profilePictureView) {
+    Blaze.remove(this._profilePictureView);
+    this._profilePictureView = null;
+  }
 });
