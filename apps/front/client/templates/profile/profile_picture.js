@@ -107,6 +107,11 @@ Template.profilePicture.events({
 
 });
 
+Template.profilePicture.onCreated(function() {
+  // TODO remove the temp image of Meteor.user.profile if exists.
+
+});
+
 Template.profilePicture.onRendered(function() {
   var profileModal = $('#profileModal');
 
@@ -115,26 +120,28 @@ Template.profilePicture.onRendered(function() {
   console.log('check : ', check);
 
   if (check === true) {
-    var canvasData = {
-      left: user.profile.picture.coordinates.left,
-      top: user.profile.picture.coordinates.top,
-      width: user.profile.picture.coordinates.width,
-      height: user.profile.picture.coordinates.height
-    };
-    var rotateValue = user.profile.picture.coordinates.rotate;
+    Tracker.autorun(function() {
+      var canvasData = {
+        left: user.profile.picture.coordinates.left,
+        top: user.profile.picture.coordinates.top,
+        width: user.profile.picture.coordinates.width,
+        height: user.profile.picture.coordinates.height
+      };
+      var rotateValue = user.profile.picture.coordinates.rotate;
 
-    $('#avatarPreview').cropper({
-      //this function fires when a cropper instance has built completely
-      built: function() {
-        var cropBoxData = {
-          width: 280,
-          height: 280
-        };
-        // Strict mode: set crop box data first
-        $('#avatarPreview').cropper('setCropBoxData', cropBoxData)
-                           .cropper('setCanvasData', canvasData)
-                           .cropper('rotate', rotateValue);
-      }
+      $('#avatarPreview').cropper({
+        //this function fires when a cropper instance has built completely
+        built: function() {
+          var cropBoxData = {
+            width: 280,
+            height: 280
+          };
+          // Strict mode: set crop box data first
+          $('#avatarPreview').cropper('setCropBoxData', cropBoxData)
+            .cropper('setCanvasData', canvasData)
+            .cropper('rotate', rotateValue);
+        }
+      });
     });
   } else {
     // for CSS problems
@@ -201,7 +208,12 @@ Template.profilePictureToolbar.onRendered(function() {
         console.log('error reason: ', error.reason);
       }
       console.log(result);
-      if(result !== false) {
+      if (result) {
+        console.log('insert success!!!');
+
+        // TODO save the uploaded file information to ProfileImages and Temp data of Meteor.user.profile.picture
+
+        /*
         var avatarPreview = $('#avatarPreview');
         avatarPreview.cropper('destroy')
                            .cropper({
@@ -212,6 +224,10 @@ Template.profilePictureToolbar.onRendered(function() {
             };
             // Strict mode: set crop box data first
             $('#avatarPreview').cropper('setCropBoxData', cropBoxData);
+
+            var canvasData = {
+              left:
+            };
 
             // CSS
             $('span.cropper-view-box > img').css('margin-left', '0');
@@ -224,6 +240,7 @@ Template.profilePictureToolbar.onRendered(function() {
         });
         // url change
         avatarPreview.cropper('replace', data.result.url);
+        */
       }
 
     });
