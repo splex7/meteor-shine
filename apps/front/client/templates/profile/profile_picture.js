@@ -33,6 +33,50 @@ var getPictureOriginUrl = function() {
   }
 };
 
+var cropperDeps = new Tracker.Dependency;
+
+var drawCropper = function(canvasData) {
+  cropperDeps.depend();
+
+  var url = getPictureOriginUrl();
+  //console.log('drawUrl: ' + url);
+
+  $('#avatarPreview').cropper('replace', url);
+  /*
+  $('#avatarPreview').cropper({
+    //this function fires when a cropper instance has built completely
+    built: function() {
+      //$('#avatarPreview').cropper('setCanvasData', canvasData);
+      //$('#avatarPreview').cropper('replace', getPictureOriginUrl());
+    }
+  });
+  */
+
+  console.log('drawCropper depend');
+};
+
+var removeTempPicture = function(check) {
+  if (profilePictureState() === 2) {
+    if (check)
+      Meteor.users.update({ _id: Meteor.userId() }, { $unset: { 'profile.picture.temp': 1 }});
+    else
+      Meteor.users.update({ _id: Meteor.userId() }, { $unset: { 'profile.picture': 1 }});
+
+    $('#avatarPreview').cropper('destroy');
+    cropperDeps.changed();
+
+    console.log('drawCropper changed');
+    /*
+     Meteor.call('temporaryProfileReset', check, function(error, result) {
+     if (error) console.log('error reason: ', error.reason);
+     console.log(result+': temporary image remove success!!!');
+     });
+     */
+  } else console.log('temporary image don`t exist!!!');
+
+};
+
+
 Template.profilePicture.helpers({
   pictureOriginUrl: function() {
     return getPictureOriginUrl();
@@ -109,7 +153,7 @@ Template.profilePicture.onCreated(function() {
   var avatarView = $('#avatarPreview');
   var check = isPictureOriginUrl();
   removeTempPicture(check);
-  avatarView.cropper('destroy');
+  //avatarView.cropper('destroy');
 });
 
 Template.profilePicture.onRendered(function() {
@@ -127,32 +171,25 @@ Template.profilePicture.onRendered(function() {
       };
       var rotateValue = user.profile.picture.coordinates.rotate;
 
+      drawCropper(canvasData);
+      /*
       avatarView.cropper({
         //this function fires when a cropper instance has built completely
         built: function() {
           $('#avatarPreview').cropper('setCanvasData', canvasData);
         }
       });
+      */
     } else {
       $('.avatar-preview').css({ display: 'none'});
     }
   });
 
-  $('#profileModal').on('show.bs.modal', function() {
-      // Tracker.autorun(function() { });
-
-      if (isPictureTempUrl)
-        var check = isPictureOriginUrl();
-        removeTempPicture(check);
-
-  });
-
   $('#profileModal').on('hide.bs.modal', function() {
-
-
+    if (isPictureTempUrl)
+      var check = isPictureOriginUrl();
+    removeTempPicture(check);
   });
-
-
 
 });
 
@@ -214,15 +251,10 @@ Template.profilePictureToolbar.onRendered(function() {
         console.log('insert success!!!');
 
         // TODO save the uploaded file information to ProfileImages and Temp data of Meteor.user.profile.picture
-        var setData,
-        canvasData;
-        $('#avatarPreview').cropper('replace', data.result.url);
-        $('#avatarPreview').cropper({
-          built: function() {
+        var user = Meteor.user();
+        console.log('user picture = ' + JSON.stringify(user.profile.picture.temp));
 
-          }
-
-        });
+        cropperDeps.changed();
 
         /*
         var avatarPreview = $('#avatarPreview');

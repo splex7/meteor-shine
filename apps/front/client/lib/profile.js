@@ -17,16 +17,6 @@ profilePictureState = function() {
   return 0;
 };
 
-removeTempPicture = function(check) {
-  if (profilePictureState() === 2) {
-    Meteor.call('temporaryProfileReset', check, function(error, result) {
-      if (error) console.log('error reason: ', error.reason);
-      console.log(result+': temporary image remove success!!!');
-    });
-  } else console.log('temporary image don`t exist!!!');
-
-};
-
 getAccountPictureUrl = function() {
   var user = Meteor.user();
 
