@@ -15,6 +15,11 @@ var isPictureOriginUrl = function() {
   return !!(user && user.profile && user.profile.picture && user.profile.picture.origin);
 };
 
+var isPictureTempUrl = function() {
+  var user = Meteor.user();
+  return !!(user && user.profile && user.profile.picture && user.profile.picture.temp);
+};
+
 var getPictureOriginUrl = function() {
   var user = Meteor.user();
   var flag = profilePictureState();
@@ -42,6 +47,7 @@ Template.profilePicture.events({
     var previewAvatar = $('#avatarPreview');
 
     if (!(flag === 1 || flag === 2)) {
+      $('#profileModal').modal('hide');
     } else {
       var cropData = previewAvatar.cropper('getData');
       var canvasData = previewAvatar.cropper('getCanvasData');
@@ -107,48 +113,46 @@ Template.profilePicture.onCreated(function() {
 });
 
 Template.profilePicture.onRendered(function() {
-  var user = Meteor.user();
+  Tracker.autorun(function() {
+    var user = Meteor.user();
+    var avatarView = $('#avatarPreview');
+    var check = isPictureOriginUrl();
 
-  var avatarView = $('#avatarPreview');
-  var check = isPictureOriginUrl();
+    if (check === true) {
+      var canvasData = {
+        left: user.profile.picture.coordinates.left,
+        top: user.profile.picture.coordinates.top,
+        width: user.profile.picture.coordinates.width,
+        height: user.profile.picture.coordinates.height
+      };
+      var rotateValue = user.profile.picture.coordinates.rotate;
 
-  if (check === true) {
-    var canvasData = {
-      left: user.profile.picture.coordinates.left,
-      top: user.profile.picture.coordinates.top,
-      width: user.profile.picture.coordinates.width,
-      height: user.profile.picture.coordinates.height
-    };
-    var rotateValue = user.profile.picture.coordinates.rotate;
-
-    avatarView.cropper({
-      //this function fires when a cropper instance has built completely
-      built: function() {
-
-      }
-    });
-  } else {
-    $('.avatar-preview').css({ display: 'none'});
-  }
-
+      avatarView.cropper({
+        //this function fires when a cropper instance has built completely
+        built: function() {
+          $('#avatarPreview').cropper('setCanvasData', canvasData);
+        }
+      });
+    } else {
+      $('.avatar-preview').css({ display: 'none'});
+    }
+  });
 
   $('#profileModal').on('show.bs.modal', function() {
+      // Tracker.autorun(function() { });
+
+      if (isPictureTempUrl)
+        var check = isPictureOriginUrl();
+        removeTempPicture(check);
 
   });
 
   $('#profileModal').on('hide.bs.modal', function() {
-    var avatarView = $('#avatarPreview');
-    var check = isPictureOriginUrl();
 
-    removeTempPicture(check);
-    setTimeout(function() {
-      avatarView.cropper('destroy');
-      console.log('destroy');
-    }, 300);
 
   });
 
-  // Tracker.autorun(function() { });
+
 
 });
 
@@ -215,8 +219,7 @@ Template.profilePictureToolbar.onRendered(function() {
         $('#avatarPreview').cropper('replace', data.result.url);
         $('#avatarPreview').cropper({
           built: function() {
-            $('#avatarPreview').cropper('setData', setData);
-            $('#avatarPreview').cropper('setCanvasData', canvasData);
+
           }
 
         });
