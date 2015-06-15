@@ -1,15 +1,43 @@
 /**
- * Display window for cropping profile image
- *    - picture
- *
+ *  Display window for cropping profile image
+ *    -picture
  */
 
 /**
- *  false : only default profile url exists
- *  true : original profile url exists
+ *  local functions and variables
  *
- * @returns Boolean
+ *  ---------------------------------------------------------------------------------------------
+ *  func : isPictureOriginUrl
+ *    info : Check if user has user's own profile picture
+ *    @returns : Boolean
+ *      false - only default profile picture exists
+ *      true - user's own profile picture exists
+ *  ---------------------------------------------------------------------------------------------
+ *  func : isPictureTempUrl
+ *    info : Check if user upload temporary image
+ *    @returns : Boolean
+ *      false - temporary image don't exist
+ *      true - temporary image exists
+ *  ---------------------------------------------------------------------------------------------
+ *  func : getPictureOriginUrl
+ *    info : return specific image url depending on profile picture state
+ *    @returns : String
+ *  ---------------------------------------------------------------------------------------------
+ *  func : drawCropper
+ *    info : drawing image on canvas using cropperjs after uploading image
+ *    @returns :
+ *    @params
+ *      flag -
+ *  ---------------------------------------------------------------------------------------------
+ *  func : removeTempPicture
+ *    info :
+ *    @returns :
+ *    @params
+ *      check -
+ *  ---------------------------------------------------------------------------------------------
+ *
  */
+
 var isPictureOriginUrl = function() {
   var user = Meteor.user();
   return !!(user && user.profile && user.profile.picture && user.profile.picture.origin);
@@ -22,37 +50,15 @@ var isPictureTempUrl = function() {
 
 var getPictureOriginUrl = function() {
   var user = Meteor.user();
-  var flag = profilePictureState();
+  var flag = profilePictureState(); // global func defined in profile.js
 
   switch (flag) {
     case 2  : return user.profile.picture.temp.url;
     break;
     case 1  : return user.profile.picture.origin.url;
     break;
-    default : return DEFAULT_PICTURE_URL;
+    default : return DEFAULT_PICTURE_URL; // global constant defined in profile.js
   }
-};
-
-var cropperDeps = new Tracker.Dependency;
-
-var drawCropper = function(canvasData) {
-  cropperDeps.depend();
-
-  var url = getPictureOriginUrl();
-  //console.log('drawUrl: ' + url);
-
-  $('#avatarPreview').cropper('replace', url);
-  /*
-  $('#avatarPreview').cropper({
-    //this function fires when a cropper instance has built completely
-    built: function() {
-      //$('#avatarPreview').cropper('setCanvasData', canvasData);
-      //$('#avatarPreview').cropper('replace', getPictureOriginUrl());
-    }
-  });
-  */
-
-  console.log('drawCropper depend');
 };
 
 var removeTempPicture = function(check) {
@@ -62,20 +68,59 @@ var removeTempPicture = function(check) {
     else
       Meteor.users.update({ _id: Meteor.userId() }, { $unset: { 'profile.picture': 1 }});
 
-    $('#avatarPreview').cropper('destroy');
+    console.log('removeTempPicture : drawCropper depend setter');
+
     cropperDeps.changed();
-
-    console.log('drawCropper changed');
-    /*
-     Meteor.call('temporaryProfileReset', check, function(error, result) {
-     if (error) console.log('error reason: ', error.reason);
-     console.log(result+': temporary image remove success!!!');
-     });
-     */
   } else console.log('temporary image don`t exist!!!');
-
 };
 
+
+var cropperDeps = new Tracker.Dependency;
+
+var drawCropper = function() {
+  cropperDeps.depend();
+
+  var avatarView = $('#avatarPreview');
+  var url = getPictureOriginUrl();
+  var isUrl = isPictureOriginUrl();
+  var isTemp = isPictureTempUrl();
+  var user = Meteor.user();
+
+  if (isUrl) {
+    if (isTemp) {
+      avatarView.cropper('destroy').cropper();
+      return;
+    } else {
+      console.log('only origin url');
+
+      var canvasData = {
+        left: user.profile.picture.coordinates.left,
+        top: user.profile.picture.coordinates.top,
+        width: user.profile.picture.coordinates.width,
+        height: user.profile.picture.coordinates.height
+      };
+      var rotateData = {
+        rotate: user.profile.picture.coordinates.rotate
+      };
+
+      avatarView.cropper({
+        built: function() {
+          avatarView.cropper('setCanvasData', canvasData);
+          avatarView.cropper('setData', rotateData);
+        }
+      });
+
+      return;
+    }
+  } else if (isTemp) {
+    avatarView.cropper('replace', url);
+    console.log('temp url & default url');
+  } else {
+    console.log('only default url');
+  }
+
+  console.log('drawCropper depend getter');
+};
 
 Template.profilePicture.helpers({
   pictureOriginUrl: function() {
@@ -131,83 +176,68 @@ Template.profilePicture.events({
 
       Meteor.call('updateCroppedImage', profileObj, flag, function (error, result) {
         if (error) console.log('error reason: ', error.reason);
-        console.log(result + ': updateCroppedImage call`s result');
+
+        console.log('updateCroppedImage call`s result: ', result);
+        console.log('updateCroppedImage : drawCropper depend setter');
+        cropperDeps.changed();
       });
     }
   },
 
   "click #rotateLeft": function(){
     var flag = profilePictureState();
-    if (flag === 1 || flag === 2) $('#avatarPreview').cropper('rotate', -90);
+    if (flag !== 0) $('#avatarPreview').cropper('rotate', -90);
   },
-
   "click #rotateRight": function(){
     var flag = profilePictureState();
-    if (flag === 1 || flag === 2) $('#avatarPreview').cropper('rotate', 90);
+    if (flag !== 0) $('#avatarPreview').cropper('rotate', 90);
   }
-
 });
 
 Template.profilePicture.onCreated(function() {
   // TODO remove the temp image of Meteor.user.profile if exists.
-  var avatarView = $('#avatarPreview');
-  var check = isPictureOriginUrl();
-  removeTempPicture(check);
+  if (isPictureTempUrl) {
+    var check = isPictureOriginUrl();
+    removeTempPicture(check);
+  }
   //avatarView.cropper('destroy');
 });
 
 Template.profilePicture.onRendered(function() {
   Tracker.autorun(function() {
-    var user = Meteor.user();
-    var avatarView = $('#avatarPreview');
-    var check = isPictureOriginUrl();
+    console.log('drawCropper call');
+    drawCropper();
+  });
 
-    if (check === true) {
-      var canvasData = {
-        left: user.profile.picture.coordinates.left,
-        top: user.profile.picture.coordinates.top,
-        width: user.profile.picture.coordinates.width,
-        height: user.profile.picture.coordinates.height
-      };
-      var rotateValue = user.profile.picture.coordinates.rotate;
+  $('#profileModal').on('show.bs.modal', function() {
 
-      drawCropper(canvasData);
-      /*
-      avatarView.cropper({
-        //this function fires when a cropper instance has built completely
-        built: function() {
-          $('#avatarPreview').cropper('setCanvasData', canvasData);
-        }
-      });
-      */
-    } else {
-      $('.avatar-preview').css({ display: 'none'});
-    }
   });
 
   $('#profileModal').on('hide.bs.modal', function() {
-    if (isPictureTempUrl)
+    var temp = isPictureTempUrl();
+    if (temp) {
       var check = isPictureOriginUrl();
-    removeTempPicture(check);
+      removeTempPicture(check);
+    }
+
   });
 
 });
 
 Template.profilePicture.onDestroyed(function() {
-  console.log('profilePicture onDestroyed');
 });
 
 Template.profilePictureToolbar.onCreated(function(){
-  console.log('profilePictureToolbar onCreated');
 });
+
 Template.profilePictureToolbar.onDestroyed(function(){
-  console.log('profilePictureToolbar onDestroyed');
 });
 
 Template.profilePictureToolbar.onRendered(function() {
-  console.log('profilePictureToolbar onRendered');
-  // When user clicks upload button, window for selecting an image shows
-  // and then uploadImagePreset method excutes after selecting an image
+
+  // clicks upload button
+  // shows window for selecting an image
+  // select an image and then this method call
   Cloudinary.uploadImagePreset({
     config: {
       cloud_name: Meteor.settings.public.cloudinary.cloudName,
@@ -224,7 +254,7 @@ Template.profilePictureToolbar.onRendered(function() {
       multiple: false
     }
   }, function(e, data) {
-    console.log('returned data from cloudinary : ', data.result);
+    console.log('data: ', data);
 
     var attributes = {
       url: data.result.url,
@@ -232,10 +262,6 @@ Template.profilePictureToolbar.onRendered(function() {
       size: data.result.bytes,
       width: data.result.width,
       height: data.result.height,
-      // urlFit: data.result.eager[0].url,
-      // surlFit: data.result.eager[0].secure_url,
-      // widthFit: data.result.eager[0].width,
-      // heightFit: data.result.eager[0].height,
       ext: data.result.format,
       mime: data.originalFiles[0].type,
       original: data.originalFiles[0].name,
@@ -246,46 +272,10 @@ Template.profilePictureToolbar.onRendered(function() {
       if(error) {
         console.log('error reason: ', error.reason);
       }
-      console.log(result);
-      if (result) {
-        console.log('insert success!!!');
+      console.log('profileImagesInsert', result);
+      console.log('profileImagesInsert : drawCropper depend setter');
 
-        // TODO save the uploaded file information to ProfileImages and Temp data of Meteor.user.profile.picture
-        var user = Meteor.user();
-        console.log('user picture = ' + JSON.stringify(user.profile.picture.temp));
-
-        cropperDeps.changed();
-
-        /*
-        var avatarPreview = $('#avatarPreview');
-        avatarPreview.cropper('destroy')
-                           .cropper({
-          built: function () {
-            var cropBoxData = {
-              width: 280,
-              height: 280
-            };
-            // Strict mode: set crop box data first
-            $('#avatarPreview').cropper('setCropBoxData', cropBoxData);
-
-            var canvasData = {
-              left:
-            };
-
-            // CSS
-            $('span.cropper-view-box > img').css('margin-left', '0');
-            $('.avatar-preview').css({display: 'block'});
-            $('.avatar-preview > img').css('margin-left', '0');
-            $('#saveBtn').addClass('btn-primary').css({margin:0});
-            $('#cancelBtn').removeClass('btn-primary')
-                           .addClass('btn-default');
-          }
-        });
-        // url change
-        avatarPreview.cropper('replace', data.result.url);
-        */
-      }
-
+      cropperDeps.changed();
     });
   });
 

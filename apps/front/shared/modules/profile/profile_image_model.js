@@ -76,27 +76,6 @@ Meteor.methods({
       } else return false
     }
     return false
-  },
-
-  "temporaryProfileReset": function (check) {
-    var result;
-    if (check === true) {
-       result = Meteor.users.update({_id: this.userId}, {
-        $unset: {'profile.picture.temp': 1}
-      });
-      result += -1;
-    } else
-      result = Meteor.users.update({_id: this.userId}, {
-        $unset: {'profile.picture': 1}
-      });
-    return result
   }
-
-  // profileImagesUpdate: function() {
-
-  // },
-  // prifileImagesRemove: function() {
-
-  // }
 });
 
