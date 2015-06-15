@@ -47,7 +47,6 @@ Meteor.methods({
     // insert new uploaded profile image into DB
     var profileImageId = ProfileImages.insert(profileImage);
     if (profileImageId) {
-      console.log('ProfileImages insert success!');
       // user profile picture temp field update
       var userProfileUpdateResult = Meteor.users.update(this.userId, {
         $set: {
@@ -65,7 +64,6 @@ Meteor.methods({
           // in db, temp img remove
           var result = ProfileImages.remove(user.profile.picture.temp._id);
           if (result === 1) {
-            console.log('temporary ProfileImages remove success!');
             // in cloudinary, temp img remove
             var cloudRemoveResult = CloudinaryServer.removeProfileImages(user.profile.picture.temp.repoId);
             if (cloudRemoveResult) {
@@ -76,27 +74,6 @@ Meteor.methods({
       } else return false
     }
     return false
-  },
-
-  "temporaryProfileReset": function (check) {
-    var result;
-    if (check === true) {
-       result = Meteor.users.update({_id: this.userId}, {
-        $unset: {'profile.picture.temp': 1}
-      });
-      result += -1;
-    } else
-      result = Meteor.users.update({_id: this.userId}, {
-        $unset: {'profile.picture': 1}
-      });
-    return result
   }
-
-  // profileImagesUpdate: function() {
-
-  // },
-  // prifileImagesRemove: function() {
-
-  // }
 });
 
