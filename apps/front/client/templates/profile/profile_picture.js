@@ -112,6 +112,53 @@ var drawCropper = function() {
   }
 };
 
+var cropperDeps = new Tracker.Dependency;
+
+var drawCropper = function() {
+  cropperDeps.depend();
+
+  var avatarView = $('#avatarPreview');
+  var url = getPictureOriginUrl();
+  var isUrl = isPictureOriginUrl();
+  var isTemp = isPictureTempUrl();
+  var user = Meteor.user();
+
+  if (isUrl) {
+    if (isTemp) {
+      avatarView.cropper('destroy').cropper();
+      return;
+    } else {
+      console.log('only origin url');
+
+      var canvasData = {
+        left: user.profile.picture.coordinates.left,
+        top: user.profile.picture.coordinates.top,
+        width: user.profile.picture.coordinates.width,
+        height: user.profile.picture.coordinates.height
+      };
+      var rotateData = {
+        rotate: user.profile.picture.coordinates.rotate
+      };
+
+      avatarView.cropper({
+        built: function() {
+          avatarView.cropper('setCanvasData', canvasData);
+          avatarView.cropper('setData', rotateData);
+        }
+      });
+
+      return;
+    }
+  } else if (isTemp) {
+    avatarView.cropper('replace', url);
+    console.log('temp url & default url');
+  } else {
+    console.log('only default url');
+  }
+
+  console.log('drawCropper depend getter');
+};
+
 Template.profilePicture.helpers({
   pictureOriginUrl: function() {
     return getPictureOriginUrl();
