@@ -29,7 +29,7 @@ var prepareData = function (attributes) {
     'ext', 'mime', 'original', 'repoId'), {
     user: {
       _id: user._id,
-      username: user.username,
+      username: user.username
       //name: user.profile.name
     },
     createdAt: new Date()
