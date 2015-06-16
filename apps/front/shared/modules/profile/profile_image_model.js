@@ -38,7 +38,7 @@ var prepareData = function (attributes) {
 
 Meteor.methods({
   "profileImagesInsert": function (attributes) {
-    check(attributes, Match.Any)
+    check(attributes, Match.Any);
 
     var user = Meteor.user();
 
@@ -47,68 +47,33 @@ Meteor.methods({
     // insert new uploaded profile image into DB
     var profileImageId = ProfileImages.insert(profileImage);
     if (profileImageId) {
-      console.log('ProfileImages insert success!');
       // user profile picture temp field update
       var userProfileUpdateResult = Meteor.users.update(this.userId, {
         $set: {
           "profile.picture.temp": {
             _id: profileImageId,
             repoId: attributes.repoId,
-            url: attributes.url,
+            url: attributes.url
           }
         }
       });
 
       if (userProfileUpdateResult) {
-        console.log('user profile update success!');
         // if temporary profile info exists, remove it
         if (user.profile && user.profile.picture && user.profile.picture.temp) {
-          console.log(ProfileImages.find(user.profile.picture.temp._id).fetch());
-          console.log(ProfileImages.find(user.profile.picture.temp._repoId).fetch());
           // in db, temp img remove
           var result = ProfileImages.remove(user.profile.picture.temp._id);
           if (result === 1) {
-            console.log('temporary ProfileImages doc remove success!');
-
             // in cloudinary, temp img remove
             var cloudRemoveResult = CloudinaryServer.removeProfileImages(user.profile.picture.temp.repoId);
-            console.log('temporary Cloudinary image remove : ', cloudRemoveResult);
             if (cloudRemoveResult) {
               return cloudRemoveResult
             } else return 'temp cloud remove failed'
           } else return 'temp db profile image remove failed'
-        } else {
-          console.log('There`s not temporary image');
-          return true
-        }
-      } else {
-        console.log('user profile update result : failed');
-        return false
-      }
+        } else return true
+      } else return false
     }
-    console.log('### DB ProfileImages insert failed');
     return false
-  },
-
-  temporaryProfileReset: function (check) {
-    var result;
-    if (check === true) {
-      result = Meteor.users.update(this.userId, {
-        $unset: {'profile.picture.temp': ""}
-      });
-    } else result = Meteor.users.update(this.userId, {
-      $unset: {'profile.picture': ""}
-
-    });
-
-    return result;
-  },
-
-  // profileImagesUpdate: function() {
-
-  // },
-  // prifileImagesRemove: function() {
-
-  // }
+  }
 });
 

@@ -44,7 +44,7 @@ Meteor.methods({
         'profile.picture.coordinates.top': profileObj.canvasData.top,
         'profile.picture.coordinates.width': profileObj.canvasData.width,
         'profile.picture.coordinates.height': profileObj.canvasData.height,
-        'profile.picture.coordinates.rotate': profileObj.canvasData.rotate
+        'profile.picture.coordinates.rotate': profileObj.cropData.rotate
       }});
 
       var tempProfileDoc = ProfileImages.find({'user._id':this.userId, _id: {$ne: profileObj._id}}).fetch();

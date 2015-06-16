@@ -27,4 +27,6 @@ getAccountPictureUrl = function() {
   }
 };
 
-Template.registerHelper('accountPictureUrl', getAccountPictureUrl);
+Template.registerHelper('accountPictureUrl', function() {
+  return getAccountPictureUrl();
+});

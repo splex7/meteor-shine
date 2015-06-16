@@ -143,10 +143,8 @@ Cloudinary = {
 
     $(selectors.inputFile).unsigned_cloudinary_upload(
       options.preset,
-      { cloud_name: 'meteor-shine' },
-      {
-       multiple: false
-      }
+      { cloud_name: options.config.cloud_name },
+      options.options
     );
     self.setEventHandler(selectors.uploader, options.showProgress, callback);
   },

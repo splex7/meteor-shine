@@ -7,7 +7,6 @@
 var TEMPLATE_PROFILE = 'templateProfile';
 var EDIT_PASSWORD = 'editPassword';
 
-
 Template.profileView.helpers({
   templateProfile: function() {
     return Session.get(TEMPLATE_PROFILE) || 'profileEditNormal';
@@ -18,7 +17,6 @@ Template.profileView.helpers({
   }
 
 });
-
 Template.profileView.events({
 
   "click #editPicture": function() {
