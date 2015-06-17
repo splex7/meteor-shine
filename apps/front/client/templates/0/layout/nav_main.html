@@ -6,11 +6,12 @@
         <div class="panel panel-info clearfix">
           <div class="panel-heading">
             <a href="{{pathFor 'profileView'}}">
-              <i class="fa fa-user"></i> <span>{{userDisplayName currentUser}}</span>
+              <img src="{{accountPictureUrl}}" class="img-circle" alt="profile image">
+              <span>{{userDisplayName currentUser}}</span>
             </a>
-          </div>
-          <div class="panel-body">
-            <button class="btn btn-link btn-block" data-action="signOut">{{_ 'command_sign_out'}}</button>
+            <button class="btn btn-sm pull-right btn-default" data-action="signOut">
+              <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            </button>
           </div>
         </div>
       {{else}}

@@ -4,14 +4,14 @@
     <!-- Home -->
     <li role="presentation" class="{{activeRoute 'home'}}">
       <a href="{{pathFor 'home'}}">
-        <i class="fa fa-lg fa-home"></i> {{_ 'title_home'}}
+        <span class="glyphicon glyphicon-home"> </span> {{_ 'title_home'}}
       </a>
     </li>
 
     <!-- Blogs -->
     <li role="presentation" class="{{activeRoute 'blogsList'}}">
       <a href="{{pathFor 'blogsList'}}">
-        <i class="fa fa-lg fa-list"></i> {{_ 'title_blogs'}}
+        <span class="glyphicon glyphicon-list"></span> {{_ 'title_blogs'}}
       </a>
     </li>
 
@@ -19,14 +19,14 @@
     <!-- My Blogs -->
     <li role="presentation" class="{{activeRoute 'myBlogsList'}}">
       <a href="{{pathFor 'myBlogsList'}}">
-        <i class="fa fa-lg fa-list"></i> {{_ 'title_my_blogs'}}
+        <span class="glyphicon glyphicon-th-list"></span> {{_ 'title_my_blogs'}}
       </a>
     </li>
 
     <!-- New Blog -->
     <li role="presentation" class="{{activeRoute 'blogNew'}}">
       <a href="{{pathFor 'blogNew'}}">
-        <i class="fa fa-lg fa-pencil"></i> {{_ 'title_blog_new'}}
+        <span class="glyphicon glyphicon-pencil"></span> {{_ 'title_blog_new'}}
       </a>
     </li>
     {{/if}}
@@ -34,7 +34,7 @@
     <!-- Preferences -->
     <li role="presentation" class="{{activeRoute 'preference'}}">
       <a href="{{pathFor 'preference'}}">
-        <i class="fa fa-lg fa-gear"></i> {{_ 'title_preference'}}
+        <span class="glyphicon glyphicon-cog"> </span> {{_ 'title_preference'}}
       </a>
     </li>
   </ul>

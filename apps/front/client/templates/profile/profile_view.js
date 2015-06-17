@@ -19,7 +19,7 @@ Template.profileView.helpers({
 });
 Template.profileView.events({
 
-  "click #editPicture": function() {
+  "click #editPicture, click .avatar-wrapper-custom img": function() {
     $('#profileModal').modal('show');
   },
 

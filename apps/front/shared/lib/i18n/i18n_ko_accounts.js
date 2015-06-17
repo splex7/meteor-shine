@@ -35,7 +35,7 @@ I18n_data_ko_accounts = {
   "text_no_login_services"             : "설정된 로그인 서비스가 없습니다.",
   "text_input_username_or_email"       : "아이디 또는 이메일주소를 입력하십시오.",
   "text_input_password"                : "비밀번호를 입력하십시오.",
-  "text_forgot_password"               : "비밀번호를 잊으셨습니까?",
+  "text_forgot_password"               : "비밀번호 찾기",
   "text_reset_password"                : "비밀번호 초기화를 위한 링크가 입력하신 Email 주소로 전송되었습니다.",
   "text_stay_signed_in"                : "로그인 상태 유지",
   "text_agreement"                     : "{0}과 {1}에 동의합니다.",
