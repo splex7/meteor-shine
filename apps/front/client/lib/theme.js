@@ -15,4 +15,5 @@ saveTheme = function(theme) {
 
 setTheme = function(theme) {
   $('#themeLink').attr('href', themeURL(theme));
+  $('body').attr('data-theme', theme);
 };
