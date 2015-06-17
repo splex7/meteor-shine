@@ -34,6 +34,7 @@ BlogsListController = RouteController.extend({
 });
 
 BlogOneController = RouteController.extend({
+  /*
   increment: 1,
   limit: function() {
     return parseInt(this.params.query.r) || this.increment;
@@ -44,31 +45,29 @@ BlogOneController = RouteController.extend({
   },
 
   findQuery: function() {
-    return { blogId: this.params._id }
+    return { blogId: this.params._id };
   },
   findOptions: function() {
-    return { limit: this.limit(), sort: { createdAt: -1 }}
+    return { limit: this.limit(), sort: { createdAt: -1 }};
   },
 
   blogComments: function() {
     return BlogComments.find(this.findQuery(), this.findOptions());
   },
-
+*/
   blog: function() {
     return Blogs.findOne(this.params._id);
   },
 
   subscriptions: function() {
-    this.wait(Meteor.subscribe('blogOne', this.params._id));
-
-    this.subs = Meteor.subscribe('blogCommentsList', this.findQuery(), this.findOptions());
+    Meteor.subscribe('blogOne', this.params._id);
   },
 
   data: function() {
     return {
-      ready: this.subs.ready,
-      hasMore: this.blogComments().count() === this.limit(),
-      blogComments: this.blogComments(),
+//      ready: this.subs.ready,
+//      hasMore: this.blogComments().count() === this.limit(),
+//      blogComments: this.blogComments(),
       blog: this.blog()
     };
   }
