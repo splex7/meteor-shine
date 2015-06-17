@@ -1,8 +1,12 @@
-body[data-theme='darkly'] {
-  //background: gray;
+// CSS custom for darkly theme
 
+body[data-theme='darkly'] {
   p {
     margin: 0;
+  }
+
+  label {
+    font-weight: 200;
   }
 
   .aside-left {
@@ -17,12 +21,18 @@ body[data-theme='darkly'] {
 
   .panel-info {
     border-color: #303030;
-    margin-top: 0;
+    margin-top: 5px;
   }
 
   .panel-info > .panel-heading {
     background-color: #303030;
     border-color: #303030;
+  }
+
+  .btn:hover, .btn:focus {
+    outline: none;
+    background-color: #249b79;
+    border-color: #249b79;
   }
 
   .btn-default {
@@ -35,11 +45,12 @@ body[data-theme='darkly'] {
     color: #1cbb8d;
     background-color: #303030;
     border-color: #303030;
+    outline: none;
   }
 
   .btn-info {
     color: #ffffff;
-    background-color: #222222;
+    background-color: #303030;
     border: none;
   }
 
@@ -52,6 +63,7 @@ body[data-theme='darkly'] {
     color: #ffffff;
     background-color: #1cbb8d;
     border-color: #1cbb8d;
+    outline: none;
   }
 
   a {
@@ -154,5 +166,9 @@ body[data-theme='darkly'] {
     padding-right: 0;
   }
 
+  .comments .comments-list-frame {
+    max-height:200px;
+    overflow: auto;
+  }
 }
 // body end

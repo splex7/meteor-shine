@@ -4,7 +4,7 @@ I18n_data_ko = {
 
   "title_home"                    : "홈",
   "title_blogs"                   : "블로그 목록",
-  "title_my_blogs"                : "내 블로그 목록",
+  "title_my_blogs"                : "내 게시글 보기",
   "title_blog_new"                : "새 블로그 작성",
   "title_blog_edit"               : "블로그 수정",
   "title_comments"                : "댓글",
