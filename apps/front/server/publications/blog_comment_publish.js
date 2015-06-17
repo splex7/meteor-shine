@@ -1,8 +1,9 @@
 Meteor.publish('blogCommentsList', function(query, options) {
 
-  Counts.publish(this, 'blogCommentsCount', BlogComments.find(query), { noReady: true });
+  //Meteor._sleepForMs(2000);
 
-  console.log('query = ' + JSON.stringify(query));
+  Counts.publish(this, 'blogCommentsCount', BlogComments.find(query),
+    { noReady: true });
 
   var blogComments = BlogComments.find(query, options);
 

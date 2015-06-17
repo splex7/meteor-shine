@@ -15,12 +15,13 @@ Meteor.methods({
     // validate
     var validation = BlogCommentValidator.validateInsert(object);
     if (validation.errors().length > 0) {
-      console.log('validation errors');
+      throw new Meteor.Error(ERROR_CODE_MATCH, "error_validation_fail");
     }
 
     // check permission
-    if (! this.userId)
+    if (! this.userId) {
       throw new Meteor.Error(ERROR_CODE_SECURITY, "error_access_denied");
+    }
 
     // make input object
     var now = new Date();

@@ -27,7 +27,7 @@ BlogCommentsListController = RouteController.extend({
   data: function() {
     return {
       ready: this.subs.ready,
-      hasMore: this.blogs().count() === this.limit(),
+      hasMore: this.blogComments().count() === this.limit(),
       blogComments: this.blogComments().fetch()
     };
   }
