@@ -36,7 +36,7 @@ body[data-theme='darkly'] {
   }
 
   .btn-default {
-    color: #ffffff;
+    color: #5bc0de;
     background-color: #303030;
     border-color: #303030;
   }
@@ -133,7 +133,7 @@ body[data-theme='darkly'] {
     display: none;
     position: fixed;
     left: 0;
-    //right: 0;
+    right: 0;
     top: 0;
     margin-left: auto;
     margin-right: auto;
@@ -170,5 +170,41 @@ body[data-theme='darkly'] {
     max-height:200px;
     overflow: auto;
   }
+
+
+
+  .box-label {
+    overflow:hidden;
+    float:left;
+    width:33.33%;
+
+    .label-custom {
+      width:100%;
+      height:50px;
+      margin:0;
+      border:2px solid;
+      border-color:#464545 #000000 #000000 #464545;
+      background-color: #303030;
+      line-height:50px;
+      color: #ffffff;
+      text-align:center;
+      cursor:pointer;
+      &:hover,
+      &:active,
+      &:focus {
+        color: #249b79;
+      }
+    }
+  }
+
+  .box-label:nth-child(2) {
+    .label-custom {
+      color: #249b79;
+    }
+  }
+
+
+
+
 }
 // body end
