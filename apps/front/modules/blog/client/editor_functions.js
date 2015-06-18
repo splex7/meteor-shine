@@ -22,8 +22,8 @@ inlineEditor = {
     title.addEventListener('focus', self.events.titleFocus, true);
 
     // Editor Placeholders
-    editor.addEventListener('blur', self.events.editorBlur, true);
-    editor.addEventListener('focus', self.events.editorFocus, true);
+    // editor.addEventListener('blur', self.events.editorBlur, true);
+    // editor.addEventListener('focus', self.events.editorFocus, true);
   },
 
   events : {
@@ -59,6 +59,18 @@ inlineEditor = {
           $(focusNode.parentNode).addClass('is-selected');
         }
       }
+
+      // Detect and change link on Keyup
+      // Needs more work
+      // if (keycode === 32) {
+      //   var regExUrl = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+
+      //   if (editor.innerHTML.match(regExUrl)) {
+      //     st = editor.innerHTML.match(regExUrl);
+      //     editor.innerHTML = editor.innerHTML.replace(regExUrl, "<a href='" + st[0] + "'>" + st[0] + "</a>");
+      //   }
+      //   //   // document.execCommand("CreateLink", false, $.trim(st))
+      // }
     },
 
     keydown: function (event) {
@@ -138,9 +150,9 @@ inlineEditor = {
     editorBlur : function (event) {
       var editorLength = $.trim($(event.target).text()).length;
 
-      if (editorLength === 0) {
-        $(event.target).append('본문');
-        $(event.target).data('default', true);
+      if (editorLength === 0 && $(event.target).data('default') === false) {
+        $(event.target).append('<p class="editor-p is-selected>본문</p>;')
+                       .data('default', true);
       } else {
         $(event.target).data('default', false);
       }
@@ -148,8 +160,9 @@ inlineEditor = {
 
     editorFocus : function (event) {
       if ( $(event.target).data('default') === true ) {
-        $(event.target).empty();
-        // $(event.target).data('default', false);
+        $(event.target).empty()
+                       .append('<p class="editor-p is-selected></p>')
+                       .data('default', false);
       } else {
 
       }
