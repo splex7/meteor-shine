@@ -1,5 +1,5 @@
 BlogsListController = RouteController.extend({
-  increment: 1,
+  increment: 5,
   limit: function() {
     return parseInt(this.params.query.r) || this.increment;
   },
@@ -74,7 +74,7 @@ BlogOneController = RouteController.extend({
 });
 
 MyBlogsListController = RouteController.extend({
-  increment: 1,
+  increment: 5,
   limit: function() {
     return parseInt(this.params.query.r) || this.increment;
   },

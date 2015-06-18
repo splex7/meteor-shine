@@ -15,11 +15,3 @@ Template.registerHelper('userEmail', function () {
       return user.emails[0].address;
     }
 });
-
-Template.registerHelper('getAvatarUrl', function () {
-  var user = Meteor.user();
-
-  if (user && user.profile) {
-    return user.profile.avatarUrl
-  }
-})

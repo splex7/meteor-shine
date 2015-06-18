@@ -18,4 +18,3 @@ Template.themeListItem.helpers({
     return (this._id === loadTheme());
   }
 });
-
