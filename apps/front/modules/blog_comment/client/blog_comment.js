@@ -80,12 +80,6 @@ Template.blogComments.helpers({
   hasMore: function() {
     var total = Counts.get('blogCommentsCount');
     return (total > Template.instance().limit.get());
-  },
-
-  commenter: function() {
-    // We use this helper inside the {{#each posts}} loop, so the context
-    // will be a blog comment object. Thus, we can use this.user._id.
-    return Meteor.users.findOne(this.user._id);
   }
 });
 Template.blogComments.events({
@@ -95,5 +89,13 @@ Template.blogComments.events({
     var limit = instance.limit.get();
     instance.limit.set(limit + instance.increment);
     console.log('queryLimit = ' + instance.limit.get());
+  }
+});
+
+Template.blogCommentsListItem.helpers({
+  commenter: function() {
+    // We use this helper inside the {{#each posts}} loop, so the context
+    // will be a blog comment object. Thus, we can use this.user._id.
+    return Meteor.users.findOne(this.user._id);
   }
 });

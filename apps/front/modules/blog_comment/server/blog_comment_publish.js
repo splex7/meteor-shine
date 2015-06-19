@@ -18,7 +18,7 @@ Meteor.publishComposite('blogCommentsList', function(query, options) {
           // since this function should return a cursor.
           return Meteor.users.find(
             { _id: comment.user._id },
-            { limit: 1, fields: { username: 1, profile: 1 } });
+            { fields: { username: 1, profile: 1 } });
         }
       }
     ]
