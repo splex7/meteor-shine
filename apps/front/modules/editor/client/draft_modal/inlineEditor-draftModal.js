@@ -1,49 +1,25 @@
-/**
- *
- *  TODO **HIGH PRIORITY**
- *
- *  Move Subscription to non-modal Template
- *  Modal Subscription is very buggy.
- *
- */
-
-Template.draftModal.onCreated( function () {
-  // Initialization
-  var instance = this;
-
-  // Initiate Reactive Variables
-  instance.loaded = new ReactiveVar(0);
-  instance.limit  = new ReactiveVar(5);
-
-  // Autorun
-  // will re-run when the "limit" reactive variables changes
-  instance.autorun( function () {
-    var limit = instance.limit.get();
-
-    // Subscribe
-    var subscription = instance.subscribe('draftsList', limit);
-
-    // if subscription is ready, set limit to newLimit
-    if (subscription.ready()) {
-      instance.loaded.set(limit);
-    } else {
-      // Not Loaded Yet
-    }
-  });
-
-  // Answer Limit Cursor
-  instance.draftsList = function() {
-    return Drafts.find({'user._id': Meteor.userId() }, {limit: instance.loaded.get()});
-  }
-});
 
 Template.draftModal.helpers({
-  draftsList: function () {
-    return Template.instance().draftsList();
+  drafts: function () {
+    var userId = Meteor.userId();
+    var draft = Drafts.find({'user._id': userId });
+
+    if (userId && draft) {
+      return draft;
+    }
+  },
+  draftCount: function () {
+    var userId = Meteor.userId();
+    var draft = Drafts.find({'user._id': userId });
+
+    if (userId && draft) {
+      return draft.count();
+    }
   },
   nextPath: function () {
-    return Template.instance().draftsList().count() >= Template.instance().limit.get();
-  }
+    var draftCursor = Number(Session.get('draftsLimit'));
+    return draftCursor === Drafts.find({'user._id': Meteor.userId()}, {limit: draftCursor}).count();
+  },
 });
 
 Template.draftModal.events({
@@ -68,14 +44,9 @@ Template.draftModal.events({
       }
     });
   },
-  'click .load-more-drafts': function (event, template) {
+  'click a.load-more-draft': function (event) {
     event.preventDefault();
 
-    // get current value for limit, i.e. how many posts are currently displayed
-    var limit = Template.instance().limit.get();
-
-    // increase limit by 5 and update it
-    limit += 5;
-    Template.instance().limit.set(limit);
+    Session.set('draftsLimit', Number(Session.get('draftsLimit')) + 5)
   }
 });

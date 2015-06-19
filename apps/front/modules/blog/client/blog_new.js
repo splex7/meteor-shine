@@ -1,3 +1,13 @@
+Template.blogNew.onCreated( function () {
+  Session.set('draftsLimit', 5);
+});
+
+Template.blogNew.onDestroyed( function () {
+  delete Session.keys['draftsLimit'];
+  delete Session.keys['currentDraft'];
+});
+
+
 // // Strip Classes Before Input into DB
 // stripTags = function (el) {
 //   var lines = el.children();
