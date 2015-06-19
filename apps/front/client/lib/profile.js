@@ -17,16 +17,25 @@ profilePictureState = function() {
   return 0;
 };
 
-getAccountPictureUrl = function() {
-  var user = Meteor.user();
-
-  if (user && user.profile && user.profile.picture && user.profile.picture.origin) {
-    return user.profile.picture.origin.urlCropped;
-  } else {
-    return DEFAULT_PICTURE_URL;
-  }
+makeUpperCase = function(str) {
+  return str.slice(0, 1).toUpperCase();
 };
 
-Template.registerHelper('accountPictureUrl', function() {
-  return getAccountPictureUrl();
+getAccountPicture = function() {
+  var user = Meteor.user();
+  if (user && user.profile) {
+    if (user.profile.picture) {
+      var url = user.profile.picture.origin.urlCropped;
+      return "<img src='"+url+"'alt='Profile image' class='img-circle'>";
+    }
+  }
+  var firstChar = makeUpperCase(user.username);
+  return "<span class='first-char'>"+firstChar+"</span>";
+};
+Template.registerHelper('accountPicture', function() {
+  return getAccountPicture();
+});
+
+Template.registerHelper('defaultImage', function(username) {
+  return makeUpperCase(username);
 });

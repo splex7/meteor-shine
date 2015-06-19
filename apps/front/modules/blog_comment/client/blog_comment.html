@@ -47,16 +47,13 @@
     <div class="media-left">
       <a href="#">
         <div class="avatar-wrapper-custom avatar-50">
-	        {{#if user.avatar}}
-          <img class="media-object img-circle" src="{{user.avatar}}" alt="Profile Image">
-	        {{else}}
-					<span>{{user.username}}</span>
-					{{/if}}
+          <img class="media-object img-circle" src="{{commenter.profile.picture.origin.urlCropped}}" alt="Profile Image">
+	        <!--<span>{{defaultImage user.username}}</span>-->
         </div>
       </a>
     </div>
     <div class="media-body">
-      <h4 class="media-heading">{{user.username}} <small>{{momentFromNow createdAt}}</small></h4>
+      <h4 class="media-heading">{{commenter.username}} <small>{{momentFromNow createdAt}}</small></h4>
       {{{msg}}}
     </div>
   </li>

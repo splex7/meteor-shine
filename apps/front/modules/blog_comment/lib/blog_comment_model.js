@@ -32,9 +32,8 @@ Meteor.methods({
       msg: object.msg,
       user: {
         _id: user._id,
-        username: user.username,
+        username: user.username
         //name: user.name
-        avatar: user.profile.picture.origin.urlCropped
       },
       createdAt: now,
       updatedAt: now

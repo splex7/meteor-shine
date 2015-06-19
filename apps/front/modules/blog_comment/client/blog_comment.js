@@ -2,6 +2,7 @@ Template.blogCommentNew.helpers({
   editable: function() {
     return '<div class="editable form-control" contenteditable="true" name="msg"></div>';
   }
+
 });
 
 Template.blogCommentNew.events({
@@ -81,7 +82,6 @@ Template.blogComments.helpers({
     return (total > Template.instance().limit.get());
   }
 });
-
 Template.blogComments.events({
   'click .load-more': function(e, instance) {
     e.preventDefault();
@@ -89,5 +89,13 @@ Template.blogComments.events({
     var limit = instance.limit.get();
     instance.limit.set(limit + instance.increment);
     console.log('queryLimit = ' + instance.limit.get());
+  }
+});
+
+Template.blogCommentsListItem.helpers({
+  commenter: function() {
+    // We use this helper inside the {{#each posts}} loop, so the context
+    // will be a blog comment object. Thus, we can use this.user._id.
+    return Meteor.users.findOne(this.user._id);
   }
 });
