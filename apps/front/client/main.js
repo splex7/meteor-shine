@@ -4,3 +4,7 @@ $(document).mouseup(function(e) {
   }
 });
 
+
+Meteor.startup(function() {
+  setTheme(loadTheme());
+});
