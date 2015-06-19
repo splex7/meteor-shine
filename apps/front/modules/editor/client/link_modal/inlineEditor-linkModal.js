@@ -8,7 +8,7 @@ Template.linkModal.events({
     restoreSelection(blurSavedSel);
 
     // Add Link
-    var url = $('input.add-link').val();
+    var url = $.trim('input.add-link').val();
 
     // Add Here
     // If link does provide http:// or https:// or such
@@ -20,9 +20,9 @@ Template.linkModal.events({
     var regEx = new RegExp("^(http|https)://", "i");
 
     if (regEx.test(url)) {
-        document.execCommand("CreateLink", false, url);
+        document.execCommand("CreateLink", false, url + " ");
     } else {
-        document.execCommand("CreateLink", false, 'http://' + url);
+        document.execCommand("CreateLink", false, 'http://' + url + " ");
     }
 
     $('input.add-link').val('');
