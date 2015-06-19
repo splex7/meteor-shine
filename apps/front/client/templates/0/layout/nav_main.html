@@ -6,7 +6,7 @@
         <div class="panel panel-info clearfix">
           <div class="panel-heading">
             <a href="{{pathFor 'profileView'}}">
-              <img src="{{accountPictureUrl}}" class="img-circle" alt="profile image">
+	            {{{accountPicture}}}
               <span>{{userDisplayName currentUser}}</span>
             </a>
             <button class="btn btn-sm pull-right btn-default" data-action="signOut">

@@ -2,6 +2,7 @@ Template.blogCommentNew.helpers({
   editable: function() {
     return '<div class="editable form-control" contenteditable="true" name="msg"></div>';
   }
+
 });
 
 Template.blogCommentNew.events({
@@ -79,9 +80,14 @@ Template.blogComments.helpers({
   hasMore: function() {
     var total = Counts.get('blogCommentsCount');
     return (total > Template.instance().limit.get());
+  },
+
+  commenter: function() {
+    // We use this helper inside the {{#each posts}} loop, so the context
+    // will be a blog comment object. Thus, we can use this.user._id.
+    return Meteor.users.findOne(this.user._id);
   }
 });
-
 Template.blogComments.events({
   'click .load-more': function(e, instance) {
     e.preventDefault();

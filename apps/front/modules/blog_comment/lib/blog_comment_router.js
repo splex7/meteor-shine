@@ -19,7 +19,6 @@ BlogCommentsListController = RouteController.extend({
   blogComments: function() {
     return BlogComments.find(this.findQuery(), this.findOptions());
   },
-
   subscriptions: function() {
     this.subs = Meteor.subscribe('blogCommentsList', this.findQuery(), this.findOptions());
   },
