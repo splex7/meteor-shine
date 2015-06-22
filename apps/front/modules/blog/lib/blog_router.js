@@ -39,9 +39,9 @@ BlogOneController = RouteController.extend({
     return Blogs.findOne(this.params._id);
   },
 
-  subscriptions: function() {
+  waitOn: function() {
     return [
-      Meteor.subscribe('myBlogOne', this.params._id),
+      Meteor.subscribe('blogOne', this.params._id),
       Meteor.subscribe('draftsList', {
         limit: Number(Session.get('draftsLimit')),
         sort: {createdAt: -1}
