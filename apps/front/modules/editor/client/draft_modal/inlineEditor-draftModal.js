@@ -44,9 +44,23 @@ Template.draftModal.events({
       }
     });
   },
-  'click a.load-more-draft': function (event) {
+  'click a.load-more-drafts': function (event) {
     event.preventDefault();
 
     Session.set('draftsLimit', Number(Session.get('draftsLimit')) + 5)
   }
+});
+
+
+Template.draftModal.onRendered( function () {
+
+  this.autorun( function () {
+    var multipleOf = (Counts.get('draftCount') % 5 === 0);
+    var totalCount = Counts.get('draftCount');
+
+    if (multipleOf && totalCount === Session.get('draftsLimit')) {
+      $('a.load-more-drafts').hide();
+    }
+  });
+
 });

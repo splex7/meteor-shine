@@ -45,3 +45,13 @@ placeCaretAtEnd = function (el) {
         textRange.select();
     }
 }
+
+// Strip Classes Before Input into DB
+stripTags = function (el) {
+  var lines = el.children();
+
+  lines.removeClass('editor-empty');
+  lines.removeClass('is-selected');
+
+  return lines;
+};

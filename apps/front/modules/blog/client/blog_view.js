@@ -1,18 +1,26 @@
+Template.blogOne.onCreated( function () {
+  Session.set('editMode', false);
+  Session.set('draftsLimit', 5);
+});
 
+Template.blogOne.onDestroyed( function () {
+  delete Session.keys['editMode'];
+  delete Session.keys['draftsLimit'];
+});
 
 Template.blogOne.helpers({
-  editable: function() {
+  editable: function () {
   var content = this.blog.content;
   return '<div class="editable" id="editor" contenteditable="false" name="content" data-default="false">'+ content +'</div>';
   },
-  title: function() {
+  title: function () {
   var title = this.blog.title;
   return '<h2 class="newTitle" id="newTitle" name="title" contenteditable="false" data-default="false">' + title + '</h2>';
   },
-  ownPost: function() {
+  ownPost: function () {
   return this.blog.user._id === Meteor.userId();
   },
-  editMode: function() {
+  editMode: function () {
     return Session.get('editMode') == true;
   }
 });
@@ -21,16 +29,6 @@ Template.blogOne.helpers({
 Template.blogOne.events({
  'submit #formBlogEdit': function(e) {
     e.preventDefault();
-
-    // Strip Classes Before Input into DB
-    stripTags = function (el) {
-      var lines = el.children();
-
-      lines.removeClass('editor-empty');
-      lines.removeClass('is-selected');
-
-      return lines;
-    };
 
     var currentContent = $('[name=content]');
     var finalContent = stripTags(currentContent).parent().html();
@@ -108,8 +106,9 @@ Template.blogOne.onRendered( function () {
   // Focus and then Blur to save first selection
   this.autorun( function () {
     if (Session.get('editMode') === true) {
-      placeCaretAtEnd(editor);
       setTimeout( function () {
+        placeCaretAtEnd(editor);
+        blurSavedSel = saveSelection();
         $(editor).blur();
       }, 1);
     }

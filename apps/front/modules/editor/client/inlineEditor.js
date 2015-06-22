@@ -6,6 +6,8 @@ Template.inlineEditor.onCreated( function () {
 
 Template.inlineEditor.onDestroyed( function () {
   delete Session.keys['currentDraft'];
+  window.clearInterval(Autosave);
+  window.clearInterval(Autoupdate);
 });
 
 Template.inlineEditor.events({
@@ -31,6 +33,8 @@ Template.inlineEditor.helpers({
 });
 
 Template.inlineEditor.onRendered( function () {
+  var self = this;
+
   // Define Editor Element
   var editor = document.getElementById('editor');
 
@@ -60,8 +64,8 @@ Template.inlineEditor.onRendered( function () {
    * Autosave Feature
    */
 
-  // Draft Auto-Save (First Time)
-  this.autorun( function () {
+  self.autorun( function () {
+    // Draft Auto-Save (First Time)
     if (Session.get('currentDraft') === null) {
 
       var editor = $('#editor');
@@ -84,15 +88,10 @@ Template.inlineEditor.onRendered( function () {
           });
         }
       }, 5000);
-    }
-  });
+    } else {
 
-  // Draft Autosave Overwrite Current
-  this.autorun( function () {
-
-    if (Session.get('currentDraft') !== null) {
       Autoupdate = window.setInterval( function () {
-
+        console.log('Autoupdate running')
         var draft = Session.get('currentDraft');
         var draftContent = Drafts.findOne({_id: draft});
 
@@ -109,15 +108,18 @@ Template.inlineEditor.onRendered( function () {
             if (error) {
               console.log(error.reason);
             } else {
-              console.log('Draft Autosaved');
+              console.log('Draft updated');
 
               // Session.set('currentDraft', result);
             }
           });
         }
+
       }, 5000);
     }
   });
+
+
 
   /**
    * Cloudinary Upload

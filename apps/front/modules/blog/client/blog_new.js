@@ -1,4 +1,5 @@
 Template.blogNew.onCreated( function () {
+  Session.set('currentDraft', null);
   Session.set('draftsLimit', 5);
 });
 
@@ -6,57 +7,6 @@ Template.blogNew.onDestroyed( function () {
   delete Session.keys['draftsLimit'];
   delete Session.keys['currentDraft'];
 });
-
-
-// Strip Classes Before Input into DB
-stripTags = function (el) {
-  var lines = el.children();
-
-  lines.removeClass('editor-empty');
-  lines.removeClass('is-selected');
-
-  return lines;
-};
-
-// Template.blogNew.created = function() {
-//   TempImages.remove({});
-
-//   // Reset Draft Session
-//   Session.set('currentDraft', null);
-// };
-
-// Template.blogNew.destroyed = function() {
-//   TempImages.remove({});
-
-//   if (Session.get('currentDraft') !== null) {
-//     // Destroy Autoupdate
-//     window.clearInterval(Autoupdate);
-//   }
-
-//   // Reset Draft Session
-//   Session.set('currentDraft', null);
-
-//   $('.cloudinary-uploader input').off('click');
-// };
-
-// //--------------------------------------------------------
-// //
-// //  TEMPLATE CALL BACKS FROM HERE
-// //
-// //--------------------------------------------------------
-
-// Template.blogNew.helpers({
-//   editable: function() {
-//     // +Added id="editor"
-//     return '<div class="editable" contenteditable="true" name="content" id="editor" data-default="true"><p class="is-selected">본문</p></div>';
-//   },
-//   title: function() {
-//     return '<h2 class="newTitle" id="newTitle" name="title" contenteditable="true" data-default="true">제목</h2>';
-//   },
-//   draftCount: function () {
-//     return Drafts.find({'user._id': Meteor.userId()}).count();
-//   }
-// });
 
 Template.blogNew.events({
   'submit #formBlog': function(e) {
@@ -110,7 +60,45 @@ Template.blogNew.events({
 
 // Template.blogNew.onRendered( function (){
 
+// Template.blogNew.created = function() {
+//   TempImages.remove({});
 
+//   // Reset Draft Session
+//   Session.set('currentDraft', null);
+// };
+
+// Template.blogNew.destroyed = function() {
+//   TempImages.remove({});
+
+//   if (Session.get('currentDraft') !== null) {
+//     // Destroy Autoupdate
+//     window.clearInterval(Autoupdate);
+//   }
+
+//   // Reset Draft Session
+//   Session.set('currentDraft', null);
+
+//   $('.cloudinary-uploader input').off('click');
+// };
+
+// //--------------------------------------------------------
+// //
+// //  TEMPLATE CALL BACKS FROM HERE
+// //
+// //--------------------------------------------------------
+
+// Template.blogNew.helpers({
+//   editable: function() {
+//     // +Added id="editor"
+//     return '<div class="editable" contenteditable="true" name="content" id="editor" data-default="true"><p class="is-selected">본문</p></div>';
+//   },
+//   title: function() {
+//     return '<h2 class="newTitle" id="newTitle" name="title" contenteditable="true" data-default="true">제목</h2>';
+//   },
+//   draftCount: function () {
+//     return Drafts.find({'user._id': Meteor.userId()}).count();
+//   }
+// });
 
 //   // Define Editor Element
 //   var editor = document.getElementById('editor');

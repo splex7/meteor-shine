@@ -54,13 +54,19 @@ BlogOneController = RouteController.extend({
   blogComments: function() {
     return BlogComments.find(this.findQuery(), this.findOptions());
   },
-*/
+ */
   blog: function() {
     return Blogs.findOne(this.params._id);
   },
 
   subscriptions: function() {
-    Meteor.subscribe('blogOne', this.params._id);
+    return [
+      Meteor.subscribe('myBlogOne', this.params._id),
+      Meteor.subscribe('draftsList', {
+        limit: Number(Session.get('draftsLimit')),
+        sort: {createdAt: -1}
+      })
+    ]
   },
 
   data: function() {
@@ -112,7 +118,8 @@ MyBlogsListController = RouteController.extend({
 BlogNewController = RouteController.extend({
   subscriptions: function () {
     Meteor.subscribe('draftsList', {
-      limit: Number(Session.get('draftsLimit'))
+      limit: Number(Session.get('draftsLimit')),
+      sort: {createdAt: -1}
     })
   }
 });
