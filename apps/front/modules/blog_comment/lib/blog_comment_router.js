@@ -1,3 +1,6 @@
+//Router.route('/blog/:blogId/comments', {
+//  name: 'blogCommentsList'
+//});
 //BlogCommentsListController = RouteController.extend({
 //  increment: DEFAULT_LIST_INCREMENT,
 //  limit: function() {
@@ -31,11 +34,3 @@
 //  }
 //
 //});
-
-
-Router.route('/blog/:blogId/comments', {
-  name: 'blogCommentsList'
-  //controller: 'BlogCommentsListController'
-});
-
-

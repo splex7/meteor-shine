@@ -71,7 +71,6 @@ Meteor.methods({
   },
 
   blogRemove: function(blogId) {
-
     // check permission
     if (! this.userId)
       throw new Meteor.Error(403, "error_access_denied");

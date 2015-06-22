@@ -30,7 +30,7 @@ getAccountPicture = function() {
     }
   }
   var firstChar = makeUpperCase(user.username);
-  return "<span class='first-char'>"+firstChar+"</span>";
+  return "<span class='avatar-initials'>"+firstChar+"</span>";
 };
 Template.registerHelper('accountPicture', function() {
   return getAccountPicture();

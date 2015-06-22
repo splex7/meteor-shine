@@ -1,31 +1,32 @@
 <template name="profilePicture">
   <!-- Cropping modal -->
   <div id="profileModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="gridSystemModalLabel">{{_ 'accounts:title_change_picture'}}</h4>
-          </div>
-          <div class="modal-body slam-gutter">
-            <!-- Cropped image view -->
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="gridSystemModalLabel">{{_ 'accounts:title_change_picture'}}</h4>
+        </div>
+        <div class="modal-body slam-gutter">
+          <!-- Cropped image view -->
 
-            <div class="row">
-              <div class="col-md-12">
-                <div class="cropper-outer">
-                   <img id="avatarPreview" src="{{pictureOriginUrl}}" alt="Preview upload images">
-                </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="cropper-outer">
+                 <img id="avatarPreview" src="{{pictureOriginUrl}}" alt="Preview upload images">
               </div>
             </div>
-            {{> profilePictureToolbar}}
-          </div><!-- /.modal-body end-->
-          <div class="modal-footer">
-            <button id="cancelBtn" type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-            <button id="saveBtn" type="button" class="btn btn-primary">저장</button>
-          </div><!-- /.modal-footer -->
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+          </div>
+          {{> profilePictureToolbar}}
+        </div><!-- /.modal-body end-->
+        <div class="modal-footer">
+          <button id="cancelBtn" type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+          <button id="saveBtn" type="button" class="btn btn-primary">저장</button>
+        </div><!-- /.modal-footer -->
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+	{{> cloudinaryProgressBar}}
 </template>
 
 <template name="profilePictureToolbar">
@@ -53,5 +54,4 @@
       </div>
     </div>
   </div><!-- / Buttons group end -->
-  {{> cloudinaryProgressBar}}
 </template>

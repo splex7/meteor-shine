@@ -86,7 +86,7 @@ var drawCropper = function() {
     if (isTemp) {
       avatarView.cropper('destroy').cropper();
     } else {
-      if ( avatarView && avatarView[0]) avatarView[0].src = url;
+      if ( avatarView && avatarView[0] && avatarView[0].src) avatarView[0].src = url;
 
       var canvasData = {
         left: user.profile.picture.coordinates.left,

@@ -22,6 +22,9 @@ Template.blogOne.helpers({
 	},
   editMode: function() {
     return Session.get('editMode') == true;
+  },
+  author: function() {
+    return Meteor.users.findOne(this.blog.user._id);
   }
 });
 
