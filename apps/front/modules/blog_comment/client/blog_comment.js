@@ -94,8 +94,6 @@ Template.blogComments.events({
 
 Template.blogCommentsListItem.helpers({
   commenter: function() {
-    // We use this helper inside the {{#each posts}} loop, so the context
-    // will be a blog comment object. Thus, we can use this.user._id.
     return Meteor.users.findOne(this.user._id);
   }
 });

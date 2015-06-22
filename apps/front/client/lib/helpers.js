@@ -10,8 +10,13 @@ Template.registerHelper('activeRoute', function(/* route names */) {
 });
 
 Template.registerHelper('userEmail', function () {
-    var user = Meteor.user();
-    if (user && user.emails) {
-      return user.emails[0].address;
-    }
+  var user = Meteor.user();
+  if (user && user.emails) {
+    return user.emails[0].address;
+  }
 });
+
+Template.registerHelper('showDataContext', function() {
+  console.log('DataContext: ', this);
+
+})
