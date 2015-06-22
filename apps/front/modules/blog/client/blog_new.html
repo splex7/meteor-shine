@@ -5,31 +5,11 @@
   <article class="page">
     <h3>{{_ 'title_blog_new'}}</h3>
 
-    <form id="formBlogNew">
+    <form id="formBlog">
 
       <div class="panel panel-default">
-
         <div class="panel-body">
-          <div class="row-fluid">
-            {{{title}}}
-            <span class="help-block"></span>
-            <a href="" class="btn btn-xs btn-default" data-target="#draftModal" data-toggle="modal">
-              Load Draft ({{draftCount}})
-            </a>
-          </div>
-          <div class="row-fluid">
-            <div class="btn-toolbar">
-              <div class="btn-group">
-                {{> cloudinaryUploader}}
-              </div>
-              <div class="btn-group">
-                <button type="button" class="btn btn-default">
-                  <i class="fa fa-link"></i>
-                </button>
-              </div>
-            </div>
-            {{{editable}}}
-          </div>
+          {{> inlineEditor}}
         </div>
 
         <div class="panel-footer clearfix">

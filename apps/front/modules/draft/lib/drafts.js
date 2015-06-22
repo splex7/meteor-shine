@@ -38,9 +38,9 @@ Meteor.methods({
     };
 
     // write to database
-    data._id = Drafts.insert(data);
+    data = Drafts.insert(data);
 
-    return data._id;
+    return data;
   },
 
 

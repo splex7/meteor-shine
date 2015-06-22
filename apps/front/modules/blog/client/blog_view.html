@@ -4,47 +4,46 @@
       <p style="color: #1cbb8d;">편집모드</p>
     {{/if}}
 
+    <form id="formBlogEdit">
+
     <div class="panel panel-default">
 
-        <form id="formBlogEdit">
-          <div class="panel-body">
-            <h2 style="word-wrap:break-word;">{{{title}}}</h2>
-            <small> {{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</small>
-            <div class="text-content">
+      <div class="panel-body">
+        <h2 style="word-wrap:break-word;">{{{title}}}</h2>
+        <small> {{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</small>
+        <div class="text-content">
               {{#if editMode}}
-                {{> blogContentToolbar}}
+                {{> inlineEditorToolbar}}
               {{/if}}
-
               {{{editable}}}
+        </div>
+      </div>
 
+
+      {{#if ownPost}}
+      <div class="panel-footer clearfix">
+        <div class="btn-toolbar pull-right">
+          {{#if editMode}}
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary">Save Changes</button>
             </div>
-          </div>
-
-
-          {{#if ownPost}}
-          <div class="panel-footer clearfix">
-            <div class="btn-toolbar pull-right">
-              {{#if editMode}}
-                <div class="btn-group">
-                  <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default" id="cancelEdit">Cancel</button>
-                </div>
-              {{else}}
-                <div class="btn-group btn-edit-custom">
-                  <button type="button" class="btn btn-default btn-sm" id="edit">Edit</button>
-                </div>
-              {{/if}}
+            <div class="btn-group">
+              <button type="button" class="btn btn-default" id="cancelEdit">Cancel</button>
             </div>
-          </div>
-          {{/if}}
+          {{else}}
+            <div class="btn-group btn-edit-custom">
+              <button type="button" class="btn btn-default btn-sm" id="edit">Edit</button>
+            </div>
+          {{/if}} <!--if editMode-->
+        </div>
+      </div>
+      {{/if}} <!--if ownPost-->
 
-        </form>
     </div>
 
-    {{> blogComments}}
+    </form>
 
+    {{> blogComments}}
     {{> cloudinaryProgressBar}}
   </article>
 
