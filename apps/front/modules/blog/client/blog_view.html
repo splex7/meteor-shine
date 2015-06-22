@@ -5,19 +5,11 @@
       <p style="color: #1cbb8d;">편집모드</p>
     {{/if}}
 
-<<<<<<< HEAD
+
     <form id="formBlogEdit">
 
     <div class="panel panel-default">
 
-      <div class="panel-body">
-        <h2 style="word-wrap:break-word;">{{{title}}}</h2>
-        <small> {{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</small>
-        <div class="text-content">
-=======
-    <div class="panel panel-default">
-
-        <form id="formBlogEdit">
           <div class="panel-body">
             <h2 style="word-wrap:break-word;">{{{title}}}</h2>
 	          <img src="{{ author.profile.picture.origin.urlCropped }}" alt="Profile image">
@@ -26,7 +18,6 @@
 		          {{momentFromNow blog.createdAt}}
 	          </smaill>
             <div class="text-content">
->>>>>>> 8ec88874d3775bb82e2ecea18d0cc27ae2b51b42
               {{#if editMode}}
                 {{> inlineEditorToolbar}}
               {{/if}}
