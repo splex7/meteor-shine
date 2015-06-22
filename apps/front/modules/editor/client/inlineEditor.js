@@ -52,19 +52,20 @@ Template.inlineEditor.onRendered( function () {
 
   // Nasty hack to create Default Selection
   // Focus and then Blur to save first selection
-  this.autorun( function () {
-    $(editor).focus();
-    setTimeout( function () {
-      $(editor).blur();
-    }, 1);
-  });
-
 
   /**
    * Autosave Feature
    */
 
   self.autorun( function () {
+
+
+    $(editor).focus();
+    setTimeout( function () {
+      $(editor).blur();
+    }, 1);
+
+
     // Draft Auto-Save (First Time)
     if (Session.get('currentDraft') === null) {
 
