@@ -3,17 +3,29 @@ Meteor.publish('blogsList', function(query, options) {
   Counts.publish(this, 'blogsCount', Blogs.find(), { noReady: true });
 
   var blogs = Blogs.find(query, options);
+  var blogCommentCount = BlogComments.find();
 
-  return blogs;
+  return [ blogs, blogCommentCount ];
 });
 
 
-Meteor.publish('blogOne', function(blogId) {
-  var blogs = Blogs.find({ _id: blogId });
-
-  return blogs;
+Meteor.publishComposite('blogOne', function(query) {
+  return {
+    find: function() {
+      return Blogs.find(query);
+    },
+    children: [
+      {
+        find: function(blog) {
+          return Meteor.users.find(
+            { _id: blog.user._id },
+            { fields: { username: 1, profile: 1 } }
+          )
+        }
+      }
+    ]
+  }
 });
-
 
 Meteor.publish('myBlogsList', function(query, options) {
   query = _.extend(query, { 'user._id': this.userId });

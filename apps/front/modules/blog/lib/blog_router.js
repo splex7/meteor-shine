@@ -34,27 +34,6 @@ BlogsListController = RouteController.extend({
 });
 
 BlogOneController = RouteController.extend({
-  /*
-  increment: 1,
-  limit: function() {
-    return parseInt(this.params.query.r) || this.increment;
-  },
-  nextPath: function() {
-    this.params.query.r = this.limit() + this.increment;
-    return this.route.path({}, { query: this.params.query });
-  },
-
-  findQuery: function() {
-    return { blogId: this.params._id };
-  },
-  findOptions: function() {
-    return { limit: this.limit(), sort: { createdAt: -1 }};
-  },
-
-  blogComments: function() {
-    return BlogComments.find(this.findQuery(), this.findOptions());
-  },
-*/
   blog: function() {
     return Blogs.findOne(this.params._id);
   },
@@ -65,9 +44,7 @@ BlogOneController = RouteController.extend({
 
   data: function() {
     return {
-//      ready: this.subs.ready,
-//      hasMore: this.blogComments().count() === this.limit(),
-//      blogComments: this.blogComments(),
+//    ready: this.subs.ready,
       blog: this.blog()
     };
   }

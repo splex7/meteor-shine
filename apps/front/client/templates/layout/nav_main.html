@@ -5,9 +5,9 @@
       {{#if currentUser}}
         <div class="panel panel-info clearfix">
           <div class="panel-heading">
-            <a href="{{pathFor 'profileView'}}">
+            <a href="{{pathFor 'profileView'}}" class="avatar-sm">
 	            {{{accountPicture}}}
-              <span>{{userDisplayName currentUser}}</span>
+              <span class="user-name">{{userDisplayName currentUser}}</span>
             </a>
             <button class="btn btn-sm pull-right btn-default" data-action="signOut">
               <i class="fa fa-sign-out" title="Logout" style="font-size:15px"></i>

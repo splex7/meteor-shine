@@ -22,6 +22,9 @@ Template.blogsList.events({
 Template.blogsList.helpers({
   noBlogs: function() {
     return Counts.get('blogsCount') === 0;
+  },
+  blogsCount: function() {
+    return Counts.get('blogsCount');
   }
 });
 
@@ -31,5 +34,23 @@ Template.blogsListItem.helpers({
     //return content.replace(/<(?:.|\n)*?>/gm, '');
     //return content.replace(/(<([^>]+)>)/ig, "");
     return content;
+  },
+  commentCount: function() {
+    return BlogComments.find({blogId: this._id}).count();
+  },
+  ownBlog: function() {
+    return this.user._id === Meteor.userId();
+  }
+});
+
+Template.blogsListItem.events({
+  'click .delete-btn': function(e, template) {
+    e.preventDefault();
+    console.log('this.id: ', this._id);
+
+    Meteor.call('blogRemove', this._id, function(error, result) {
+      if (error) console.log('error: ', error);
+      console.log('result: ', result);
+    });
   }
 });

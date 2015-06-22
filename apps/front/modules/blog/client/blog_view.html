@@ -1,4 +1,5 @@
 <template name="blogOne">
+	{{showDataContext}}
   <article class="page">
     {{#if editMode}}
       <p style="color: #1cbb8d;">편집모드</p>
@@ -9,9 +10,11 @@
         <form id="formBlogEdit">
           <div class="panel-body">
             <h2 style="word-wrap:break-word;">{{{title}}}</h2>
-            <small> {{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</small>
-
-
+	          <img src="{{ author.profile.picture.origin.urlCropped }}" alt="Profile image">
+	          <smaill>
+		          {{ author.username }}
+		          {{momentFromNow blog.createdAt}}
+	          </smaill>
             <div class="text-content">
               {{#if editMode}}
                 {{> inlineEditorToolbar}}
