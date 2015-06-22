@@ -8,15 +8,15 @@ Template.blogNew.onDestroyed( function () {
 });
 
 
-// // Strip Classes Before Input into DB
-// stripTags = function (el) {
-//   var lines = el.children();
+// Strip Classes Before Input into DB
+stripTags = function (el) {
+  var lines = el.children();
 
-//   lines.removeClass('editor-empty');
-//   lines.removeClass('is-selected');
+  lines.removeClass('editor-empty');
+  lines.removeClass('is-selected');
 
-//   return lines;
-// };
+  return lines;
+};
 
 // Template.blogNew.created = function() {
 //   TempImages.remove({});
@@ -58,55 +58,55 @@ Template.blogNew.onDestroyed( function () {
 //   }
 // });
 
-// Template.blogNew.events({
-//   'submit #formBlogNew': function(e) {
-//     e.preventDefault();
+Template.blogNew.events({
+  'submit #formBlog': function(e) {
+    e.preventDefault();
 
-//     var currentContent = $('[name=content]');
-//     var finalContent = stripTags(currentContent).parent().html();
+    var currentContent = $('[name=content]');
+    var finalContent = stripTags(currentContent).parent().html();
 
 
-//     // var finalContent = stripTags(currentContent).html();
+    // var finalContent = stripTags(currentContent).html();
 
-//     // get inputs
-//     var object = {
-//       title: $(e.target).find('[name=title]').html(),
-//       content: finalContent
-//       //content: $(e.target).find('[name=content]').html()
-//     };
+    // get inputs
+    var object = {
+      title: $(e.target).find('[name=title]').html(),
+      content: finalContent
+      //content: $(e.target).find('[name=content]').html()
+    };
 
-//     // validate inputs
-//     /*
-//     var validation = BlogValidator.validateInsert(object);
-//     if (! _.isEmpty(validation.errors())) {
-//       showValidationErrors(e, validation.errors());
-//       return;
-//     }
-//     */
+    // validate inputs
+    /*
+    var validation = BlogValidator.validateInsert(object);
+    if (! _.isEmpty(validation.errors())) {
+      showValidationErrors(e, validation.errors());
+      return;
+    }
+    */
 
-//     // method call 'blogInsert'
-//     Meteor.call('blogInsert', object, function(error, result) {
-//       if (error) {
-//         alert(error.reason);
-//       } else {
-//         alert('insert success');
-//         var getDraft = Session.get('currentDraft');
-//         if (getDraft !== null) {
-//           Meteor.call('draftRemove', getDraft, function(error, result) {
-//             if (error) {
-//               console.log(error.reason);
-//             } else {
-//               window.clearInterval(Autoupdate);
-//               console.log('Draft Removed');
-//             }
-//           });
-//         }
-//         Router.go('myBlogsList');
-//       }
-//     });
-//   }
+    // method call 'blogInsert'
+    Meteor.call('blogInsert', object, function(error, result) {
+      if (error) {
+        alert(error.reason);
+      } else {
+        alert('insert success');
+        var getDraft = Session.get('currentDraft');
+        if (getDraft !== null) {
+          Meteor.call('draftRemove', getDraft, function(error, result) {
+            if (error) {
+              console.log(error.reason);
+            } else {
+              window.clearInterval(Autoupdate);
+              console.log('Draft Removed');
+            }
+          });
+        }
+        Router.go('myBlogsList');
+      }
+    });
+  }
 
-// });
+});
 
 // Template.blogNew.onRendered( function (){
 

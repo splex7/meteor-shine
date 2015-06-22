@@ -8,7 +8,7 @@ Template.linkModal.events({
     restoreSelection(blurSavedSel);
 
     // Add Link
-    var url = $.trim('input.add-link').val();
+    var url = $('input.add-link').val();
 
     // Add Here
     // If link does provide http:// or https:// or such

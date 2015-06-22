@@ -10,9 +10,11 @@
           <div class="panel-body">
             <h2 style="word-wrap:break-word;">{{{title}}}</h2>
             <small> {{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</small>
+
+
             <div class="text-content">
               {{#if editMode}}
-                {{> blogContentToolbar}}
+                {{> inlineEditorToolbar}}
               {{/if}}
 
               {{{editable}}}
