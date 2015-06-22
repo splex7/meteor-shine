@@ -12,7 +12,10 @@
 
           <div class="panel-body">
             <h2 style="word-wrap:break-word;">{{{title}}}</h2>
-	          <img src="{{ author.profile.picture.origin.urlCropped }}" alt="Profile image">
+	          <a href="" class="avatar-sm">
+              <img src="{{ author.profile.picture.origin.urlCropped }}" alt="Profile image">
+              <span class="user-name">{{userDisplayName currentUser}}</span>
+            </a>
 	          <smaill>
 		          {{ author.username }}
 		          {{momentFromNow blog.createdAt}}
