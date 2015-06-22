@@ -87,8 +87,10 @@ MyBlogsListController = RouteController.extend({
 
 
 BlogNewController = RouteController.extend({
-  waitOn: function () {
-    Meteor.subscribe('Drafts');
+  subscriptions: function () {
+    Meteor.subscribe('draftsList', {
+      limit: Number(Session.get('draftsLimit'))
+    })
   }
 });
 

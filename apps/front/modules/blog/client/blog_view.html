@@ -15,10 +15,9 @@
 		          {{ author.username }}
 		          {{momentFromNow blog.createdAt}}
 	          </smaill>
-            <!--<small> {{userDisplayName blog.user}} {{momentFromNow blog.createdAt}}</small>-->
             <div class="text-content">
               {{#if editMode}}
-                {{> blogContentToolbar}}
+                {{> inlineEditorToolbar}}
               {{/if}}
 
               {{{editable}}}
