@@ -18,7 +18,7 @@ Template.blogOne.helpers({
   return '<h2 class="newTitle" id="newTitle" name="title" contenteditable="false" data-default="false">' + title + '</h2>';
   },
   ownPost: function () {
-  return this.blog.user._id === Meteor.userId();
+    return this.blog.user._id === Meteor.userId();
   },
   editMode: function () {
     return Session.get('editMode') == true;
