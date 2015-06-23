@@ -3,6 +3,8 @@ body {
   height: 100%;
 }
 
+
+
 #wrapper {
   position: relative;
   overflow-x: hidden;
@@ -13,10 +15,15 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
+  padding-top: 80px;
   -webkit-transition: 0.3s ease all;
           transition: 0.3s ease all;
   -webkit-transform: translateX(0);
           transform: translateX(0);
+}
+
+article.page {
+  padding-top: 55px !important;
 }
 
 .btn-toolbar .btn-group {
@@ -39,6 +46,15 @@ a.navbar-brand {
           transform: translate3d(-50%, 0, 0);
 }
 
+.navbar-custom {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  height: 45px;
+  z-index: 5;
+  width: 100%;
+
+}
 
 .aside-left,
 .aside-right,
@@ -49,30 +65,34 @@ article.page {
 }
 
 .aside-right {
-  position: absolute;
+  position: fixed;
   top: 0;
+  bottom: 0;
   right: -@aside-right-width;
   padding: 5px 5px;
   min-height: 100%;
   width: @aside-right-width;
   border-left: 1px solid @navbar-default-border;
-  background-color: @body-bg;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 #wrapper.aside-right-set {
-  #canvas {
+  .aside-right {
     -webkit-transform: translateX(-@aside-right-width);
             transform: translateX(-@aside-right-width);
   }
 }
 
 .aside-left {
-  position: relative;
+  position: fixed;
+  top: @navbar-height;
+  left: 0;
   padding: 5px 5px;
   min-height: 100%;
   width: @aside-left-width;
   border-right: 1px solid @navbar-default-border;
   background-color: @body-bg;
+  z-index: 5;
   .panel-heading {
     height: 54px;
     a {
@@ -115,7 +135,7 @@ article.page {
 
 @media screen and (max-width: @container-sm) {
   .aside-left {
-    z-index: 11;
+
     -webkit-transform: translateX(-@aside-left-width);
             transform: translateX(-@aside-left-width);
   }
@@ -128,8 +148,6 @@ article.page {
 
   #wrapper.aside-left-set {
     .aside-left {
-      position: absolute;
-      top: 0;
       -webkit-transform: translateX(0);
               transform: translateX(0);
     }
@@ -403,3 +421,54 @@ article.page {
 //   background: #e9e9e9;
 //   box-shadow: 1px 1px 1px 0 #888;
 // }
+//
+//
+  // profile image css
+  .avatar-sm {
+    .avatar-initials {
+      font-size: 26px;
+      text-align: center;
+      line-height: 32px;
+      border: 1px solid #aaa;
+      border-radius: 50%;
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      background-color: #aaa;
+    }
+    .user-name {
+
+    }
+  }
+
+  .avatar-md {
+    .avatar-initials {
+      font-size: 60px;
+      font-weight: bold;
+      text-align: center;
+      line-height: 100px;
+      border: 1px solid #aaa;
+      border-radius: 50%;
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      background-color: #aaa;
+    }
+  }
+
+  .avatar-wrapper-custom {
+    .avatar-initials {
+      font-size: 26px;
+      text-align: center;
+      line-height: 100px;
+      border: 1px solid #aaa;
+      border-radius: 50%;
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      background-color: #aaa;
+    }
+    .user-name {
+
+    }
+  }
